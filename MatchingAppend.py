@@ -5,20 +5,19 @@ with open('Kledingkast.json', 'r+') as allKleding:
 
 def addClothes():
     with open('Kledingkast.json', 'w') as allKleding:
+        name = input('Naam van je kledingstuk: ').lower()
+        longShort = input('Lengte van je broeks pijpen of mouwen: lang of kort: ').lower()
+        category = input('Category van je kledingstuk: Sport, Feestje of dagelijks leven: ').lower()
+        color = input('Kleur van je kledingstuk: ').lower()
 
-    name = input('Naam van je kledingstuk: ').lower()
-    longShort = input('Lengte van je broeks pijpen of mouwen: lang of kort: ').lower()
-    category = input('Category van je kledingstuk: Sport, Feestje of dagelijks leven: ').lower()
-    color = input('Kleur van je kledingstuk: ').lower()
+        nieuweData = {"naam": name,
+                      "langKort": longShort,
+                      "gelegenheid": category,
+                      "kleur": color}
 
-    nieuweData = {"naam": name,
-                  "langKort": longShort,
-                  "gelegenheid": category,
-                  "kleur": color}
-
-    data['kleding'].append(nieuweData)
-    allKleding.write(data)
-    allKleding.close()
+        data['kleding'].append(nieuweData)
+        allKleding.write(data)
+        allKleding.close()
 
 
 
