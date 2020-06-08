@@ -27,4 +27,6 @@ def getWeatherDetails(stad, plek, key):
 
     # windspeed = data['wind']['speed']
     # print(windspeed)
-    return f'De weersomstandigheid in {stad} is momenteel {weather}' + '\n' + f'Het is momenteel {temp}°C in {stad}'
+    # return f'De weersomstandigheid in {stad} is momenteel {weather}' + '\n' + f'Het is momenteel {temp}°C in {stad}'
+    return temp, weather
+
