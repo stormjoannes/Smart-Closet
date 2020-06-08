@@ -6,7 +6,9 @@ def config():
     if bestaandeUser == 'ja':
         naamUser = input("Wat is je naam: ").lower()
         if checkIfExist(naamUser) == True:
-            opties(naamUser)
+            with open('Kledingkast.json', 'r+') as doc:
+                getWeatherCoords = json.load(doc)
+            opties(naamUser, getWeatherCoords["storm joannes"][0]["stad"], getWeatherCoords["storm joannes"][0]["land"])
         else:
             print('deze username is niet in gebruik')
             config()
@@ -20,12 +22,14 @@ def config():
                 allInf = json.load(doc)
 
             with open('Kledingkast.json', 'w') as document:
-                allInf[naamUser] = []
+                stad = input('In welke stad staat je kledingkast: ').lower()
+                land = input('In welk Land staat je kledingkast (afkorting van land): ').lower()
+                allInf[naamUser] = [{"stad": stad, "land": land}]
                 json.dump(allInf, document)
                 document.close()
                 doc.close()
 
-            opties(naamUser)
+            opties(naamUser, stad, land)
         else:
             print('deze username is al in gebruik')
             config()
@@ -43,26 +47,26 @@ def checkIfExist(naamUser):
     return False
 
 
-def opties(naamUser):
+def opties(naamUser, stad, land):
     print('\n')
     keuze = input("Wil je een kledingstuk toevoegen, verwijderen of uitkiezen: ").lower()
     if keuze == 'toevoegen':
         addClothes(naamUser)
-        opties(naamUser)
+        opties(naamUser, stad, land)
 
     elif keuze == 'verwijderen':
         deleteClothes(naamUser)
-        opties(naamUser)
+        opties(naamUser, stad, land)
 
     elif keuze == 'uitkiezen':
-        weer = setValues()
-        pickClothes(naamUser, weer[0], weer[1])
-        opties(naamUser)
+        huidigeWeer = setValuesWeer(stad, land)
+        pickClothes(naamUser, huidigeWeer[0], huidigeWeer[1])
+        opties(naamUser, stad, land)
 
     else:
         print(f"'{keuze}' is geen geldige optie")
-        opties(naamUser)
+        opties(naamUser, stad, land)
 
 
 config()
-# print(setValues())
+# print(setValuesWeer())

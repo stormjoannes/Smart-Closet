@@ -1,15 +1,12 @@
 import requests
 
-def setValues():
+def setValuesWeer(stad, land):
     key = 'bee7d179860ed0c029ffedd7e94aea87'
-    stad = input('In welke stad staat je kledingkast: ')
-    land = input('In welk Land staat je kledingkast (afkorting van land): ')
     plek = stad + ', ' + land
     return getWeatherDetails(stad, plek, key)
 
 def getWeatherDetails(stad, plek, key):
     url = f'https://api.openweathermap.org/data/2.5/weather?q={plek}&appid={key}'
-    print(url)
     print('\n')
 
     request = requests.get(url)
