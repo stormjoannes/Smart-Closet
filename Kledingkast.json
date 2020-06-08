@@ -1,0 +1,22 @@
+{
+  "kleren": [
+    {
+      "naam": "chino broek",
+      "langKort": "lang",
+      "gelegenheid": "dagelijks leven",
+      "kleur": "zwart"
+    },
+        {
+      "naam": "abecrombie trui",
+      "langKort": "lang",
+      "gelegenheid": "dagelijks leven",
+      "kleur": "grijs"
+    },
+        {
+      "naam": "h&m streepjes shirt",
+      "langKort": "kort",
+      "gelegenheid": "dagelijks leven",
+      "kleur": "wit-zwart"
+    }
+  ]
+}
