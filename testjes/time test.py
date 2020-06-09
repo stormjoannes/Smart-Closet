@@ -33,6 +33,8 @@ today = datetime.today()
 date_format = "%Y-%m-%d"
 tja = today
 
+print(tja)
+
 tja2 = datetime.strptime('2020-06-11', date_format)
 print(tja2)
 

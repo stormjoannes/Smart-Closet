@@ -76,18 +76,13 @@ def refreshGedragen(naamUser):
     with open('Kledingkast.json', 'r+') as forRefresh:
         dataRefresh = json.load(forRefresh)
 
-    date_format = "%Y-%m-%d"
-    today = datetime.today().strftime("%Y-%m-%d")
-
     for x in dataRefresh[naamUser][1]["gedragen"]:
-        previousDay = datetime.strptime(x[2], date_format).strftime("%Y-%m-%d")
-        diff = abs(today - previousDay)
-        print(diff)
-        if str(diff) > str(1):
-            with open('Kledingkast.json', 'w') as frRefresh:
-                dataRefresh[naamUser][1]["gedragen"].remove(x)
-                json.dump(dataRefresh, frRefresh)
-                frRefresh.close()
+        differ = getTimeDifference(x)
+
+    if differ > 1:
+        with open('Kledingkast.json', 'w') as frRefresh:
+            dataRefresh[naamUser][1]["gedragen"].remove(x)
+            json.dump(dataRefresh, frRefresh)
+            frRefresh.close()
 
 config()
-# print(setValuesWeer())
