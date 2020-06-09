@@ -1,9 +1,10 @@
 from MatchingAppend import *
 from WeerAPI import *
 from AddOrDelete import *
+from datetime import datetime
 
 def config():
-    bestaandeUser = input("Heb je al een account ja of nee: ")
+    bestaandeUser = input("Heb je al een account ja of nee: ").lower().strip()
     if bestaandeUser == 'ja':
         naamUser = input("Wat is je naam: ").lower()
         if checkIfExist(naamUser) == True:
@@ -49,6 +50,9 @@ def checkIfExist(naamUser):
 
 
 def opties(naamUser, stad, land):
+
+    refreshGedragen(naamUser)
+
     print('\n')
     keuze = input("Wil je een kledingstuk toevoegen, verwijderen of uitkiezen: ").lower()
     if keuze == 'toevoegen':
@@ -68,6 +72,22 @@ def opties(naamUser, stad, land):
         print(f"'{keuze}' is geen geldige optie")
         opties(naamUser, stad, land)
 
+def refreshGedragen(naamUser):
+    with open('Kledingkast.json', 'r+') as forRefresh:
+        dataRefresh = json.load(forRefresh)
+
+    date_format = "%Y-%m-%d"
+    today = datetime.today().strftime("%Y-%m-%d")
+
+    for x in dataRefresh[naamUser][1]["gedragen"]:
+        previousDay = datetime.strptime(x[2], date_format).strftime("%Y-%m-%d")
+        diff = abs(today - previousDay)
+        print(diff)
+        if str(diff) > str(1):
+            with open('Kledingkast.json', 'w') as frRefresh:
+                dataRefresh[naamUser][1]["gedragen"].remove(x)
+                json.dump(dataRefresh, frRefresh)
+                frRefresh.close()
 
 config()
 # print(setValuesWeer())

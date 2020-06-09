@@ -1,6 +1,6 @@
 import json
 import random
-from datetime import date
+from datetime import datetime
 
 
 def addClothes(personName):
@@ -138,15 +138,15 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
         print(mogelijkeTops, "mogelijkkkkkkkkkkkkkkkkkkkTopssssssssssssssssssss")
         print(mogelijkeBottoms, 'bottooooooooooooooooooooooooooooooooooooooms')
         topje = random.choice(mogelijkeTops)
-        print(topje)
 
-        bottomAangetrokken = False
         if topje[2] != "jurkje":
             bottom = random.choice(mogelijkeBottoms)
             while bottom[1] == topje[1] and len(bottom) > 1:
                 bottom = random.choice(mogelijkeBottoms)
-            bottomAangetrokken = True
-            print(bottom)
+        else:
+            bottom == None
+
+
 
         if len(mogelijkeBottoms) and len(mogelijkeTops) > 1:
             aantrekken = input("ga je dit setje aantrekken ja of nee: ").lower()
@@ -157,15 +157,12 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
                     data = json.load(inf)
 
                 with open('Kledingkast.json', 'w') as ALL:
-                    today = date.today()
+                    today = datetime.today().strftime("%Y-%m-%d")
                     print(today)
 
-                    if bottomAangetrokken == True:
-                        formatVoorAppend = [topje, bottom, str(today)]
-                        data[personName][1]["gedragen"].append(formatVoorAppend)
-                    else:
-                        formatVoorAppend = [topje, str(today)]
-                        data[personName][1]["gedragen"].append(formatVoorAppend)
+                    formatVoorAppend = [topje, bottom, str(today)]
+                    data[personName][1]["gedragen"].append(formatVoorAppend)
+
                     print(formatVoorAppend)
                     json.dump(data, ALL)
                     ALL.close()
