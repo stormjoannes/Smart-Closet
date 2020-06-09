@@ -50,27 +50,40 @@ def checkIfExist(naamUser):
 
 
 def opties(naamUser, stad, land):
+    try:
+        refreshGedragen(naamUser)
 
-    refreshGedragen(naamUser)
+        print('\n')
+        keuze = input("Wil je een kledingstuk toevoegen, verwijderen of uitkiezen: ").lower()
+        if keuze == 'toevoegen':
+            addClothes(naamUser)
 
-    print('\n')
-    keuze = input("Wil je een kledingstuk toevoegen, verwijderen of uitkiezen: ").lower()
-    if keuze == 'toevoegen':
-        addClothes(naamUser)
+        elif keuze == 'verwijderen':
+            deleteClothes(naamUser)
+
+        elif keuze == 'uitkiezen':
+            huidigeWeer = setValuesWeer(stad, land)
+            pickClothes(naamUser, huidigeWeer[0], huidigeWeer[1])
+
+        else:
+            print(f"'{keuze}' is geen geldige optie")
+            opties(naamUser, stad, land)
+
+        with open('Kledingkast.json', 'r') as forBackup:
+            backupDATA = json.load(forBackup)
+
+        with open('BackupKledingkast.json', 'w') as frRefresh:
+            json.dump(backupDATA, frRefresh)
+            frRefresh.close()
+
         opties(naamUser, stad, land)
+    except:
+        with open('BackupKledingkast.json', 'r') as forReset:
+            resetData = json.load(forReset)
 
-    elif keuze == 'verwijderen':
-        deleteClothes(naamUser)
-        opties(naamUser, stad, land)
-
-    elif keuze == 'uitkiezen':
-        huidigeWeer = setValuesWeer(stad, land)
-        pickClothes(naamUser, huidigeWeer[0], huidigeWeer[1])
-        opties(naamUser, stad, land)
-
-    else:
-        print(f"'{keuze}' is geen geldige optie")
-        opties(naamUser, stad, land)
+        with open('Kledingkast.json', 'w') as frReset:
+            json.dump(resetData, frReset)
+            frReset.close()
 
 def refreshGedragen(naamUser):
     with open('Kledingkast.json', 'r+') as forRefresh:

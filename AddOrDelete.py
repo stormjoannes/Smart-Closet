@@ -27,6 +27,10 @@ def deleteClothes(personName):
     with open('Kledingkast.json', 'r+') as allKleding:
         dataDelete = json.load(allKleding)
 
+    print("Alle verwijderbare kleding:")
+    for allCl in range(2, len(dataDelete[personName])):
+        print(dataDelete[personName][allCl])
+
     with open('Kledingkast.json', 'w') as ALL:
         nameDelete = input('Naam van je kledingstuk: ').lower()
         longShortDelete = input('Lengte van je broeks pijpen of mouwen: lang of kort: ').lower()
