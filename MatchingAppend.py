@@ -161,12 +161,12 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
                     print(today)
 
                     if bottomAangetrokken == True:
-                        formatVoorAppend = [topje, bottom, today]
-                        data[personName][1]["gedragen"].append(topje)
-                        data[personName][1]["gedragen"].append(bottom)
+                        formatVoorAppend = [topje, bottom, str(today)]
+                        data[personName][1]["gedragen"].append(formatVoorAppend)
                     else:
-                        formatVoorAppend = [topje,today]
-                        data[personName][1]["gedragen"].append(topje)
+                        formatVoorAppend = [topje, str(today)]
+                        data[personName][1]["gedragen"].append(formatVoorAppend)
+                    print(formatVoorAppend)
                     json.dump(data, ALL)
                     ALL.close()
 
