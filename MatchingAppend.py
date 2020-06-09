@@ -58,6 +58,31 @@ def pickClothes(personName, currentTemp, weersSituatie):
     with open('Kledingkast.json', 'r') as allKleding:
         dataSearch = json.load(allKleding)
 
+    #scheelt het 1 maand doe je, de dag - maanden dat het scheelt n . Nieuwe data min die waarde heb je hoeveel dagen het scheelt met een variatie van 1 dag per bij de helft van de maanden
+
+    if currentTemp < 17:
+        LangOfKort = "lang"
+    else:
+        LangOfKort = "kort"
+
+    WarmNaarKoudTop = ["trui", "shirt", "hempje", "jurkje"]
+    WarmNaarKoudBottom = ["jeans", "chino", "rokje"]
+
+    if
+
+    searchTop(LangOfKort, treshhold, WarmNaarKoudTop)
+    searchBottom(LangOfKort, treshhold, WarmNaarKoudBottom)
+
+
+
+
+
     print(personName)
     print(currentTemp)
     print(weersSituatie)
+
+def searchTop(LangOfKort, treshhold, WarmNaarKoudTop):
+
+
+def searchBottom(LangOfKort, treshhold, WarmNaarKoudBottom):
+    WarmNaarKoudBottom = ["jeans", "chino", "rokje"]
