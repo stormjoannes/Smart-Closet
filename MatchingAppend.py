@@ -38,7 +38,7 @@ def deleteClothes(personName):
 
         checkIfDone = False
 
-        for i in range(1, len(dataDelete[personName])):
+        for i in range(2, len(dataDelete[personName])):
         # for i in dataDelete[personName]:
             if dataDelete[personName][i]['naam'] == nameDelete and dataDelete[personName][i]['langKort'] == longShortDelete and dataDelete[personName][i]['gelegenheid'] == opportunityDelete and dataDelete[personName][i]['kleur'] == colorDelete and dataDelete[personName][i]['merk'] == brandDelete and dataDelete[personName][i]['categorie'] == categoryDelete:
                 dataDelete[personName].remove(dataDelete[personName][i])

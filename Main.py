@@ -24,7 +24,7 @@ def config():
             with open('Kledingkast.json', 'w') as document:
                 stad = input('In welke stad staat je kledingkast: ').lower()
                 land = input('In welk Land staat je kledingkast (afkorting van land): ').lower()
-                allInf[naamUser] = [{"stad": stad, "land": land}]
+                allInf[naamUser] = [{"stad": stad, "land": land}, {"gedragen": []}]
                 json.dump(allInf, document)
                 document.close()
                 doc.close()
