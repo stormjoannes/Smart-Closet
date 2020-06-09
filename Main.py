@@ -1,5 +1,6 @@
 from MatchingAppend import *
 from WeerAPI import *
+from AddOrDelete import *
 
 def config():
     bestaandeUser = input("Heb je al een account ja of nee: ")

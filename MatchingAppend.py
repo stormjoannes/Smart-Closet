@@ -1,6 +1,7 @@
 import json
-from WeerAPI import *
 import random
+from datetime import date
+
 
 def addClothes(personName):
     with open('Kledingkast.json', 'r+') as allKleding:
@@ -69,7 +70,7 @@ def pickClothes(personName, currentTemp, weersSituatie):
 
     keuzeGelegenheid = input('Wil je iets voor het sporten, dagelijks leven of een feestje: ').lower()
 
-    if keuzeGelegenheid == "dagelijks":
+    if keuzeGelegenheid == "dagelijks leven":
         opportunitySet(WarmNaarKoudTopDagelijks, WarmNaarKoudBottomDagelijks, personName, currentTemp, weersSituatie)
 
     elif keuzeGelegenheid == "sporten":
@@ -123,15 +124,60 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
         tresholdTop = len(WarmNaarKoudTop)
         tresholdBottom = len(WarmNaarKoudBottom)
 
+
     mogelijkeTops = searchTop(LangOfKortTop, tresholdTop, WarmNaarKoudTop, personName)
     topje = random.choice(mogelijkeTops)
-    print(topje)
-    if topje[len(topje) - 1] != "jurkje":
+
+    if topje[2] != "jurkje":
         mogelijkeBottoms = searchBottom(LangOfKortBottom, tresholdBottom, WarmNaarKoudBottom, personName, topje[1])
         bottom = random.choice(mogelijkeBottoms)
-        print(bottom)
+
+    aangetrokken = False
+
+    while aangetrokken == False:
+        print(mogelijkeTops, "mogelijkkkkkkkkkkkkkkkkkkkTopssssssssssssssssssss")
+        print(mogelijkeBottoms, 'bottooooooooooooooooooooooooooooooooooooooms')
+        topje = random.choice(mogelijkeTops)
+        print(topje)
+
+        bottomAangetrokken = False
+        if topje[2] != "jurkje":
+            bottom = random.choice(mogelijkeBottoms)
+            while bottom[1] == topje[1] and len(bottom) > 1:
+                bottom = random.choice(mogelijkeBottoms)
+            bottomAangetrokken = True
+            print(bottom)
+
+        if len(mogelijkeBottoms) and len(mogelijkeTops) > 1:
+            aantrekken = input("ga je dit setje aantrekken ja of nee: ").lower()
+            if aantrekken == "ja":
+                aangetrokken = True
+
+                with open('Kledingkast.json', 'r+') as inf:
+                    data = json.load(inf)
+
+                with open('Kledingkast.json', 'w') as ALL:
+                    today = date.today()
+                    print(today)
+
+                    if bottomAangetrokken == True:
+                        formatVoorAppend = [topje, bottom, today]
+                        data[personName][1]["gedragen"].append(topje)
+                        data[personName][1]["gedragen"].append(bottom)
+                    else:
+                        formatVoorAppend = [topje,today]
+                        data[personName][1]["gedragen"].append(topje)
+                    json.dump(data, ALL)
+                    ALL.close()
 
 
+            else:
+                print('we zoeken een nieuw setje voor je!')
+                mogelijkeTops.remove(topje)
+                mogelijkeBottoms.remove(bottom)
+        else:
+            print("Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
+            aangetrokken = True
 
 
 def searchTop(LangOfKortTop, tresholdTop, WarmNaarKoudTop, personName):
@@ -141,7 +187,7 @@ def searchTop(LangOfKortTop, tresholdTop, WarmNaarKoudTop, personName):
     possibleTop = []
     for x in range(2, len(dataSearch[personName])):
         if dataSearch[personName][x]["categorie"] in WarmNaarKoudTop[tresholdTop] and dataSearch[personName][x]["langKort"] == LangOfKortTop:
-            tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"], dataSearch[personName][x]["categorie"]]
+            tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"], dataSearch[personName][x]["categorie"], dataSearch[personName][x]["merk"], dataSearch[personName][x]["langKort"]]
             possibleTop.append(tempList)
     return possibleTop
 
@@ -153,15 +199,7 @@ def searchBottom(LangOfKortBottom, tresholdBottom, WarmNaarKoudBottom, personNam
 
     possibleBottom = []
     for x in range(2, len(dataSearch[personName])):
-        if dataSearch[personName][x]["categorie"] in WarmNaarKoudBottom[tresholdBottom] and dataSearch[personName][x]["langKort"] == LangOfKortBottom and dataSearch[personName][x]["langKort"] != kleurTopje:
-            tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"], dataSearch[personName][x]["categorie"]]
+        if dataSearch[personName][x]["categorie"] in WarmNaarKoudBottom[tresholdBottom] and dataSearch[personName][x]["langKort"] == LangOfKortBottom:
+            tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"], dataSearch[personName][x]["categorie"], dataSearch[personName][x]["merk"], dataSearch[personName][x]["langKort"]]
             possibleBottom.append(tempList)
-
-    if len(possibleBottom) == 0:
-        for x in range(2, len(dataSearch[personName])):
-            if dataSearch[personName][x]["categorie"] in WarmNaarKoudBottom[tresholdBottom] and \
-                    dataSearch[personName][x]["langKort"] == LangOfKortBottom:
-                tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"],
-                            dataSearch[personName][x]["categorie"]]
-                possibleBottom.append(tempList)
     return possibleBottom
