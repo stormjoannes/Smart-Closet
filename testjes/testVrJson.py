@@ -1,7 +1,7 @@
 import json
-try:
-    with open('testjes.json', 'r') as forBackup:
-        backupDATA = json.load(forBackup)
-except:
-    print("hoi")
+
+with open('../Kledingkast.json', 'r') as doc:
+    getWeatherCoords = json.load(doc)
+x = getWeatherCoords["storm joannes"][0]["gegevens"][0]
+print(x)
 
