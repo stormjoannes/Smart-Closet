@@ -96,15 +96,15 @@ def refreshGedragen(naamUser):
         dataRefresh = json.load(forRefresh)
 
     for x in dataRefresh[naamUser][1]["gedragen"]:
-        differ = getTimeDifference(x)
+        deltaTime = getTimeDifference(x)
 
-    tussenPeriodeKleren = dataRefresh[naamUser][0]["gegevens"][1]["overigeGeg"]["betweenWear"]
+        tussenPeriodeKleren = dataRefresh[naamUser][0]["gegevens"][1]["overigeGeg"]["betweenWear"]
 
-    if differ > tussenPeriodeKleren:
-        with open('Kledingkast.json', 'w') as frRefresh:
-            dataRefresh[naamUser][1]["gedragen"].remove(x)
-            json.dump(dataRefresh, frRefresh)
-            frRefresh.close()
+        if deltaTime > tussenPeriodeKleren:
+            with open('Kledingkast.json', 'w') as frRefresh:
+                dataRefresh[naamUser][1]["gedragen"].remove(x)
+                json.dump(dataRefresh, frRefresh)
+                frRefresh.close()
 
 def gegWijzigen(naamUser, stad, land):
     with open('Kledingkast.json', 'r+') as vrWijzig:
