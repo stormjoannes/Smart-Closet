@@ -63,11 +63,11 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
         tresholdTop = len(WarmNaarKoudTop)
         tresholdBottom = len(WarmNaarKoudBottom)
 
-    mogelijkeTops = searchTop(LangOfKortTop, tresholdTop, WarmNaarKoudTop, personName)
+    mogelijkeTops = searchTopBottom(LangOfKortTop, tresholdTop, WarmNaarKoudTop, personName)
     top = random.choice(mogelijkeTops)
 
     if top[2] != "jurkje":
-        mogelijkeBottoms = searchBottom(LangOfKortBottom, tresholdBottom, WarmNaarKoudBottom, personName)
+        mogelijkeBottoms = searchTopBottom(LangOfKortBottom, tresholdBottom, WarmNaarKoudBottom, personName)
         bottom = random.choice(mogelijkeBottoms)
 
     aangetrokken = False
@@ -122,32 +122,18 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
                 aangetrokken = True
 
 
-def searchTop(LangOfKortTop, tresholdTop, WarmNaarKoudTop, personName):
+def searchTopBottom(LangOfKortTopBottom, tresholdTopBottom, WarmNaarKoudTopBottom, personName):
     with open('Kledingkast.json', 'r') as allKleding:
         dataSearch = json.load(allKleding)
 
     possibleTop = []
     for x in range(2, len(dataSearch[personName])):
-        if dataSearch[personName][x]["categorie"] in WarmNaarKoudTop[tresholdTop] and dataSearch[personName][x]["langKort"] == LangOfKortTop:
+        if dataSearch[personName][x]["categorie"] in WarmNaarKoudTopBottom[tresholdTopBottom] and dataSearch[personName][x]["langKort"] == LangOfKortTopBottom:
             tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"],
                         dataSearch[personName][x]["categorie"], dataSearch[personName][x]["merk"],
                         dataSearch[personName][x]["langKort"]]
             possibleTop.append(tempList)
     return possibleTop
-
-
-def searchBottom(LangOfKortBottom, tresholdBottom, WarmNaarKoudBottom, personName):
-    with open('Kledingkast.json', 'r') as allKleding:
-        dataSearch = json.load(allKleding)
-
-    possibleBottom = []
-    for x in range(2, len(dataSearch[personName])):
-        if dataSearch[personName][x]["categorie"] in WarmNaarKoudBottom[tresholdBottom] and dataSearch[personName][x]["langKort"] == LangOfKortBottom:
-            tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"],
-                        dataSearch[personName][x]["categorie"], dataSearch[personName][x]["merk"],
-                        dataSearch[personName][x]["langKort"]]
-            possibleBottom.append(tempList)
-    return possibleBottom
 
 def getTimeDifference(x):
     date_format = "%Y-%m-%d"
