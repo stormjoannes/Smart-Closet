@@ -11,9 +11,12 @@ def bekijken(naamUser):
     print(differentVariables)
     watBekijken = input("Waarop wil je filteren: ")
 
+    forSetVariables = []
     for i in range(2, len(allInfVariables[naamUser])):
         filterClothing = allInfVariables[naamUser][i][watBekijken]
-        print(filterClothing)
+        forSetVariables.append(filterClothing)
+    forSetVariables = set(forSetVariables)
+    print(forSetVariables)
 
     detailFilter = input(f"op welk(e) {watBekijken} wil je filteren: ")
 

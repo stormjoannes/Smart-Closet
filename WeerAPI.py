@@ -12,7 +12,7 @@ def getWeatherDetails(stad, plek, key):
     request = requests.get(url)
 
     data = request.json()
-    print(data)
+    # print(data)
 
     weather = data['weather'][0]['description']
     # print(f'De weersomstandigheid in {stad} is momenteel {weather}')
@@ -28,4 +28,4 @@ def getWeatherDetails(stad, plek, key):
     # return f'De weersomstandigheid in {stad} is momenteel {weather}' + '\n' + f'Het is momenteel {temp}°C in {stad}'
     return temp, weather, windspeed
 
-print(setValuesWeer("breda", "nl"))
+# print(setValuesWeer("breda", "nl"))
