@@ -1,2 +1,0 @@
-# Smart-Closet
-IPASS

@@ -77,7 +77,11 @@ def opties(naamUser, stad, land):
 
     elif keuze == 'automatisch genereren':
         huidigeWeer = setValuesWeer(stad, land)
-        pickClothes(naamUser, huidigeWeer[0], huidigeWeer[1])
+        gevoelsTemp = huidigeWeer[0]
+        windSnelheid = huidigeWeer[2]
+        if windSnelheid >= 5:
+            gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
+        pickClothes(naamUser, gevoelsTemp, huidigeWeer[1])
 
     elif keuze == 'gegevens wijzigen':
         gegWijzigen(naamUser, stad, land)
