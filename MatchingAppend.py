@@ -39,40 +39,43 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
         LangOfKortTop = "lang"
         LangOfKortBottom = "lang"
 
-        tresholdTop = 1
-        tresholdBottom = 1
+        tresholdTopIndex = 1
+        tresholdBottomIndex = 1
 
     elif currentTemp >= 15 and currentTemp < 20:
         LangOfKortTop = "lang"
         LangOfKortBottom = "lang"
 
-        tresholdTop = len(WarmNaarKoudTop) - 1
-        tresholdBottom = len(WarmNaarKoudBottom) - 1
+        tresholdTopIndex = len(WarmNaarKoudTop) - 1
+        tresholdBottomIndex = len(WarmNaarKoudBottom) - 1
 
     elif currentTemp >= 20 and currentTemp < 23:
         LangOfKortTop = "kort"
         LangOfKortBottom = "Lang"
 
-        tresholdTop = len(WarmNaarKoudTop)
-        tresholdBottom = len(WarmNaarKoudBottom) - 1
+        tresholdTopIndex = len(WarmNaarKoudTop)
+        tresholdBottomIndex = len(WarmNaarKoudBottom) - 1
 
     elif currentTemp >= 23:
         LangOfKortTop = "kort"
         LangOfKortBottom = "kort"
 
-        tresholdTop = len(WarmNaarKoudTop)
-        tresholdBottom = len(WarmNaarKoudBottom)
+        tresholdTopIndex = len(WarmNaarKoudTop)
+        tresholdBottomIndex = len(WarmNaarKoudBottom)
 
-    mogelijkeTops = searchTopBottom(LangOfKortTop, tresholdTop, WarmNaarKoudTop, personName)
+    mogelijkeTops = searchTopBottom(LangOfKortTop, tresholdTopIndex, WarmNaarKoudTop, personName)
     top = random.choice(mogelijkeTops)
 
     if top[2] != "jurkje":
-        mogelijkeBottoms = searchTopBottom(LangOfKortBottom, tresholdBottom, WarmNaarKoudBottom, personName)
+        mogelijkeBottoms = searchTopBottom(LangOfKortBottom, tresholdBottomIndex, WarmNaarKoudBottom, personName)
         bottom = random.choice(mogelijkeBottoms)
 
     aangetrokken = False
+    indexEndlessLoop = 0
 
     while aangetrokken == False:
+        indexEndlessLoop += 1
+
         with open('Kledingkast.json', 'r+') as inf:
             data = json.load(inf)
 
@@ -116,24 +119,28 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
                     print('we zoeken een nieuw setje voor je!')
                     mogelijkeTops.remove(top)
                     mogelijkeBottoms.remove(bottom)
-            else:
-                print(
-                    "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
-                aangetrokken = True
+        if len(mogelijkeBottoms) < 1 and len(mogelijkeTops) < 1 and status != 'execute' or indexEndlessLoop > 999:
+            print(
+                "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
+            aangetrokken = True
 
 
-def searchTopBottom(LangOfKortTopBottom, tresholdTopBottom, WarmNaarKoudTopBottom, personName):
+def searchTopBottom(LangOfKortTopBottom, tresholdTopBottomIndex, WarmNaarKoudTopBottom, personName):
     with open('Kledingkast.json', 'r') as allKleding:
         dataSearch = json.load(allKleding)
 
-    possibleTop = []
-    for x in range(2, len(dataSearch[personName])):
-        if dataSearch[personName][x]["categorie"] in WarmNaarKoudTopBottom[tresholdTopBottom] and dataSearch[personName][x]["langKort"] == LangOfKortTopBottom:
-            tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"],
-                        dataSearch[personName][x]["categorie"], dataSearch[personName][x]["merk"],
-                        dataSearch[personName][x]["langKort"]]
-            possibleTop.append(tempList)
-    return possibleTop
+    possibleTopBottom = []
+    tresholdTopBottomIndex -= 1
+
+    while len(possibleTopBottom) == 0 and tresholdTopBottomIndex < 4:
+        tresholdTopBottomIndex += 1
+        for x in range(2, len(dataSearch[personName])):
+            if dataSearch[personName][x]["categorie"] in WarmNaarKoudTopBottom[tresholdTopBottomIndex] and dataSearch[personName][x]["langKort"] == LangOfKortTopBottom:
+                tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"],
+                            dataSearch[personName][x]["categorie"], dataSearch[personName][x]["merk"],
+                            dataSearch[personName][x]["langKort"]]
+                possibleTopBottom.append(tempList)
+    return possibleTopBottom
 
 def getTimeDifference(x):
     date_format = "%Y-%m-%d"
