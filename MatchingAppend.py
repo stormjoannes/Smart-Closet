@@ -3,7 +3,7 @@ import random
 from datetime import datetime
 
 
-def pickClothes(personName, currentTemp, weersSituatie):
+def pickClothes(naamUser, currentTemp, weersSituatie):
     # scheelt het 1 maand doe je, de dag - maanden dat het scheelt n . Nieuwe data min die waarde heb je hoeveel dagen het scheelt met een variatie van 1 dag per bij de helft van de maanden
 
     WarmNaarKoudTopDagelijks = {1: ["trui", "vest"], 2: ["shirt"], 3: ["topje", "naveltrui", "shirt"]}
@@ -21,20 +21,20 @@ def pickClothes(personName, currentTemp, weersSituatie):
     keuzeGelegenheid = input('Wil je iets voor het sporten, dagelijks leven of een feestje: ').lower()
 
     if keuzeGelegenheid == "dagelijks leven":
-        opportunitySet(WarmNaarKoudTopDagelijks, WarmNaarKoudBottomDagelijks, personName, currentTemp, weersSituatie)
+        opportunitySet(WarmNaarKoudTopDagelijks, WarmNaarKoudBottomDagelijks, naamUser, currentTemp, weersSituatie)
 
     elif keuzeGelegenheid == "sporten":
-        opportunitySet(WarmNaarKoudTopSport, WarmNaarKoudBottomSport, personName, currentTemp, weersSituatie)
+        opportunitySet(WarmNaarKoudTopSport, WarmNaarKoudBottomSport, naamUser, currentTemp, weersSituatie)
 
     elif keuzeGelegenheid == "feestje":
-        opportunitySet(WarmNaarKoudTopFeestje, WarmNaarKoudBottomFeestje, personName, currentTemp, weersSituatie)
+        opportunitySet(WarmNaarKoudTopFeestje, WarmNaarKoudBottomFeestje, naamUser, currentTemp, weersSituatie)
 
     else:
         print('De gekozen gelgenheid is niet in gebruik!')
-        pickClothes(personName, currentTemp, weersSituatie)
+        pickClothes(naamUser, currentTemp, weersSituatie)
 
 
-def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp, weersSituatie):
+def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, weersSituatie):
     if currentTemp < 15:
         LangOfKortTop = "lang"
         LangOfKortBottom = "lang"
@@ -63,11 +63,11 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
         tresholdTopIndex = len(WarmNaarKoudTop)
         tresholdBottomIndex = len(WarmNaarKoudBottom)
 
-    mogelijkeTops = searchTopBottom(LangOfKortTop, tresholdTopIndex, WarmNaarKoudTop, personName)
+    mogelijkeTops = searchTopBottom(LangOfKortTop, tresholdTopIndex, WarmNaarKoudTop, naamUser)
     top = random.choice(mogelijkeTops)
 
     if top[2] != "jurkje":
-        mogelijkeBottoms = searchTopBottom(LangOfKortBottom, tresholdBottomIndex, WarmNaarKoudBottom, personName)
+        mogelijkeBottoms = searchTopBottom(LangOfKortBottom, tresholdBottomIndex, WarmNaarKoudBottom, naamUser)
         bottom = random.choice(mogelijkeBottoms)
 
     aangetrokken = False
@@ -90,7 +90,7 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
 
         status = 'positive'
 
-        for index in data[personName][1]["gedragen"]:
+        for index in data[naamUser][1]["gedragen"]:
             if top in index and bottom in index:
                 status = 'negative'
                 if len(mogelijkeTops) <= 1 and len(mogelijkeBottoms) <= 1:
@@ -109,7 +109,7 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
                         today = datetime.today().strftime("%Y-%m-%d")
 
                         formatVoorAppend = [top, bottom, str(today)]
-                        data[personName][1]["gedragen"].append(formatVoorAppend)
+                        data[naamUser][1]["gedragen"].append(formatVoorAppend)
 
                         print(formatVoorAppend)
                         json.dump(data, ALL)
@@ -119,13 +119,14 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, personName, currentTemp,
                     print('we zoeken een nieuw setje voor je!')
                     mogelijkeTops.remove(top)
                     mogelijkeBottoms.remove(bottom)
-        if len(mogelijkeBottoms) < 1 and len(mogelijkeTops) < 1 and status != 'execute' or indexEndlessLoop > 999:
+
+        if len(mogelijkeBottoms) < 1 and len(mogelijkeTops) < 1 and status == 'execute' or indexEndlessLoop > 999:
             print(
                 "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
             aangetrokken = True
 
 
-def searchTopBottom(LangOfKortTopBottom, tresholdTopBottomIndex, WarmNaarKoudTopBottom, personName):
+def searchTopBottom(LangOfKortTopBottom, tresholdTopBottomIndex, WarmNaarKoudTopBottom, naamUser):
     with open('Kledingkast.json', 'r') as allKleding:
         dataSearch = json.load(allKleding)
 
@@ -134,11 +135,11 @@ def searchTopBottom(LangOfKortTopBottom, tresholdTopBottomIndex, WarmNaarKoudTop
 
     while len(possibleTopBottom) == 0 and tresholdTopBottomIndex < 4:
         tresholdTopBottomIndex += 1
-        for x in range(2, len(dataSearch[personName])):
-            if dataSearch[personName][x]["categorie"] in WarmNaarKoudTopBottom[tresholdTopBottomIndex] and dataSearch[personName][x]["langKort"] == LangOfKortTopBottom:
-                tempList = [dataSearch[personName][x]["naam"], dataSearch[personName][x]["kleur"],
-                            dataSearch[personName][x]["categorie"], dataSearch[personName][x]["merk"],
-                            dataSearch[personName][x]["langKort"]]
+        for x in range(2, len(dataSearch[naamUser])):
+            if dataSearch[naamUser][x]["categorie"] in WarmNaarKoudTopBottom[tresholdTopBottomIndex] and dataSearch[naamUser][x]["langKort"] == LangOfKortTopBottom:
+                tempList = [dataSearch[naamUser][x]["naam"], dataSearch[naamUser][x]["kleur"],
+                            dataSearch[naamUser][x]["categorie"], dataSearch[naamUser][x]["merk"],
+                            dataSearch[naamUser][x]["langKort"]]
                 possibleTopBottom.append(tempList)
     return possibleTopBottom
 

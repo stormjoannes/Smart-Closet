@@ -1,6 +1,7 @@
 from MatchingAppend import *
 from WeerAPI import *
 from AddOrDelete import *
+from KledingkastBekijken import *
 
 def config():
     try:
@@ -64,7 +65,7 @@ def opties(naamUser, stad, land):
     refreshGedragen(naamUser)
 
     print('\n')
-    keuze = input("Wil je een kledingstuk toevoegen, verwijderen, uitkiezen of wil je gegevens wijzigen : ").lower()
+    keuze = input("Wil je een kledingstuk toevoegen, verwijderen, uitkiezen , automatisch genereren of wil je gegevens wijzigen : ").lower()
     if keuze == 'toevoegen':
         addClothes(naamUser)
 
@@ -72,6 +73,9 @@ def opties(naamUser, stad, land):
         deleteClothes(naamUser)
 
     elif keuze == 'uitkiezen':
+        bekijken(naamUser)
+
+    elif keuze == 'automatisch genereren':
         huidigeWeer = setValuesWeer(stad, land)
         pickClothes(naamUser, huidigeWeer[0], huidigeWeer[1])
 
