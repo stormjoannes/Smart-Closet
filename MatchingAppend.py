@@ -6,16 +6,16 @@ from datetime import datetime
 def pickClothes(naamUser, currentTemp, weersSituatie):
     # scheelt het 1 maand doe je, de dag - maanden dat het scheelt n . Nieuwe data min die waarde heb je hoeveel dagen het scheelt met een variatie van 1 dag per bij de helft van de maanden
 
-    WarmNaarKoudTopDagelijks = {1: ["trui", "vest"], 2: ["shirt"], 3: ["topje", "naveltrui", "shirt"]}
+    WarmNaarKoudTopDagelijks = {1: ["trui", "vest", "sweater"], 2: ["shirt"], 3: ["topje", "naveltrui", "shirt"]}
     WarmNaarKoudBottomDagelijks = {1: ["jeans", "joggingsbroek"], 2: ["chino", "jeans met gaten", "jeans"],
                                    3: ["rokje", "broekje"]}
 
-    WarmNaarKoudTopSport = {1: ["trui", "vest"], 2: ["shirt"], 3: ["topje", "naveltrui", "shirt"]}
-    WarmNaarKoudBottomSport = {1: ["jeans", "joggingsbroek"], 2: ["chino", "jeans met gaten", "jeans"],
-                               3: ["rokje", "broekje"]}
+    WarmNaarKoudTopSport = {1: ["trui"], 2: ["shirt"], 3: ["sport bh"]}
+    WarmNaarKoudBottomSport = {1: ["joggingbroek"], 2: ["leggings"],
+                               3: ["sport broekje"]}
 
-    WarmNaarKoudTopFeestje = {1: ["trui", "vest"], 2: ["shirt"], 3: ["topje", "naveltrui", "shirt"]}
-    WarmNaarKoudBottomFeestje = {1: ["jeans", "joggingsbroek"], 2: ["chino", "jeans met gaten", "jeans"],
+    WarmNaarKoudTopFeestje = {1: ["sweater"], 2: ["shirt"], 3: ["shirt", "jurkje"]}
+    WarmNaarKoudBottomFeestje = {1: ["jeans"], 2: ["chino", "jeans met gaten"],
                                  3: ["rokje", "broekje"]}
 
     keuzeGelegenheid = input('Wil je iets voor het sporten, dagelijks leven of een feestje: ').lower()
@@ -120,7 +120,7 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, w
                     mogelijkeTops.remove(top)
                     mogelijkeBottoms.remove(bottom)
 
-        if len(mogelijkeBottoms) < 1 and len(mogelijkeTops) < 1 and status == 'execute' or indexEndlessLoop > 999:
+        if len(mogelijkeBottoms) < 1 and len(mogelijkeTops) < 1 and status == 'execute' or indexEndlessLoop > 9999:
             print(
                 "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
             aangetrokken = True
