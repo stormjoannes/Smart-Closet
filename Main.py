@@ -57,6 +57,7 @@ def checkIfExist(naamUser):
 
     for i in allNames:
         if i == naamUser:
+            print("juahhhhh")
             return True
     return False
 
@@ -138,4 +139,4 @@ def gegWijzigen(naamUser, stad, land):
         vrWijzigWrite.close()
 
 
-config()
+# config()
