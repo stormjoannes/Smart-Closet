@@ -89,7 +89,6 @@ def opties(naamUser, stad, land):
 
     else:
         print(f"'{keuze}' is geen geldige optie")
-        opties(naamUser, stad, land)
 
     with open('Kledingkast.json', 'r') as forBackup:
         backupDATA = json.load(forBackup)
@@ -108,6 +107,7 @@ def refreshGedragen(naamUser):
         deltaTime = getTimeDifference(x)
 
         tussenPeriodeKleren = dataRefresh[naamUser][0]["gegevens"][1]["overigeGeg"]["betweenWear"]
+        print(tussenPeriodeKleren)
 
         if deltaTime > tussenPeriodeKleren:
             with open('Kledingkast.json', 'w') as frRefresh:
@@ -138,5 +138,4 @@ def gegWijzigen(naamUser, stad, land):
         json.dump(allWijzig, vrWijzigWrite)
         vrWijzigWrite.close()
 
-
-# config()
+config()

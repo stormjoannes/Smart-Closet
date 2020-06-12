@@ -1,6 +1,8 @@
 import json
 
 def addClothes(personName):
+    print("add")
+    print(personName)
     with open('Kledingkast.json', 'r+') as allKleding:
         data = json.load(allKleding)
 
@@ -24,6 +26,8 @@ def addClothes(personName):
         ALL.close()
 
 def deleteClothes(personName):
+    print("delete")
+    print(personName)
     with open('Kledingkast.json', 'r+') as allKleding:
         dataDelete = json.load(allKleding)
 
