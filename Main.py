@@ -138,4 +138,4 @@ def gegWijzigen(naamUser, stad, land):
         json.dump(allWijzig, vrWijzigWrite)
         vrWijzigWrite.close()
 
-config()
+# config()
