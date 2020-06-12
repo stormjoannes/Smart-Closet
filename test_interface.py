@@ -1,6 +1,7 @@
 from tkinter import *
 import json
 from tkinter.messagebox import showinfo
+from Main import *
 
 
 def Signup():  # This is the signup definition,
@@ -37,7 +38,7 @@ def Signup():  # This is the signup definition,
     signUpLandEntry.grid(row=3, column=1)  # You know what this does now :D
 
     signupButton = Button(roots, text='Signup',
-                          command=toHomeScreen("Sign up"))  # This creates the button with the text 'signup', when you click it, the command 'fssignup' will run. which is the def
+                          command=FSSignup)  # This creates the button with the text 'signup', when you click it, the command 'fssignup' will run. which is the def
     signupButton.grid(columnspan=2, sticky=W)
 
     backLogin = Button(roots, text='Login', fg='Blue',
@@ -68,7 +69,7 @@ def Login():
     nameEL.grid(row=1, column=1)
 
     loginB = Button(rootA, text='Login',
-                    command=toHomeScreen("Login"))  # This makes the login button, which will go to the CheckLogin def.
+                    command=toHomeScreen)  # This makes the login button, which will go to the CheckLogin def.
     loginB.grid(columnspan=2, sticky=W)
 
     rmuser = Button(rootA, text='Sign in', fg='Blue',
@@ -77,35 +78,19 @@ def Login():
     rootA.mainloop()
 
 
-def toHomeScreen(function):
-    # pass
-    if function == "Login":
-        rootA.destroy()
-        if checkIfExist(nameEL) == True:
-            print("homescreen")
-        else:
-            # print("fout")
-            # bericht = 'Username not existend, try it it again!'
-            # showinfo(title='UserName error', message=bericht)
-            Login()
+def toHomeScreen():
+    if checkIfExist(str(nameEL)) == True:
+        print("homescreen")
     else:
+        bericht = f'Username not existend, try it it again!'
+        showinfo(title='UserName error', message=bericht)
+
+def toLogin():
+    if checkIfExist(str(nameE)) == False:
         roots.destroy()
-        if checkIfExist(nameE) == False:
-            print("homescreen")
-        else:
-            print("fout")
-            # bericht = 'Username already existend, try it it again!'
-            # showinfo(title='UserName error', message=bericht)
-            Signup()
-
-def checkIfExist(naamUser):
-    with open('Kledingkast.json', 'r') as doc:
-        allNames = json.load(doc)
-
-    for i in allNames:
-        if i == naamUser:
-            print("juahhhhh")
-            return True
-    return False
+        toLogin()
+    else:
+        bericht = 'Username already existend, try it it again!'
+        showinfo(title='UserName error', message=bericht)
 
 Login()
