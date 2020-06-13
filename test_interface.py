@@ -79,14 +79,14 @@ def Login():
 
 
 def toHomeScreen():
-    if checkIfExist(str(nameEL)) == True:
+    if checkIfExist(str(nameEL.get())) == True:
         print("homescreen")
     else:
         bericht = f'Username not existend, try it it again!'
         showinfo(title='UserName error', message=bericht)
 
 def toLogin():
-    if checkIfExist(str(nameE)) == False:
+    if checkIfExist(str(nameE.get())) == False:
         roots.destroy()
         toLogin()
     else:
