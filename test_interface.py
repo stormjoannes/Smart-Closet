@@ -3,6 +3,7 @@ from tkinter.messagebox import showinfo
 from Main import *
 import json
 from AddOrDelete import *
+from KledingkastBekijken import *
 
 
 def Signup():  # This is the signup definition,
@@ -218,6 +219,10 @@ def DeleteScreen():
     deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=toDeleteClothing)
     deletescreenDELETEButton.grid(row=7)
 
+def UitkiezenScreen():
+    rootChoose = Tk()
+    rootChoose.title('Choose')
+
 def toHomeScreen():
     if checkIfExist(str(nameEL.get())) == True:
         global userName
@@ -255,6 +260,8 @@ def toDeleteClothing():
     rootDelete.destroy()
     Homescreen()
 
+def toBekijken():
+    bekijken(userName, )
 # def toHomeScreenAdd():
 #     rootAdd.destroy()
 #     Homescreen()
