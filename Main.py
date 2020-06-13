@@ -51,6 +51,20 @@ def config():
         print("er is iets mis gegaan, je word terug gebracht naar het beginscherm. probeer het zo opnieuw." + '\n')
         config()
 
+def configSignUp(naamUser, stad, land):
+    print(naamUser, stad, land)
+    with open('Kledingkast.json', 'r+') as doc:
+        allInf = json.load(doc)
+
+    with open('Kledingkast.json', 'w') as document:
+        allInf[naamUser] = [
+            {"gegevens": [{"locatie": {"stad": stad, "land": land}}, {"overigeGeg": {"betweenWear": 1}}]},
+            {"gedragen": []}]
+
+        json.dump(allInf, document)
+        document.close()
+        doc.close()
+
 def checkIfExist(naamUser):
     with open('Kledingkast.json', 'r') as doc:
         allNames = json.load(doc)

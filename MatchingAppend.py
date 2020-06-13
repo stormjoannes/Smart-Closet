@@ -23,7 +23,7 @@ def pickClothes(naamUser, currentTemp, weersSituatie):
     if keuzeGelegenheid == "dagelijks leven":
         opportunitySet(WarmNaarKoudTopDagelijks, WarmNaarKoudBottomDagelijks, naamUser, currentTemp, weersSituatie)
 
-    elif keuzeGelegenheid == "sporten":
+    elif keuzeGelegenheid == "sport":
         opportunitySet(WarmNaarKoudTopSport, WarmNaarKoudBottomSport, naamUser, currentTemp, weersSituatie)
 
     elif keuzeGelegenheid == "feestje":

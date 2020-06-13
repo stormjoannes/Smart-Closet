@@ -1,96 +1,263 @@
 from tkinter import *
-import json
 from tkinter.messagebox import showinfo
 from Main import *
+import json
+from AddOrDelete import *
 
 
 def Signup():  # This is the signup definition,
     rootA.destroy()
     global nameE
     global roots
+    global signUpStadEntry
+    global signUpLandEntry
 
-    roots = Tk()  # This creates the window, just a blank one.
-    roots.title('Signup')  # This renames the title of said window to 'signup'
+    roots = Tk()
+    roots.title('Signup')
     intruction = Label(roots,
-                       text='Sign in please\n')  # This puts a label, so just a piece of text saying 'please enter blah'
+                       text='Sign aub\n')
     intruction.grid(row=0, column=0,
-                    sticky=E)  # This just puts it in the window, on row 0, col 0. If you want to learn more look up a tkinter tutorial :)
+                    sticky=E)
 
-    nameL = Label(roots, text='New Username: ')  # This just does the same as above, instead with the text new username.
+    nameL = Label(roots, text='Nieuwe naam: ')
     nameL.grid(row=1, column=0,
-               sticky=W)  # Same thing as the instruction var just on different rows. :) Tkinter is like that.
+               sticky=W)
 
-    nameE = Entry(roots)  # This now puts a text box waiting for input.
-    nameE.grid(row=1, column=1)  # You know what this does now :D
+    nameE = Entry(roots)
+    nameE.grid(row=1, column=1)
 
-    signUpStadField = Label(roots, text='City name: ')  # This just does the same as above, instead with the text new username.
+    signUpStadField = Label(roots, text='Stad naam: ')
     signUpStadField.grid(row=2, column=0,
-               sticky=W)  # Same thing as the instruction var just on different rows. :) Tkinter is like that.
+               sticky=W)
 
-    signUpStadEntry = Entry(roots)  # This now puts a text box waiting for input.
-    signUpStadEntry.grid(row=2, column=1)  # You know what this does now :D
+    signUpStadEntry = Entry(roots)
+    signUpStadEntry.grid(row=2, column=1)
 
-    signUpLandField = Label(roots, text='The abbreviation of your country: ')  # This just does the same as above, instead with the text new username.
+    signUpLandField = Label(roots, text='De afkorting van je land: ')
     signUpLandField.grid(row=3, column=0,
-               sticky=W)  # Same thing as the instruction var just on different rows. :) Tkinter is like that.
+               sticky=W)
 
-    signUpLandEntry = Entry(roots)  # This now puts a text box waiting for input.
-    signUpLandEntry.grid(row=3, column=1)  # You know what this does now :D
+    signUpLandEntry = Entry(roots)
+    signUpLandEntry.grid(row=3, column=1)
 
     signupButton = Button(roots, text='Signup',
-                          command=FSSignup)  # This creates the button with the text 'signup', when you click it, the command 'fssignup' will run. which is the def
+                          command=toLogin)
     signupButton.grid(columnspan=2, sticky=W)
 
     backLogin = Button(roots, text='Login', fg='Blue',
-                    command=FSSignup)  # This makes the deluser button. blah go to the deluser def.
+                    command=FSSignup)
     backLogin.grid(columnspan=2, sticky=W)
-    roots.mainloop()  # This just makes the window keep open, we will destroy it soon
+    roots.mainloop()
 
 
 def FSSignup():
-    roots.destroy()  # This will destroy the signup window. :)
-    Login()  # This will move us onto the login definition :D
+    roots.destroy()
+    Login()
 
 
 def Login():
     global nameEL
     global rootA
 
-    rootA = Tk()  # This now makes a new window.
-    rootA.title('Login')  # This makes the window title 'login'
+    rootA = Tk()
+    rootA.title('Login')
 
-    intruction = Label(rootA, text='Please Login\n')  # More labels to tell us what they do
-    intruction.grid(sticky=E)  # Blahdy Blah
+    intruction = Label(rootA, text='Log aub in\n')
+    intruction.grid(sticky=E)
 
-    nameL = Label(rootA, text='Username: ')  # More labels
+    nameL = Label(rootA, text='Username: ')
     nameL.grid(row=1, sticky=W)
 
-    nameEL = Entry(rootA)  # The entry input
+    nameEL = Entry(rootA)
     nameEL.grid(row=1, column=1)
 
     loginB = Button(rootA, text='Login',
-                    command=toHomeScreen)  # This makes the login button, which will go to the CheckLogin def.
+                    command=toHomeScreen)
     loginB.grid(columnspan=2, sticky=W)
 
     rmuser = Button(rootA, text='Sign in', fg='Blue',
-                    command=Signup)  # This makes the deluser button. blah go to the deluser def.
+                    command=Signup)
     rmuser.grid(columnspan=2, sticky=W)
     rootA.mainloop()
 
+# def toHomescreen():
+#     rootA.destroy()
+#     Homescreen()
+
+def Homescreen():
+    global rootHm
+
+    rootHm = Tk()
+    rootHm.title('Home')
+
+    homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ')
+    homescreenLabelTitle.grid(row=1, sticky=W)
+
+    homescreenAddButton= Button(rootHm, text='voeg kleding toe ', command=AddScreen)
+    homescreenAddButton.grid(row=2)
+
+    homescreenDeleteButton = Button(rootHm, text='Verwijder kleding ', command=DeleteScreen)
+    homescreenDeleteButton.grid(row=3)
+
+    homescreenSettingsButton = Button(rootHm, text='Verander persoons gegevens')
+    homescreenSettingsButton.grid(row=4)
+
+    homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatishc genereren van je kleding setje ')
+    homescreenAutomaticGenButton.grid(row=5)
+
+    rootHm.mainloop()
+
+
+def AddScreen():
+    rootHm.destroy()
+    global rootAdd
+    global addscreenNameEntry
+    global addscreenLongShortEntry
+    global addscreenOpportunityEntry
+    global addscreenColorEntry
+    global addscreenBrandEntry
+    global addscreenCategoryEntry
+
+    rootAdd = Tk()
+    rootAdd.title('ADD')
+
+    addscreenTitle = Label(rootAdd, text='Vul de parameters van je kledingstuk in: ')
+    addscreenTitle.grid(row=0, sticky=W)
+
+    addscreenNameLabel = Label(rootAdd, text='Naam: ')
+    addscreenNameLabel.grid(row=1, column=0,  sticky=W)
+
+    addscreenNameEntry = Entry(rootAdd)
+    addscreenNameEntry.grid(row=1, column=1)
+
+    addscreenLongShortLabel = Label(rootAdd, text='lange/korte broekspijpen/mouwen: ')
+    addscreenLongShortLabel.grid(row=2, column=0,  sticky=W)
+
+    addscreenLongShortEntry = Entry(rootAdd)
+    addscreenLongShortEntry.grid(row=2, column=1)
+
+    addscreenOpportunityLabel = Label(rootAdd, text='Gelegenheid(ddagelijks leven, sport of feestje): ')
+    addscreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
+
+    addscreenOpportunityEntry = Entry(rootAdd)
+    addscreenOpportunityEntry.grid(row=3, column=1)
+
+    addscreenColorLabel = Label(rootAdd, text='Kleur: ')
+    addscreenColorLabel.grid(row=4, column=0,  sticky=W)
+
+    addscreenColorEntry = Entry(rootAdd)
+    addscreenColorEntry.grid(row=4, column=1)
+
+    addscreenBrandLabel = Label(rootAdd, text='Merk: ')
+    addscreenBrandLabel.grid(row=5, column=0,  sticky=W)
+
+    addscreenBrandEntry = Entry(rootAdd)
+    addscreenBrandEntry.grid(row=5, column=1)
+
+    addscreenCategoryLabel = Label(rootAdd, text='Categorie: ')
+    addscreenCategoryLabel.grid(row=6, column=0,  sticky=W)
+
+    addscreenCategoryEntry = Entry(rootAdd)
+    addscreenCategoryEntry.grid(row=6, column=1)
+
+    addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=toAddClothing)
+    addscreenADDButton.grid(row=7)
+
+def DeleteScreen():
+    rootHm.destroy()
+    global rootDelete
+    global deletescreenNameEntry
+    global deletescreenLongShortEntry
+    global deletescreenOpportunityEntry
+    global deletescreenColorEntry
+    global deletescreenBrandEntry
+    global deletescreenCategoryEntry
+
+    rootDelete = Tk()
+    rootDelete.title('DELETE')
+
+    deletescreenTitle = Label(rootDelete, text='Vul de parameters van je kledingstuk in: ')
+    deletescreenTitle.grid(row=0, sticky=W)
+
+    deletescreenNameLabel = Label(rootDelete, text='Naam: ')
+    deletescreenNameLabel.grid(row=1, column=0,  sticky=W)
+
+    deletescreenNameEntry = Entry(rootDelete)
+    deletescreenNameEntry.grid(row=1, column=1)
+
+    deletescreenLongShortLabel = Label(rootDelete, text='lange/korte broekspijpen/mouwen: ')
+    deletescreenLongShortLabel.grid(row=2, column=0,  sticky=W)
+
+    deletescreenLongShortEntry = Entry(rootDelete)
+    deletescreenLongShortEntry.grid(row=2, column=1)
+
+    deletescreenOpportunityLabel = Label(rootDelete, text='Gelegenheid(ddagelijks leven, sport of feestje): ')
+    deletescreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
+
+    deletescreenOpportunityEntry = Entry(rootDelete)
+    deletescreenOpportunityEntry.grid(row=3, column=1)
+
+    deletescreenColorLabel = Label(rootDelete, text='Kleur: ')
+    deletescreenColorLabel.grid(row=4, column=0,  sticky=W)
+
+    deletescreenColorEntry = Entry(rootDelete)
+    deletescreenColorEntry.grid(row=4, column=1)
+
+    deletescreenBrandLabel = Label(rootDelete, text='Merk: ')
+    deletescreenBrandLabel.grid(row=5, column=0,  sticky=W)
+
+    deletescreenBrandEntry = Entry(rootDelete)
+    deletescreenBrandEntry.grid(row=5, column=1)
+
+    deletescreenCategoryLabel = Label(rootDelete, text='Categorie: ')
+    deletescreenCategoryLabel.grid(row=6, column=0,  sticky=W)
+
+    deletescreenCategoryEntry = Entry(rootDelete)
+    deletescreenCategoryEntry.grid(row=6, column=1)
+
+    deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=toDeleteClothing)
+    deletescreenDELETEButton.grid(row=7)
 
 def toHomeScreen():
     if checkIfExist(str(nameEL.get())) == True:
-        print("homescreen")
+        global userName
+        userName = str(nameEL.get())
+        rootA.destroy()
+        Homescreen()
     else:
-        bericht = f'Username not existend, try it it again!'
+        bericht = 'Username not existend, try it it again!'
         showinfo(title='UserName error', message=bericht)
 
 def toLogin():
     if checkIfExist(str(nameE.get())) == False:
-        roots.destroy()
-        toLogin()
+        configSignUp(str(nameE.get()), str(signUpStadEntry.get()), str(signUpLandEntry.get()))
+        FSSignup()
     else:
-        bericht = 'Username already existend, try it it again!'
+        bericht = f'Username already existend, {nameE.get(), signUpStadEntry.get(), signUpLandEntry.get()} try it it again!'
         showinfo(title='UserName error', message=bericht)
+
+def toAddClothing():
+    addClothes(userName, str(addscreenNameEntry.get()), str(addscreenLongShortEntry.get()),
+               str(addscreenOpportunityEntry.get()), str(addscreenColorEntry.get()), str(addscreenBrandEntry.get()),
+               str(addscreenCategoryEntry.get()))
+    rootAdd.destroy()
+    Homescreen()
+
+def toDeleteClothing():
+    statusDelete = deleteClothes(userName, str(deletescreenNameEntry.get()), str(deletescreenLongShortEntry.get()),
+               str(deletescreenOpportunityEntry.get()), str(deletescreenColorEntry.get()), str(deletescreenBrandEntry.get()),
+               str(deletescreenCategoryEntry.get()))
+
+    if statusDelete == False:
+        bericht = f'kledingstuk {str(deletescreenNameEntry.get())} bestaat niet en kan dus ook niet verwijderd worden!'
+        showinfo(title='Delete Error', message=bericht)
+
+    rootDelete.destroy()
+    Homescreen()
+
+# def toHomeScreenAdd():
+#     rootAdd.destroy()
+#     Homescreen()
+
 
 Login()
