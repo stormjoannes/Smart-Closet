@@ -61,9 +61,11 @@ def FSSignup():
 def Login():
     global nameEL
     global rootA
+    global Globroot
 
     rootA = Tk()
     rootA.title('Login')
+    Globroot = rootA
 
     intruction = Label(rootA, text='Log aub in\n')
     intruction.grid(sticky=E)
@@ -84,14 +86,19 @@ def Login():
     rootA.mainloop()
 
 # def toHomescreen():
-#     rootA.destroy()
+#     self.destroy()
 #     Homescreen()
 
 def Homescreen():
     global rootHm
+    global Globroot
 
     rootHm = Tk()
     rootHm.title('Home')
+    Globroot = rootHm
+
+    showMenu(rootHm)
+    refreshGedragen(userName)
 
     homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ')
     homescreenLabelTitle.grid(row=1, sticky=W)
@@ -120,9 +127,13 @@ def AddScreen():
     global addscreenColorEntry
     global addscreenBrandEntry
     global addscreenCategoryEntry
+    global Globroot
 
     rootAdd = Tk()
     rootAdd.title('ADD')
+    Globroot = rootAdd
+
+    showMenu(rootAdd)
 
     addscreenTitle = Label(rootAdd, text='Vul de parameters van je kledingstuk in: ')
     addscreenTitle.grid(row=0, sticky=W)
@@ -177,9 +188,13 @@ def DeleteScreen():
     global deletescreenColorEntry
     global deletescreenBrandEntry
     global deletescreenCategoryEntry
+    global Globroot
 
     rootDelete = Tk()
     rootDelete.title('DELETE')
+    Globroot = rootDelete
+
+    showMenu(rootDelete)
 
     deletescreenTitle = Label(rootDelete, text='Vul de parameters van je kledingstuk in: ')
     deletescreenTitle.grid(row=0, sticky=W)
@@ -227,18 +242,66 @@ def DeleteScreen():
 
 def changePersonalData():
     global rootCPD
+    global Globroot
+    global personaldataUserNameEntry
+    global personaldataBetweenWearEntry
+    global personaldataCityEntry
+    global personaldataLandEntry
 
     rootCPD = Tk()
     rootCPD.title('personal data')
+    Globroot = rootCPD
+
+    showMenu(rootCPD)
+
+    with open('Kledingkast.json', 'r+') as docPersonalData:
+        personalData = json.load(docPersonalData)
+
+    personaldataUserNameLabel = Label(rootCPD, text='Username: ')
+    personaldataUserNameLabel.grid(row=0, column=0,  sticky=W)
+
+    personaldataUserNameEntry = Entry(rootCPD)
+    personaldataUserNameEntry.insert(0, userName)
+    personaldataUserNameEntry.grid(row=0, column=1)
+
+    personaldataBetweenWearLabel = Label(rootCPD, text='Tijd tussen het dragen van kleding: ')
+    personaldataBetweenWearLabel.grid(row=1, column=0,  sticky=W)
+
+    personaldataBetweenWearEntry = Entry(rootCPD)
+    personaldataBetweenWearEntry.insert(0, personalData[userName][0]["gegevens"][1]["overigeGeg"]["betweenWear"])
+    personaldataBetweenWearEntry.grid(row=1, column=1)
+
+
+    personaldataCityLabel = Label(rootCPD, text='Stad: ')
+    personaldataCityLabel.grid(row=2, column=0,  sticky=W)
+
+    personaldataCityEntry = Entry(rootCPD)
+    personaldataCityEntry.insert(0, personalData[userName][0]["gegevens"][0]["locatie"]["stad"])
+    personaldataCityEntry.grid(row=2, column=1)
+
+
+    personaldataLandLabel = Label(rootCPD, text='Afkorting van Land: ')
+    personaldataLandLabel.grid(row=3, column=0,  sticky=W)
+
+    personaldataLandEntry = Entry(rootCPD)
+    personaldataLandEntry.insert(0, personalData[userName][0]["gegevens"][0]["locatie"]["land"])
+    personaldataLandEntry.grid(row=3, column=1)
+
+    personaldataSubmitChanges = Button(rootCPD, text='Toepassen', command=commitPersonalData)
+    personaldataSubmitChanges.grid(sticky=E)
 
 def UitkiezenScreen():
     rootHm.destroy()
+    global Globroot
 
     global rootChoose
     global chooseFilterCombobox
 
     rootChoose = Tk()
     rootChoose.title('Choose')
+    Globroot = rootChoose
+
+    showMenu(rootChoose)
 
     chooseTitleLabel = Label(rootChoose, text='Al je kleren: ')
     chooseTitleLabel.grid(row=2)
@@ -254,6 +317,7 @@ def UitkiezenScreen():
     chooseFilterLabel.grid(row=0, sticky=W)
 
     chooseFilterCombobox = ttk.Combobox(rootChoose, value=possibleFilters)
+    chooseFilterCombobox.insert(0, 'None')
     chooseFilterCombobox.grid(row=0, column=0)
 
     chooseFilterButton = Button(rootChoose, text='SUBMIT', command=forDetailFilter)
@@ -275,6 +339,32 @@ def UitkiezenScreen():
     #
     # chooseFilterEntry = Entry(rootChoose)
     # chooseFilterEntry.grid(row=1, column=1)
+
+def showMenu(root):
+    global toDestroyRoot
+    global Globroot
+
+    toDestroyRoot = root
+    menu = Menu(root)
+    root.config(menu=menu)
+    Globroot = toDestroyRoot
+
+    subMenu = Menu(menu)
+    menu.add_cascade(label='file', menu=subMenu)
+    subMenu.add_command(label='personal data', command=changePersonalData)
+    subMenu.add_separator()
+    subMenu.add_command(label='homescreen', command=toHub)
+    subMenu.add_command(label='exit')
+
+def toHub():
+    toDestroyRoot.destroy()
+    Homescreen()
+
+def commitPersonalData():
+    global userName
+    newUserName = gegWijzigen(userName, personaldataBetweenWearEntry.get(), personaldataCityEntry.get(), personaldataLandEntry.get(), personaldataUserNameEntry.get())
+    userName = str(newUserName)
+    Globroot.destroy()
 
 def toHomeScreen():
     if checkIfExist(str(nameEL.get())) == True:

@@ -129,27 +129,23 @@ def refreshGedragen(naamUser):
                 json.dump(dataRefresh, frRefresh)
                 frRefresh.close()
 
-def gegWijzigen(naamUser, stad, land):
+def gegWijzigen(naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUsername):
     with open('Kledingkast.json', 'r+') as vrWijzig:
         allWijzig = json.load(vrWijzig)
 
     with open('Kledingkast.json', 'w') as vrWijzigWrite:
-        wijzig = input("Wat wil je wijzigen? De locatie of het tussenwear getal: ").lower()
-
-        if wijzig == "locatie":
-            stadWijzig = input('In welke stad staat je kledingkast: ').lower()
-            landWijzig = input('In welk Land staat je kledingkast (afkorting van land): ').lower()
-            allWijzig[naamUser][0]["gegevens"][0]["locatie"]["stad"] = stadWijzig
-            allWijzig[naamUser][0]["gegevens"][0]["locatie"]["land"] = landWijzig
-
-        elif wijzig == "tussenwear":
-           tussenWearWijzig = input('Hoeveel dagen wil je dat de tussenwear is: ').lower()
-           allWijzig[naamUser][0]["gegevens"][1]["overigeGeg"]["betweenWear"] = int(tussenWearWijzig)
-
-        else:
-            print("geen geldige optie, je word terug gestuurd naar het mainscreen")
+        print(wijzigUsername)
+        print(naamUser)
+        print(stadWijzig)
+        # allWijzig[naamUser] = wijzigUsername
+        allWijzig[naamUser][0]["gegevens"][0]["locatie"]["stad"] = stadWijzig
+        allWijzig[naamUser][0]["gegevens"][0]["locatie"]["land"] = landWijzig
+        allWijzig[naamUser][0]["gegevens"][1]["overigeGeg"]["betweenWear"] = int(tussenWearWijzig)
 
         json.dump(allWijzig, vrWijzigWrite)
         vrWijzigWrite.close()
+    return naamUser
+
+gegWijzigen('storm joannes', '1', 'breda', 'nl', 'storm')
 
 # config()
