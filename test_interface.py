@@ -103,7 +103,7 @@ def Homescreen():
     homescreenSettingsButton = Button(rootHm, text='Verander persoons gegevens')
     homescreenSettingsButton.grid(row=4)
 
-    homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatishc genereren van je kleding setje ')
+    homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatisch genereren van je kleding setje ')
     homescreenAutomaticGenButton.grid(row=5)
 
     rootHm.mainloop()
@@ -218,6 +218,21 @@ def DeleteScreen():
 
     deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=toDeleteClothing)
     deletescreenDELETEButton.grid(row=7)
+
+def changePersonalData():
+    global rootCPD
+
+    rootcpd = Tk()
+    rootcpd.title('personal data')
+
+    personaldataTitleLabel = Label(rootCPD, text='Waarop wil je filteren: ')
+    personaldataTitleLabel.grid(row=0)
+
+    personaldataFilterLabel = Label(rootCPD, text=f'{getAllPossibleFilters()}: ')
+    personaldataFilterLabel.grid(row=1, column=0)
+
+    personaldataFilterEntry = Entry(rootCPD)
+    personaldataFilterEntry.grid(row=1, column=1)
 
 def UitkiezenScreen():
     rootChoose = Tk()

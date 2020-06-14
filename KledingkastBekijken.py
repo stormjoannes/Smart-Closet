@@ -8,7 +8,7 @@ def bekijken(naamUser):
     for variable in allInfVariables[naamUser][2]:
         differentVariables.append(variable)
 
-    print(differentVariables)
+    print(getAllPossibleFilters(naamUser))
     watBekijken = input("Waarop wil je filteren: ")
 
     forSetVariables = []
@@ -23,3 +23,16 @@ def bekijken(naamUser):
     for i in range(2, len(allInfVariables[naamUser])):
        if detailFilter in allInfVariables[naamUser][i][watBekijken]:
            print(allInfVariables[naamUser][i])
+
+def getAllPossibleFilters(naamUser):
+    with open('Kledingkast.json', 'r') as allVariables:
+        allInfVariables = json.load(allVariables)
+
+    differentVariables = []
+    for variable in allInfVariables[naamUser][2]:
+        differentVariables.append(variable)
+    return differentVariables
+
+
+
+bekijken('storm joannes')
