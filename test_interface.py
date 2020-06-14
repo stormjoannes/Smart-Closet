@@ -4,7 +4,9 @@ from Main import *
 import json
 from AddOrDelete import *
 from KledingkastBekijken import *
+from tkinter import ttk
 
+# change personal data plus exit as dropdown menu
 
 def Signup():  # This is the signup definition,
     rootA.destroy()
@@ -100,7 +102,7 @@ def Homescreen():
     homescreenDeleteButton = Button(rootHm, text='Verwijder kleding ', command=DeleteScreen)
     homescreenDeleteButton.grid(row=3)
 
-    homescreenSettingsButton = Button(rootHm, text='Verander persoons gegevens')
+    homescreenSettingsButton = Button(rootHm, text='Kleding uitkiezen', command=UitkiezenScreen)
     homescreenSettingsButton.grid(row=4)
 
     homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatisch genereren van je kleding setje ')
@@ -164,6 +166,8 @@ def AddScreen():
     addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=toAddClothing)
     addscreenADDButton.grid(row=7)
 
+    rootAdd.mainloop()
+
 def DeleteScreen():
     rootHm.destroy()
     global rootDelete
@@ -219,24 +223,58 @@ def DeleteScreen():
     deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=toDeleteClothing)
     deletescreenDELETEButton.grid(row=7)
 
+    rootDelete.mainloop()
+
 def changePersonalData():
     global rootCPD
 
-    rootcpd = Tk()
-    rootcpd.title('personal data')
-
-    personaldataTitleLabel = Label(rootCPD, text='Waarop wil je filteren: ')
-    personaldataTitleLabel.grid(row=0)
-
-    personaldataFilterLabel = Label(rootCPD, text=f'{getAllPossibleFilters()}: ')
-    personaldataFilterLabel.grid(row=1, column=0)
-
-    personaldataFilterEntry = Entry(rootCPD)
-    personaldataFilterEntry.grid(row=1, column=1)
+    rootCPD = Tk()
+    rootCPD.title('personal data')
 
 def UitkiezenScreen():
+    rootHm.destroy()
+
+    global rootChoose
+    global chooseFilterCombobox
+
     rootChoose = Tk()
     rootChoose.title('Choose')
+
+    chooseTitleLabel = Label(rootChoose, text='Al je kleren: ')
+    chooseTitleLabel.grid(row=2)
+
+    chooseEmptySpaceLabel = Label(rootChoose, text='')
+    chooseEmptySpaceLabel.grid(row=3)
+
+    allClothes()
+
+    possibleFilters = getAllPossibleFilters(userName)
+
+    chooseFilterLabel = Label(rootChoose, text='Filter: ')
+    chooseFilterLabel.grid(row=0, sticky=W)
+
+    chooseFilterCombobox = ttk.Combobox(rootChoose, value=possibleFilters)
+    chooseFilterCombobox.grid(row=0, column=0)
+
+    chooseFilterButton = Button(rootChoose, text='SUBMIT', command=forDetailFilter)
+    chooseFilterButton.grid(row=0, column=1)
+
+    chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=toDeleteFilter)
+    chooseDeleteFilterButton.grid(sticky=E)
+
+
+    # uitkiezenScreenFilterButton = Button(rootChoose, text='Filter', command=toDeleteClothing)
+    # uitkiezenScreenFilterButton.grid(row=0, sticky=E)
+
+
+    # chooseTitleLabel = Label(rootChoose, text='Waarop wil je filteren: ')
+    # chooseTitleLabel.grid(row=0)
+    #
+    # chooseFilterLabel = Label(rootChoose, text=f'{allClothes(userName)}: ')
+    # chooseFilterLabel.grid(row=1, column=0)
+    #
+    # chooseFilterEntry = Entry(rootChoose)
+    # chooseFilterEntry.grid(row=1, column=1)
 
 def toHomeScreen():
     if checkIfExist(str(nameEL.get())) == True:
@@ -275,11 +313,52 @@ def toDeleteClothing():
     rootDelete.destroy()
     Homescreen()
 
-def toBekijken():
-    bekijken(userName, )
-# def toHomeScreenAdd():
-#     rootAdd.destroy()
-#     Homescreen()
+def allClothes():
+    global AllClothes
+
+    allClothingString = ''
+
+    for indexAll in range(2, len(allInfVariables[userName])):
+        allClothingString += str(allInfVariables[userName][indexAll]) + '\n'
+
+    AllClothes = Label(rootChoose, text=f'{allClothingString}: ')
+    AllClothes.grid(row=indexAll + 2, column=0)
+
+def toDeleteFilter():
+    try:
+        AllClothesDetailFiltered.destroy()
+    except:
+        bericht = 'No filter applied!'
+        showinfo(title='Filter Error', message=bericht)
+    allClothes()
+
+def getDetailFilters():
+    global AllClothesDetailFiltered
+
+    watBekijken = chooseFilterCombobox.get()
+    detailFilter = chooseDetailFilterEntry.get()
+
+    AllClothes.destroy()
+
+    allFilteredClothingString = ''
+    for indexAllFiltered in range(2, len(allInfVariables[userName])):
+        if detailFilter in allInfVariables[userName][indexAllFiltered][watBekijken]:
+            allFilteredClothingString += str(allInfVariables[userName][indexAllFiltered]) + '\n'
+
+    AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ')
+    AllClothesDetailFiltered.grid(row=indexAllFiltered, column=0)
+
+def forDetailFilter():
+    global chooseDetailFilterEntry
+
+    chooseFilterLabel = Label(rootChoose, text=f'Op welke {chooseFilterCombobox.get()} wil je filteren: ')
+    chooseFilterLabel.grid(row=1, sticky=W)
+
+    chooseDetailFilterEntry = Entry(rootChoose)
+    chooseDetailFilterEntry.grid(row=1, column=0)
+
+    chooseFilterButton = Button(rootChoose, text='SUBMIT', command=getDetailFilters)
+    chooseFilterButton.grid(row=1, column=1)
 
 
 Login()

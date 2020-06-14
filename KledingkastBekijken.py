@@ -1,5 +1,8 @@
 import json
 
+with open('Kledingkast.json', 'r') as allVariables:
+    allInfVariables = json.load(allVariables)
+
 def bekijken(naamUser):
     with open('Kledingkast.json', 'r') as allVariables:
         allInfVariables = json.load(allVariables)
@@ -25,8 +28,6 @@ def bekijken(naamUser):
            print(allInfVariables[naamUser][i])
 
 def getAllPossibleFilters(naamUser):
-    with open('Kledingkast.json', 'r') as allVariables:
-        allInfVariables = json.load(allVariables)
 
     differentVariables = []
     for variable in allInfVariables[naamUser][2]:
@@ -35,4 +36,6 @@ def getAllPossibleFilters(naamUser):
 
 
 
-bekijken('storm joannes')
+
+# allClothes('storm joannes')
+# bekijken('storm joannes')
