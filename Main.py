@@ -71,7 +71,6 @@ def checkIfExist(naamUser):
 
     for i in allNames:
         if i == naamUser:
-            print("juahhhhh")
             return True
     return False
 
@@ -113,6 +112,8 @@ def opties(naamUser, stad, land):
 
     opties(naamUser, stad, land)
 
+
+
 def refreshGedragen(naamUser):
     with open('Kledingkast.json', 'r+') as forRefresh:
         dataRefresh = json.load(forRefresh)
@@ -134,18 +135,18 @@ def gegWijzigen(naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUserna
         allWijzig = json.load(vrWijzig)
 
     with open('Kledingkast.json', 'w') as vrWijzigWrite:
-        print(wijzigUsername)
-        print(naamUser)
-        print(stadWijzig)
-        # allWijzig[naamUser] = wijzigUsername
-        allWijzig[naamUser][0]["gegevens"][0]["locatie"]["stad"] = stadWijzig
-        allWijzig[naamUser][0]["gegevens"][0]["locatie"]["land"] = landWijzig
-        allWijzig[naamUser][0]["gegevens"][1]["overigeGeg"]["betweenWear"] = int(tussenWearWijzig)
+        print(allWijzig)
+        tempValueUser = allWijzig[naamUser]
+        allWijzig.pop(naamUser)
+        allWijzig[wijzigUsername] = tempValueUser
+        allWijzig[wijzigUsername][0]["gegevens"][0]["locatie"]["stad"] = stadWijzig
+        allWijzig[wijzigUsername][0]["gegevens"][0]["locatie"]["land"] = landWijzig
+        allWijzig[wijzigUsername][0]["gegevens"][1]["overigeGeg"]["betweenWear"] = int(tussenWearWijzig)
 
         json.dump(allWijzig, vrWijzigWrite)
         vrWijzigWrite.close()
-    return naamUser
+    return wijzigUsername
 
-gegWijzigen('storm joannes', '1', 'breda', 'nl', 'storm')
+# gegWijzigen('storm joannes', '1', 'breda', 'nl', 'storm')
 
 # config()

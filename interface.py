@@ -1,125 +1,482 @@
-import time
 from tkinter import *
 from tkinter.messagebox import showinfo
-
 from Main import *
-
-def toonLoginFrame():
-    global root1
-    root1 = Tk()
-
-    signinframe.pack_forget()
-    signupframe.pack_forget()
-    hoofdframe.pack_forget()
-    loginframe.pack()
-
-    signinbutton = Button(master=loginframe, text='SIGN IN', command=toonSignInFrame)
-    signinbutton.pack(padx=20, pady=20)
-    signupbutton = Button(master=loginframe, text='SIGN UP', command=toonSignUpFrame)
-    signupbutton.pack(padx=20, pady=20)
-
-    root.mainloop()
-
-def toonSignInFrame():
-    global root2
-    root1.destroy()
-    root2 = Tk()
-
-    loginframe.pack_forget()
-    hoofdframe.pack_forget()
-    signinframe.pack()
-
-    Label(master = signinframe, text="Username").pack()
-    signinfield = Entry(master=signinframe, textvariable="username")
-    signinfield.pack(padx=20, pady=20)
-
-    signinbuttonframe = Button(master=signinframe, text="SIGN IN", command=checkexistendSignIn(signinfield))
-    signinbuttonframe.pack(padx=20, pady=20)
+import json
+from AddOrDelete import *
+from KledingkastBekijken import *
+from tkinter import ttk
 
 
-def toonSignUpFrame():
-    global root3
-    root1.destroy()
-    root3 = Tk()
+def Signup():  # This is the signup definition,
+    rootA.destroy()
+    global nameE
+    global roots
+    global signUpStadEntry
+    global signUpLandEntry
 
-    loginframe.pack_forget()
-    hoofdframe.pack_forget()
-    signupframe.pack()
+    roots = Tk()
+    roots.title('Signup')
+    intruction = Label(roots,
+                       text='Sign aub\n')
+    intruction.grid(row=0, column=0,
+                    sticky=E)
 
-    signupnameLabel = Label(master=signupframe, text='Vul hier je naam in', height=2)
-    signupnameLabel.pack()
-    signupfieldName = Entry(master=signupframe)
-    signupfieldName.pack(padx=20, pady=20)
+    nameL = Label(roots, text='Nieuwe naam: ')
+    nameL.grid(row=1, column=0,
+               sticky=W)
 
-    signupstadLabel = Label(master=signupframe, text='Vul hier je stad in:', height=2)
-    signupstadLabel.pack()
-    signupfieldStad = Entry(master=signupframe)
-    signupfieldStad.pack(padx=20, pady=20)
+    nameE = Entry(roots)
+    nameE.grid(row=1, column=1)
 
-    signupstadLabel = Label(master=signupframe, text='Vul hier de afkorting van je land in:', height=2)
-    signupstadLabel.pack()
-    signupfieldLand = Entry(master=signupframe)
-    signupfieldLand.pack(padx=20, pady=20)
-    signupbuttonframe = Button(master=signupframe, text="SIGN UP", command=checkexistendSignUp(signupfieldName))
-    signupbuttonframe.pack(padx=20, pady=20)
+    signUpStadField = Label(roots, text='Stad naam: ')
+    signUpStadField.grid(row=2, column=0,
+               sticky=W)
 
-    root.mainloop()
+    signUpStadEntry = Entry(roots)
+    signUpStadEntry.grid(row=2, column=1)
 
-def toonHoofdFrame(userName):
-    global root4
-    root2.destory()
-    root3.destroy()
-    root4 = Tk()
+    signUpLandField = Label(roots, text='De afkorting van je land: ')
+    signUpLandField.grid(row=3, column=0,
+               sticky=W)
 
-    signinframe.pack_forget()
-    signupframe.pack_forget()
-    loginframe.pack_forget()
-    hoofdframe.pack()
+    signUpLandEntry = Entry(roots)
+    signUpLandEntry.grid(row=3, column=1)
 
-    hoofdframeToevoegenButton = Button(master=hoofdframe, text="Kleding toevoegen", command=addDelete("add", userName))
-    hoofdframeToevoegenButton.pack(padx=20, pady=20)
-    hoofdframeVerwijderenButton = Button(master=hoofdframe, text="Kleding verwijderen", command=addDelete("delete", userName))
-    hoofdframeVerwijderenButton.pack(padx=20, pady=20)
-    hoofdframeAutomatischButton = Button(master=hoofdframe, text="Setje automatisch genereren")
-    hoofdframeAutomatischButton.pack(padx=20, pady=20)
-    hoofdframeGegevensButton = Button(master=hoofdframe, text="Gegevens wijzigen")
-    hoofdframeGegevensButton.pack(padx=20, pady=20)
+    signupButton = Button(roots, text='Signup',
+                          command=toLogin)
+    signupButton.grid(columnspan=2, sticky=W)
 
-    root.mainloop()
+    backLogin = Button(roots, text='Login', fg='Blue',
+                    command=FSSignup)
+    backLogin.grid(columnspan=2, sticky=W)
+    roots.mainloop()
 
-def checkexistendSignIn(userName):
-    if checkIfExist(userName) == False:
-        bericht = 'Deze username is niet in gebruik!!'
-        showinfo(title='Username not found', message=bericht)
+
+def FSSignup():
+    roots.destroy()
+    Login()
+
+
+def Login():
+    global nameEL
+    global rootA
+    global Globroot
+
+    rootA = Tk()
+    rootA.title('Login')
+    Globroot = rootA
+
+    rootA.geometry('1920x1080')
+
+    intruction = Label(rootA, text='Log aub in\n')
+    intruction.grid(sticky=E)
+
+    nameL = Label(rootA, text='Username: ')
+    nameL.grid(row=1, sticky=W)
+
+    nameEL = Entry(rootA)
+    nameEL.grid(row=1, column=1)
+
+    loginB = Button(rootA, text='Login',
+                    command=toHomeScreen)
+    loginB.grid(columnspan=2, sticky=W)
+
+    rmuser = Button(rootA, text='Sign in', fg='Blue',
+                    command=Signup)
+    rmuser.grid(columnspan=2, sticky=W)
+    rootA.mainloop()
+
+
+def Homescreen():
+    global rootHm
+    global Globroot
+
+    rootHm = Tk()
+    rootHm.title('Home')
+    Globroot = rootHm
+
+    showMenu(rootHm)
+    refreshGedragen(userName)
+
+    homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ')
+    homescreenLabelTitle.grid(row=1, sticky=W)
+
+    homescreenAddButton= Button(rootHm, text='voeg kleding toe ', command=AddScreen)
+    homescreenAddButton.grid(row=2)
+
+    homescreenDeleteButton = Button(rootHm, text='Verwijder kleding ', command=DeleteScreen)
+    homescreenDeleteButton.grid(row=3)
+
+    homescreenSettingsButton = Button(rootHm, text='Kleding uitkiezen', command=UitkiezenScreen)
+    homescreenSettingsButton.grid(row=4)
+
+    homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatisch genereren van je kleding setje ', command=setGenScreen)
+    homescreenAutomaticGenButton.grid(row=5)
+
+    rootHm.mainloop()
+
+
+def AddScreen():
+    rootHm.destroy()
+    global rootAdd
+    global addscreenNameEntry
+    global addscreenLongShortEntry
+    global addscreenOpportunityEntry
+    global addscreenColorEntry
+    global addscreenBrandEntry
+    global addscreenCategoryEntry
+    global Globroot
+
+    rootAdd = Tk()
+    rootAdd.title('ADD')
+    Globroot = rootAdd
+
+    showMenu(rootAdd)
+
+    addscreenTitle = Label(rootAdd, text='Vul de parameters van je kledingstuk in: ')
+    addscreenTitle.grid(row=0, sticky=W)
+
+    addscreenNameLabel = Label(rootAdd, text='Naam: ')
+    addscreenNameLabel.grid(row=1, column=0,  sticky=W)
+
+    addscreenNameEntry = Entry(rootAdd)
+    addscreenNameEntry.grid(row=1, column=1)
+
+    addscreenLongShortLabel = Label(rootAdd, text='lange/korte broekspijpen/mouwen: ')
+    addscreenLongShortLabel.grid(row=2, column=0,  sticky=W)
+
+    addscreenLongShortEntry = Entry(rootAdd)
+    addscreenLongShortEntry.grid(row=2, column=1)
+
+    addscreenOpportunityLabel = Label(rootAdd, text='Gelegenheid(ddagelijks leven, sport of feestje): ')
+    addscreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
+
+    addscreenOpportunityEntry = Entry(rootAdd)
+    addscreenOpportunityEntry.grid(row=3, column=1)
+
+    addscreenColorLabel = Label(rootAdd, text='Kleur: ')
+    addscreenColorLabel.grid(row=4, column=0,  sticky=W)
+
+    addscreenColorEntry = Entry(rootAdd)
+    addscreenColorEntry.grid(row=4, column=1)
+
+    addscreenBrandLabel = Label(rootAdd, text='Merk: ')
+    addscreenBrandLabel.grid(row=5, column=0,  sticky=W)
+
+    addscreenBrandEntry = Entry(rootAdd)
+    addscreenBrandEntry.grid(row=5, column=1)
+
+    addscreenCategoryLabel = Label(rootAdd, text='Categorie: ')
+    addscreenCategoryLabel.grid(row=6, column=0,  sticky=W)
+
+    addscreenCategoryEntry = Entry(rootAdd)
+    addscreenCategoryEntry.grid(row=6, column=1)
+
+    addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=toAddClothing)
+    addscreenADDButton.grid(row=7)
+
+    rootAdd.mainloop()
+
+def DeleteScreen():
+    rootHm.destroy()
+    global rootDelete
+    global deletescreenNameEntry
+    global deletescreenLongShortEntry
+    global deletescreenOpportunityEntry
+    global deletescreenColorEntry
+    global deletescreenBrandEntry
+    global deletescreenCategoryEntry
+    global Globroot
+
+    rootDelete = Tk()
+    rootDelete.title('DELETE')
+    Globroot = rootDelete
+
+    showMenu(rootDelete)
+
+    deletescreenTitle = Label(rootDelete, text='Vul de parameters van je kledingstuk in: ')
+    deletescreenTitle.grid(row=0, sticky=W)
+
+    deletescreenNameLabel = Label(rootDelete, text='Naam: ')
+    deletescreenNameLabel.grid(row=1, column=0,  sticky=W)
+
+    deletescreenNameEntry = Entry(rootDelete)
+    deletescreenNameEntry.grid(row=1, column=1)
+
+    deletescreenLongShortLabel = Label(rootDelete, text='lange/korte broekspijpen/mouwen: ')
+    deletescreenLongShortLabel.grid(row=2, column=0,  sticky=W)
+
+    deletescreenLongShortEntry = Entry(rootDelete)
+    deletescreenLongShortEntry.grid(row=2, column=1)
+
+    deletescreenOpportunityLabel = Label(rootDelete, text='Gelegenheid(ddagelijks leven, sport of feestje): ')
+    deletescreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
+
+    deletescreenOpportunityEntry = Entry(rootDelete)
+    deletescreenOpportunityEntry.grid(row=3, column=1)
+
+    deletescreenColorLabel = Label(rootDelete, text='Kleur: ')
+    deletescreenColorLabel.grid(row=4, column=0,  sticky=W)
+
+    deletescreenColorEntry = Entry(rootDelete)
+    deletescreenColorEntry.grid(row=4, column=1)
+
+    deletescreenBrandLabel = Label(rootDelete, text='Merk: ')
+    deletescreenBrandLabel.grid(row=5, column=0,  sticky=W)
+
+    deletescreenBrandEntry = Entry(rootDelete)
+    deletescreenBrandEntry.grid(row=5, column=1)
+
+    deletescreenCategoryLabel = Label(rootDelete, text='Categorie: ')
+    deletescreenCategoryLabel.grid(row=6, column=0,  sticky=W)
+
+    deletescreenCategoryEntry = Entry(rootDelete)
+    deletescreenCategoryEntry.grid(row=6, column=1)
+
+    deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=toDeleteClothing)
+    deletescreenDELETEButton.grid(row=7)
+
+    rootDelete.mainloop()
+
+def changePersonalData():
+    global rootCPD
+    global Globroot
+    global personaldataUserNameEntry
+    global personaldataBetweenWearEntry
+    global personaldataCityEntry
+    global personaldataLandEntry
+
+    rootCPD = Tk()
+    rootCPD.title('personal data')
+    Globroot = rootCPD
+
+    showMenu(rootCPD)
+
+    with open('Kledingkast.json', 'r+') as docPersonalData:
+        personalData = json.load(docPersonalData)
+
+    personaldataUserNameLabel = Label(rootCPD, text='Username: ')
+    personaldataUserNameLabel.grid(row=0, column=0,  sticky=W)
+
+    personaldataUserNameEntry = Entry(rootCPD)
+    personaldataUserNameEntry.insert(0, userName)
+    personaldataUserNameEntry.grid(row=0, column=1)
+
+    personaldataBetweenWearLabel = Label(rootCPD, text='Tijd tussen het dragen van kleding: ')
+    personaldataBetweenWearLabel.grid(row=1, column=0,  sticky=W)
+
+    personaldataBetweenWearEntry = Entry(rootCPD)
+    personaldataBetweenWearEntry.insert(0, personalData[userName][0]["gegevens"][1]["overigeGeg"]["betweenWear"])
+    personaldataBetweenWearEntry.grid(row=1, column=1)
+
+
+    personaldataCityLabel = Label(rootCPD, text='Stad: ')
+    personaldataCityLabel.grid(row=2, column=0,  sticky=W)
+
+    personaldataCityEntry = Entry(rootCPD)
+    personaldataCityEntry.insert(0, personalData[userName][0]["gegevens"][0]["locatie"]["stad"])
+    personaldataCityEntry.grid(row=2, column=1)
+
+
+    personaldataLandLabel = Label(rootCPD, text='Afkorting van Land: ')
+    personaldataLandLabel.grid(row=3, column=0,  sticky=W)
+
+    personaldataLandEntry = Entry(rootCPD)
+    personaldataLandEntry.insert(0, personalData[userName][0]["gegevens"][0]["locatie"]["land"])
+    personaldataLandEntry.grid(row=3, column=1)
+
+    personaldataSubmitChanges = Button(rootCPD, text='Toepassen', command=commitPersonalData)
+    personaldataSubmitChanges.grid(sticky=E)
+
+def UitkiezenScreen():
+    rootHm.destroy()
+    global Globroot
+
+    global rootChoose
+    global chooseFilterCombobox
+
+    rootChoose = Tk()
+    rootChoose.title('Choose')
+    Globroot = rootChoose
+
+    showMenu(rootChoose)
+
+    chooseTitleLabel = Label(rootChoose, text='Al je kleren: ')
+    chooseTitleLabel.grid(row=2)
+
+    chooseEmptySpaceLabel = Label(rootChoose, text='')
+    chooseEmptySpaceLabel.grid(row=3)
+
+    allClothes()
+
+    possibleFilters = getAllPossibleFilters(userName)
+
+    chooseFilterLabel = Label(rootChoose, text='Filter: ')
+    chooseFilterLabel.grid(row=0, sticky=W)
+
+    chooseFilterCombobox = ttk.Combobox(rootChoose, value=possibleFilters)
+    chooseFilterCombobox.insert(0, 'None')
+    chooseFilterCombobox.grid(row=0, column=0)
+
+    chooseFilterButton = Button(rootChoose, text='SUBMIT', command=forDetailFilter)
+    chooseFilterButton.grid(row=0, column=1)
+
+    chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=toDeleteFilter)
+    chooseDeleteFilterButton.grid(sticky=E)
+
+def setGenScreen():
+    rootHm.destroy()
+    global rootGen
+
+    rootGen = Tk()
+    rootGen.title('Generator')
+
+    genDagelijksButton = Button(rootGen, text='Ja', command=forDetailFilter)
+    genDagelijksButton.grid(row=10, sticky=W)
+
+    genSportutton = Button(rootGen, text='Nee', command=forDetailFilter)
+    genSportutton.grid(row=10, sticky=E)
+
+    genFeestButton = Button(rootGen, text='Nee', command=forDetailFilter)
+    genFeestButton.grid(row=10, sticky=E)
+
+    # genTitleLabel = Label(rootGen, text='Ga je dit setje drage:')
+    # genTitleLabel.grid()
+    #
+    WeatherForPickClothes()
+    #
+    # genYesButton = Button(rootGen, text='Ja', command=forDetailFilter)
+    # genYesButton.grid(row=10, sticky=W)
+    #
+    # genNoButton = Button(rootGen, text='Nee', command=forDetailFilter)
+    # genNoButton.grid(row=10, sticky=E)
+
+    rootGen.mainloop()
+
+
+def WeatherForPickClothes():
+    with open('Kledingkast.json', 'r+') as Data:
+        placeInfo = json.load(Data)
+
+    stad = placeInfo[userName][0]["gegevens"][0]["locatie"]["stad"]
+    land = placeInfo[userName][0]["gegevens"][0]["locatie"]["land"]
+    huidigeWeer = setValuesWeer(stad, land)
+    gevoelsTemp = huidigeWeer[0]
+    windSnelheid = huidigeWeer[2]
+    if windSnelheid >= 5:
+        gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
+    print(gevoelsTemp)
+    pickClothes(userName, gevoelsTemp, huidigeWeer[1])
+
+def showMenu(root):
+    global toDestroyRoot
+    global Globroot
+
+    toDestroyRoot = root
+    menu = Menu(root)
+    root.config(menu=menu)
+    Globroot = toDestroyRoot
+
+    subMenu = Menu(menu)
+    menu.add_cascade(label='file', menu=subMenu)
+    subMenu.add_command(label='personal data', command=changePersonalData)
+    subMenu.add_separator()
+    subMenu.add_command(label='homescreen', command=toHub)
+    subMenu.add_command(label='exit')
+
+def toHub():
+    toDestroyRoot.destroy()
+    Homescreen()
+
+def commitPersonalData():
+    global userName
+    changedUserName = str(gegWijzigen(userName, personaldataBetweenWearEntry.get(), personaldataCityEntry.get(), personaldataLandEntry.get(), personaldataUserNameEntry.get()))
+    userName = changedUserName
+    Globroot.destroy()
+
+
+def toHomeScreen():
+    if checkIfExist(str(nameEL.get())) == True:
+        global userName
+        userName = nameEL.get()
+        rootA.destroy()
+        Homescreen()
     else:
-        toonHoofdFrame(userName)
+        bericht = 'Username not existend, try it it again!'
+        showinfo(title='UserName error', message=bericht)
 
-def checkexistendSignUp(userName):
-    if checkIfExist(userName) == True:
-        bericht = 'Deze username is al in gebruik!'
-        showinfo(title='Username already existend', message=bericht)
+def toLogin():
+    if checkIfExist(str(nameE.get())) == False:
+        configSignUp(str(nameE.get()), str(signUpStadEntry.get()), str(signUpLandEntry.get()))
+        FSSignup()
     else:
-        toonHoofdFrame(userName)
+        bericht = f'Username already existend, {nameE.get(), signUpStadEntry.get(), signUpLandEntry.get()} try it it again!'
+        showinfo(title='UserName error', message=bericht)
 
-def addDelete(conf):
-    print(userName)
-    # if conf == "add":
-    #     addClothes(userName)
-    # else:
-    #     deleteClothes(userName)
+def toAddClothing():
+    addClothes(userName, str(addscreenNameEntry.get()), str(addscreenLongShortEntry.get()),
+               str(addscreenOpportunityEntry.get()), str(addscreenColorEntry.get()), str(addscreenBrandEntry.get()),
+               str(addscreenCategoryEntry.get()))
+    rootAdd.destroy()
+    Homescreen()
 
-root = Tk()
+def toDeleteClothing():
+    statusDelete = deleteClothes(userName, str(deletescreenNameEntry.get()), str(deletescreenLongShortEntry.get()),
+               str(deletescreenOpportunityEntry.get()), str(deletescreenColorEntry.get()), str(deletescreenBrandEntry.get()),
+               str(deletescreenCategoryEntry.get()))
 
-loginframe = Frame(master=root)
-loginframe.pack(fill="both", expand=True)
+    if statusDelete == False:
+        bericht = f'kledingstuk {str(deletescreenNameEntry.get())} bestaat niet en kan dus ook niet verwijderd worden!'
+        showinfo(title='Delete Error', message=bericht)
 
-signinframe = Frame(master=root)
-signinframe.pack(fill="both", expand=True)
+    rootDelete.destroy()
+    Homescreen()
 
-signupframe = Frame(master=root)
-signupframe.pack(fill="both", expand=True)
+def allClothes():
+    global AllClothes
 
-hoofdframe = Frame(master=root)
-hoofdframe.pack(fill="both", expand=True)
+    allClothingString = ''
 
-toonLoginFrame()
+    for indexAll in range(2, len(allInfVariables[userName])):
+        allClothingString += str(allInfVariables[userName][indexAll]) + '\n'
+
+    AllClothes = Label(rootChoose, text=f'{allClothingString}: ')
+    AllClothes.grid(row=indexAll + 2, column=0)
+
+def toDeleteFilter():
+    try:
+        AllClothesDetailFiltered.destroy()
+    except:
+        bericht = 'No filter applied!'
+        showinfo(title='Filter Error', message=bericht)
+    allClothes()
+
+def getDetailFilters():
+    global AllClothesDetailFiltered
+
+    watBekijken = chooseFilterCombobox.get()
+    detailFilter = chooseDetailFilterEntry.get()
+
+    AllClothes.destroy()
+
+    allFilteredClothingString = ''
+    for indexAllFiltered in range(2, len(allInfVariables[userName])):
+        if detailFilter in allInfVariables[userName][indexAllFiltered][watBekijken]:
+            allFilteredClothingString += str(allInfVariables[userName][indexAllFiltered]) + '\n'
+
+    AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ')
+    AllClothesDetailFiltered.grid(row=indexAllFiltered, column=0)
+
+def forDetailFilter():
+    global chooseDetailFilterEntry
+
+    chooseFilterLabel = Label(rootChoose, text=f'Op welke {chooseFilterCombobox.get()} wil je filteren: ')
+    chooseFilterLabel.grid(row=1, sticky=W)
+
+    chooseDetailFilterEntry = Entry(rootChoose)
+    chooseDetailFilterEntry.grid(row=1, column=0)
+
+    chooseFilterButton = Button(rootChoose, text='SUBMIT', command=getDetailFilters)
+    chooseFilterButton.grid(row=1, column=1)
+
+Login()
