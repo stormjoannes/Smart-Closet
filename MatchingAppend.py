@@ -3,7 +3,7 @@ import random
 from datetime import datetime
 
 
-def pickClothes(naamUser, currentTemp, weersSituatie):
+def pickClothes(naamUser, currentTemp, weersSituatie, keuzeGelegenheid):
     # scheelt het 1 maand doe je, de dag - maanden dat het scheelt n . Nieuwe data min die waarde heb je hoeveel dagen het scheelt met een variatie van 1 dag per bij de helft van de maanden
 
     WarmNaarKoudTopDagelijks = {1: ["trui", "vest", "sweater"], 2: ["shirt"], 3: ["topje", "naveltrui", "shirt"]}
@@ -18,20 +18,17 @@ def pickClothes(naamUser, currentTemp, weersSituatie):
     WarmNaarKoudBottomFeestje = {1: ["jeans"], 2: ["chino", "jeans met gaten"],
                                  3: ["rokje", "broekje"]}
 
-    keuzeGelegenheid = input('Wil je iets voor het sporten, dagelijks leven of een feestje: ').lower()
+    # keuzeGelegenheid = input('Wil je iets voor het sporten, dagelijks leven of een feestje: ').lower()
 
     if keuzeGelegenheid == "dagelijks leven":
-        opportunitySet(WarmNaarKoudTopDagelijks, WarmNaarKoudBottomDagelijks, naamUser, currentTemp, weersSituatie)
+        return opportunitySet(WarmNaarKoudTopDagelijks, WarmNaarKoudBottomDagelijks, naamUser, currentTemp, weersSituatie)
 
     elif keuzeGelegenheid == "sport":
-        opportunitySet(WarmNaarKoudTopSport, WarmNaarKoudBottomSport, naamUser, currentTemp, weersSituatie)
+        return opportunitySet(WarmNaarKoudTopSport, WarmNaarKoudBottomSport, naamUser, currentTemp, weersSituatie)
 
     elif keuzeGelegenheid == "feestje":
-        opportunitySet(WarmNaarKoudTopFeestje, WarmNaarKoudBottomFeestje, naamUser, currentTemp, weersSituatie)
+        return opportunitySet(WarmNaarKoudTopFeestje, WarmNaarKoudBottomFeestje, naamUser, currentTemp, weersSituatie)
 
-    else:
-        print('De gekozen gelgenheid is niet in gebruik!')
-        pickClothes(naamUser, currentTemp, weersSituatie)
 
 
 def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, weersSituatie):
@@ -70,60 +67,63 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, w
         mogelijkeBottoms = searchTopBottom(LangOfKortBottom, tresholdBottomIndex, WarmNaarKoudBottom, naamUser)
         bottom = random.choice(mogelijkeBottoms)
 
-    aangetrokken = False
-    indexEndlessLoop = 0
+    return mogelijkeTops, mogelijkeBottoms, top, bottom
 
-    while aangetrokken == False:
-        indexEndlessLoop += 1
-
-        with open('Kledingkast.json', 'r+') as inf:
-            data = json.load(inf)
-
-        top = random.choice(mogelijkeTops)
-
-        if top[2] != "jurkje":
-            bottom = random.choice(mogelijkeBottoms)
-            while bottom[1] == top[1] and len(bottom) > 1:
-                bottom = random.choice(mogelijkeBottoms)
-        else:
-            bottom == None
-
-        status = 'positive'
-
-        for index in data[naamUser][1]["gedragen"]:
-            if top in index and bottom in index:
-                status = 'negative'
-                if len(mogelijkeTops) <= 1 and len(mogelijkeBottoms) <= 1:
-                    print("Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
-                    status = 'execute'
-
-        if status != 'negative':
-            if len(mogelijkeBottoms) > 1 and len(mogelijkeTops) > 1 and status != 'execute':
-                print(top)
-                print(bottom)
-                aantrekken = input("ga je dit setje aantrekken ja of nee: ").lower()
-                if aantrekken == "ja":
-                    aangetrokken = True
-
-                    with open('Kledingkast.json', 'w') as ALL:
-                        today = datetime.today().strftime("%Y-%m-%d")
-
-                        formatVoorAppend = [top, bottom, str(today)]
-                        data[naamUser][1]["gedragen"].append(formatVoorAppend)
-
-                        print(formatVoorAppend)
-                        json.dump(data, ALL)
-                        ALL.close()
-
-                else:
-                    print('we zoeken een nieuw setje voor je!')
-                    mogelijkeTops.remove(top)
-                    mogelijkeBottoms.remove(bottom)
-
-        if len(mogelijkeBottoms) < 1 and len(mogelijkeTops) < 1 and status == 'execute' or indexEndlessLoop > 9999:
-            print(
-                "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
-            aangetrokken = True
+    #
+    # aangetrokken = False
+    # indexEndlessLoop = 0
+    #
+    # while aangetrokken == False:
+    #     indexEndlessLoop += 1
+    #
+    #     with open('Kledingkast.json', 'r+') as inf:
+    #         data = json.load(inf)
+    #
+    #     top = random.choice(mogelijkeTops)
+    #
+    #     if top[2] != "jurkje":
+    #         bottom = random.choice(mogelijkeBottoms)
+    #         while bottom[1] == top[1] and len(bottom) > 1:
+    #             bottom = random.choice(mogelijkeBottoms)
+    #     else:
+    #         bottom == None
+    #
+    #     status = 'positive'
+    #
+    #     for index in data[naamUser][1]["gedragen"]:
+    #         if top in index and bottom in index:
+    #             status = 'negative'
+    #             if len(mogelijkeTops) <= 1 and len(mogelijkeBottoms) <= 1:
+    #                 print("Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
+    #                 status = 'execute'
+    #
+    #     if status != 'negative':
+    #         if len(mogelijkeBottoms) > 1 and len(mogelijkeTops) > 1 and status != 'execute':
+    #             print(top)
+    #             print(bottom)
+    #             aantrekken = input("ga je dit setje aantrekken ja of nee: ").lower()
+    #             if aantrekken == "ja":
+    #                 aangetrokken = True
+    #
+    #                 with open('Kledingkast.json', 'w') as ALL:
+    #                     today = datetime.today().strftime("%Y-%m-%d")
+    #
+    #                     formatVoorAppend = [top, bottom, str(today)]
+    #                     data[naamUser][1]["gedragen"].append(formatVoorAppend)
+    #
+    #                     print(formatVoorAppend)
+    #                     json.dump(data, ALL)
+    #                     ALL.close()
+    #
+    #             else:
+    #                 print('we zoeken een nieuw setje voor je!')
+    #                 mogelijkeTops.remove(top)
+    #                 mogelijkeBottoms.remove(bottom)
+    #
+    #     if len(mogelijkeBottoms) < 1 and len(mogelijkeTops) < 1 and status == 'execute' or indexEndlessLoop > 9999:
+    #         print(
+    #             "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
+    #         aangetrokken = True
 
 
 def searchTopBottom(LangOfKortTopBottom, tresholdTopBottomIndex, WarmNaarKoudTopBottom, naamUser):
