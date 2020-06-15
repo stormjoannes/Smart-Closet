@@ -131,12 +131,12 @@ def Homescreen():
 def AddScreen():
     rootHm.destroy()
     global rootAdd
-    global addscreenNameEntry
-    global addscreenLongShortEntry
-    global addscreenOpportunityEntry
-    global addscreenColorEntry
-    global addscreenBrandEntry
-    global addscreenCategoryEntry
+    # global addscreenNameEntry
+    # global addscreenLongShortEntry
+    # global addscreenOpportunityEntry
+    # global addscreenColorEntry
+    # global addscreenBrandEntry
+    # global addscreenCategoryEntry
     global Globroot
 
     rootAdd = Tk()
@@ -145,59 +145,102 @@ def AddScreen():
 
     showMenu(rootAdd)
 
-    addscreenTitle = Label(rootAdd, text='Vul de parameters van je kledingstuk in: ', background="gray")
-    addscreenTitle.grid(row=0, sticky=W)
+    # addscreenTitle = Label(rootAdd, text='Vul de parameters van je kledingstuk in: ', background="gray")
+    # addscreenTitle.grid(row=0, sticky=W)
+    #
+    # addscreenNameLabel = Label(rootAdd, text='Naam: ', background="gray")
+    # addscreenNameLabel.grid(row=1, column=0,  sticky=W)
+    #
+    # addscreenNameEntry = Entry(rootAdd)
+    # addscreenNameEntry.grid(row=1, column=1)
+    #
+    # addscreenLongShortLabel = Label(rootAdd, text='lang/kort broekspijpen/mouwen: ', background="gray")
+    # addscreenLongShortLabel.grid(row=2, column=0,  sticky=W)
+    #
+    # addscreenLongShortEntry = Entry(rootAdd)
+    # addscreenLongShortEntry.grid(row=2, column=1)
+    #
+    # addscreenOpportunityLabel = Label(rootAdd, text='Gelegenheid(dagelijks leven, sport of feestje): ', background="gray")
+    # addscreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
+    #
+    # addscreenOpportunityEntry = Entry(rootAdd)
+    # addscreenOpportunityEntry.grid(row=3, column=1)
+    #
+    # addscreenColorLabel = Label(rootAdd, text='Kleur: ', background="gray")
+    # addscreenColorLabel.grid(row=4, column=0,  sticky=W)
+    #
+    # addscreenColorEntry = Entry(rootAdd)
+    # addscreenColorEntry.grid(row=4, column=1)
+    #
+    # addscreenBrandLabel = Label(rootAdd, text='Merk: ', background="gray")
+    # addscreenBrandLabel.grid(row=5, column=0,  sticky=W)
+    #
+    # addscreenBrandEntry = Entry(rootAdd)
+    # addscreenBrandEntry.grid(row=5, column=1)
+    #
+    # addscreenCategoryLabel = Label(rootAdd, text='Categorie: ', background="gray")
+    # addscreenCategoryLabel.grid(row=6, column=0,  sticky=W)
+    #
+    # addscreenCategoryEntry = Entry(rootAdd)
+    # addscreenCategoryEntry.grid(row=6, column=1)
 
-    addscreenNameLabel = Label(rootAdd, text='Naam: ', background="gray")
-    addscreenNameLabel.grid(row=1, column=0,  sticky=W)
-
-    addscreenNameEntry = Entry(rootAdd)
-    addscreenNameEntry.grid(row=1, column=1)
-
-    addscreenLongShortLabel = Label(rootAdd, text='lang/kort broekspijpen/mouwen: ', background="gray")
-    addscreenLongShortLabel.grid(row=2, column=0,  sticky=W)
-
-    addscreenLongShortEntry = Entry(rootAdd)
-    addscreenLongShortEntry.grid(row=2, column=1)
-
-    addscreenOpportunityLabel = Label(rootAdd, text='Gelegenheid(dagelijks leven, sport of feestje): ', background="gray")
-    addscreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
-
-    addscreenOpportunityEntry = Entry(rootAdd)
-    addscreenOpportunityEntry.grid(row=3, column=1)
-
-    addscreenColorLabel = Label(rootAdd, text='Kleur: ', background="gray")
-    addscreenColorLabel.grid(row=4, column=0,  sticky=W)
-
-    addscreenColorEntry = Entry(rootAdd)
-    addscreenColorEntry.grid(row=4, column=1)
-
-    addscreenBrandLabel = Label(rootAdd, text='Merk: ', background="gray")
-    addscreenBrandLabel.grid(row=5, column=0,  sticky=W)
-
-    addscreenBrandEntry = Entry(rootAdd)
-    addscreenBrandEntry.grid(row=5, column=1)
-
-    addscreenCategoryLabel = Label(rootAdd, text='Categorie: ', background="gray")
-    addscreenCategoryLabel.grid(row=6, column=0,  sticky=W)
-
-    addscreenCategoryEntry = Entry(rootAdd)
-    addscreenCategoryEntry.grid(row=6, column=1)
+    inputParametersClothing(rootAdd)
 
     addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=toAddClothing)
     addscreenADDButton.grid(row=7)
 
     rootAdd.mainloop()
 
+def inputParametersClothing(root):
+    global screenNameEntry
+    global screenLongShortEntry
+    global screenOpportunityEntry
+    global screenColorEntry
+    global screenBrandEntry
+    global screenCategoryEntry
+
+    screenTitle = Label(root, text='Vul de parameters van je kledingstuk in: ', background="gray")
+    screenTitle.grid(row=0, sticky=W)
+
+    screenNameLabel = Label(root, text='Naam: ', background="gray")
+    screenNameLabel.grid(row=1, column=0,  sticky=W)
+
+    screenNameEntry = Entry(root)
+    screenNameEntry.grid(row=1, column=1)
+
+    screenLongShortLabel = Label(root, text='lange/korte broekspijpen/mouwen: ', background="gray")
+    screenLongShortLabel.grid(row=2, column=0,  sticky=W)
+
+    screenLongShortEntry = Entry(root)
+    screenLongShortEntry.grid(row=2, column=1)
+
+    screenOpportunityLabel = Label(root, text='Gelegenheid(ddagelijks leven, sport of feestje): ', background="gray")
+    screenOpportunityLabel.grid(row=3, column=0,  sticky=W)
+
+    screenOpportunityEntry = Entry(root)
+    screenOpportunityEntry.grid(row=3, column=1)
+
+    screenColorLabel = Label(root, text='Kleur: ', background="gray")
+    screenColorLabel.grid(row=4, column=0,  sticky=W)
+
+    screenColorEntry = Entry(root)
+    screenColorEntry.grid(row=4, column=1)
+
+    screenBrandLabel = Label(root, text='Merk: ', background="gray")
+    screenBrandLabel.grid(row=5, column=0,  sticky=W)
+
+    screenBrandEntry = Entry(root)
+    screenBrandEntry.grid(row=5, column=1)
+
+    screenCategoryLabel = Label(root, text='Categorie: ', background="gray")
+    screenCategoryLabel.grid(row=6, column=0,  sticky=W)
+
+    screenCategoryEntry = Entry(root)
+    screenCategoryEntry.grid(row=6, column=1)
+
 def DeleteScreen():
     rootHm.destroy()
     global rootDelete
-    global deletescreenNameEntry
-    global deletescreenLongShortEntry
-    global deletescreenOpportunityEntry
-    global deletescreenColorEntry
-    global deletescreenBrandEntry
-    global deletescreenCategoryEntry
     global Globroot
 
     rootDelete = Tk()
@@ -206,44 +249,7 @@ def DeleteScreen():
 
     showMenu(rootDelete)
 
-    deletescreenTitle = Label(rootDelete, text='Vul de parameters van je kledingstuk in: ', background="gray")
-    deletescreenTitle.grid(row=0, sticky=W)
-
-    deletescreenNameLabel = Label(rootDelete, text='Naam: ', background="gray")
-    deletescreenNameLabel.grid(row=1, column=0,  sticky=W)
-
-    deletescreenNameEntry = Entry(rootDelete)
-    deletescreenNameEntry.grid(row=1, column=1)
-
-    deletescreenLongShortLabel = Label(rootDelete, text='lange/korte broekspijpen/mouwen: ', background="gray")
-    deletescreenLongShortLabel.grid(row=2, column=0,  sticky=W)
-
-    deletescreenLongShortEntry = Entry(rootDelete)
-    deletescreenLongShortEntry.grid(row=2, column=1)
-
-    deletescreenOpportunityLabel = Label(rootDelete, text='Gelegenheid(ddagelijks leven, sport of feestje): ', background="gray")
-    deletescreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
-
-    deletescreenOpportunityEntry = Entry(rootDelete)
-    deletescreenOpportunityEntry.grid(row=3, column=1)
-
-    deletescreenColorLabel = Label(rootDelete, text='Kleur: ', background="gray")
-    deletescreenColorLabel.grid(row=4, column=0,  sticky=W)
-
-    deletescreenColorEntry = Entry(rootDelete)
-    deletescreenColorEntry.grid(row=4, column=1)
-
-    deletescreenBrandLabel = Label(rootDelete, text='Merk: ', background="gray")
-    deletescreenBrandLabel.grid(row=5, column=0,  sticky=W)
-
-    deletescreenBrandEntry = Entry(rootDelete)
-    deletescreenBrandEntry.grid(row=5, column=1)
-
-    deletescreenCategoryLabel = Label(rootDelete, text='Categorie: ', background="gray")
-    deletescreenCategoryLabel.grid(row=6, column=0,  sticky=W)
-
-    deletescreenCategoryEntry = Entry(rootDelete)
-    deletescreenCategoryEntry.grid(row=6, column=1)
+    inputParametersClothing(rootDelete)
 
     deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=toDeleteClothing)
     deletescreenDELETEButton.grid(row=7)
@@ -299,6 +305,8 @@ def changePersonalData():
 
     personaldataSubmitChanges = Button(rootCPD, text='Toepassen', command=commitPersonalData)
     personaldataSubmitChanges.grid(sticky=E)
+
+    rootCPD.mainloop()
 
 def UitkiezenScreen():
     rootHm.destroy()
@@ -546,16 +554,16 @@ def toLogin():
         showinfo(title='UserName error', message=bericht)
 
 def toAddClothing():
-    addClothes(userName, str(addscreenNameEntry.get()), str(addscreenLongShortEntry.get()),
-               str(addscreenOpportunityEntry.get()), str(addscreenColorEntry.get()), str(addscreenBrandEntry.get()),
-               str(addscreenCategoryEntry.get()))
+    addClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()),
+               str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()),
+               str(screenCategoryEntry.get()))
     rootAdd.destroy()
     Homescreen()
 
 def toDeleteClothing():
-    statusDelete = deleteClothes(userName, str(deletescreenNameEntry.get()), str(deletescreenLongShortEntry.get()),
-               str(deletescreenOpportunityEntry.get()), str(deletescreenColorEntry.get()), str(deletescreenBrandEntry.get()),
-               str(deletescreenCategoryEntry.get()))
+    statusDelete = deleteClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()),
+               str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()),
+               str(screenCategoryEntry.get()))
 
     if statusDelete == False:
         bericht = f'kledingstuk {str(deletescreenNameEntry.get())} bestaat niet en kan dus ook niet verwijderd worden!'
