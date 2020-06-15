@@ -330,30 +330,36 @@ def UitkiezenScreen():
 def setGenScreen():
     rootHm.destroy()
     global rootGen
+    global Globroot
 
     rootGen = Tk()
     rootGen.title('Generator')
+    Globroot = rootGen
 
-    # showMenu(rootGen)
+    showMenu(rootGen)
 
     GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ')
     GenTitleLabel.grid(row=0)
 
-    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=WeatherForPickClothes('dagelijks'))
+    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=setChoiceGenDagelijks)
     genDagelijksButton.grid(row=10, sticky=W)
 
-    genSportutton = Button(rootGen, text='Sport', command=WeatherForPickClothes('sport'))
+    genSportutton = Button(rootGen, text='Sport', command=setChoiceGenSport)
     genSportutton.grid(row=10, column=0)
 
-    genFeestButton = Button(rootGen, text='Feest', command=WeatherForPickClothes('feest'))
+    genFeestButton = Button(rootGen, text='Feest', command=setChoiceGenFeest)
     genFeestButton.grid(row=10, column=1)
 
 
     # WeatherForPickClothes()
-
-
     rootGen.mainloop()
 
+def setChoiceGenDagelijks():
+    WeatherForPickClothes('dagelijks')
+def setChoiceGenSport():
+    WeatherForPickClothes('sport')
+def setChoiceGenFeest():
+    WeatherForPickClothes('feest')
 
 def WeatherForPickClothes(func):
     global loopIndex
@@ -379,6 +385,7 @@ def WeatherForPickClothes(func):
     loopIndex = 0
     # getRandGenClothes(RandClothes[0], RandClothes[1], loopIndex)
     recommendedClothes(RandClothes[0], RandClothes[1], loopIndex)
+    # rootGen.mainloop()
 
 
 def showMenu(root):
@@ -498,12 +505,12 @@ def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loop
             formatVoorAppend = [top, bottom, str(today)]
             data[userName][1]["gedragen"].append(formatVoorAppend)
 
-            print(formatVoorAppend)
+            # print(formatVoorAppend)
             json.dump(data, ALL)
             ALL.close()
             rootGen.update()
-            # rootGen.destroy()
-            # Homescreen()
+            rootGen.destroy()
+            Homescreen()
 
     else:
         print('we zoeken een nieuw setje voor je!')
@@ -511,7 +518,18 @@ def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loop
         mogelijkeBottoms.remove(bottom)
         recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex)
 
-def recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex):
+def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
+    global mogelijkeTops
+    global mogelijkeBottoms
+    global top
+    global bottom
+    global data
+
+    mogelijkeTops = mogelijkeTop
+    mogelijkeBottoms = mogelijkeBottom
+
+    print(mogelijkeTops, "TOPSSSSSSSSSSSSSSSSSSSSSSSSSS")
+    print(mogelijkeBottoms, "BOTOMSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
     with open('Kledingkast.json', 'r+') as inf:
         data = json.load(inf)
 
@@ -530,30 +548,44 @@ def recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex):
         top = None
 
     if top == None or top == None and bottom == None or top[2] != 'jurkje' and bottom == None:
+        # print('hoi')
         bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
         showinfo(title='Clothing error', message=bericht)
         rootGen.update()
-        # rootGen.destroy()
-        # Homescreen()
+        rootGen.destroy()
+        Homescreen()
     else:
-        pass
-        GenTopLabel = Label(rootGen, text=f'Top: {top}')
+        # pass
+        global rootWear
+        rootWear = Tk()
+        rootWear.title("Wear clothes")
+
+        GenTopLabel = Label(rootWear, text=f'Top: {top}')
         GenTopLabel.grid(row=5)
 
-        GenBottomLabel = Label(rootGen, text=f'Bottom: {bottom}')
+        GenBottomLabel = Label(rootWear, text=f'Bottom: {bottom}')
         GenBottomLabel.grid(row=6)
 
-        genTitleLabel = Label(rootGen, text='Ga je dit setje dragen:')
-        genTitleLabel.grid(row=9 )
+        genTitleLabel = Label(rootWear, text='Ga je dit setje dragen:')
+        genTitleLabel.grid(row=9)
 
-        genYesButton = Button(rootGen, text='Ja', command=autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data, loopIndex))
-        genYesButton.grid(row=10, sticky=W)
+        genYesButton = Button(rootWear, text='Ja', command=WearYes)
+        genYesButton.grid(row=11, sticky=W)
 
-        genNoButton = Button(rootGen, text='Nee', command=autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data, loopIndex))
-        genNoButton.grid(row=10, sticky=E)
-        rootGen.mainloop()
+        genNoButton = Button(rootWear, text='Nee', command=WearNo)
+        genNoButton.grid(row=11, sticky=E)
+
+        rootWear.mainloop()
 
     # if loopIndex == 1:
+
+def WearYes():
+    rootWear.destroy()
+    autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data, loopIndex)
+
+def WearNo():
+    rootWear.destroy()
+    autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data, loopIndex)
 
 
 
