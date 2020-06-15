@@ -32,7 +32,6 @@ def pickClothes(naamUser, currentTemp, weersSituatie, keuzeGelegenheid):
 
 
 def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, gelegenheid):
-    print(currentTemp, 'currentttttttttttttt')
     if currentTemp < 15:
         LangOfKortTop = "lang"
         LangOfKortBottom = "lang"
@@ -61,11 +60,9 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, g
         tresholdTopIndex = len(WarmNaarKoudTop)
         tresholdBottomIndex = len(WarmNaarKoudBottom)
 
-    print(LangOfKortTop, "langkorttop")
-    print(LangOfKortBottom, "langkortbottom")
+
 
     mogelijkeTops = searchTopBottom(LangOfKortTop, tresholdTopIndex, WarmNaarKoudTop, naamUser, gelegenheid)
-    print(mogelijkeTops)
     # if len(mogelijkeTops) != 0:
     #     top = random.choice(mogelijkeTops)
     # else:
@@ -73,7 +70,6 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, g
     #
     # if top[2] != "jurkje":
     mogelijkeBottoms = searchTopBottom(LangOfKortBottom, tresholdBottomIndex, WarmNaarKoudBottom, naamUser, gelegenheid)
-    print(mogelijkeBottoms)
     #     if len(mogelijkeBottoms) != 0:
     #         bottom = random.choice(mogelijkeBottoms)
     #     else:
@@ -154,7 +150,6 @@ def searchTopBottom(LangOfKortTopBottom, tresholdTopBottomIndex, WarmNaarKoudTop
                 tempList = [dataSearch[naamUser][x]["naam"], dataSearch[naamUser][x]["kleur"],
                             dataSearch[naamUser][x]["categorie"], dataSearch[naamUser][x]["merk"],
                             dataSearch[naamUser][x]["langKort"]]
-                # print(tempList, 'tempListttttttttttttttttttttttttttttttttttt')
                 possibleTopBottom.append(tempList)
     return possibleTopBottom
 

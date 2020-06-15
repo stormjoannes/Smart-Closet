@@ -400,7 +400,6 @@ def WeatherForPickClothes(func):
     windSnelheid = huidigeWeer[2]
     if windSnelheid >= 5:
         gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
-    print(gevoelsTemp)
     RandClothes = pickClothes(userName, gevoelsTemp, huidigeWeer[1], opportunity)
     loopIndex = 0
     # getRandGenClothes(RandClothes[0], RandClothes[1], loopIndex)
@@ -443,7 +442,6 @@ def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loop
             Homescreen()
 
     else:
-        print('we zoeken een nieuw setje voor je!')
         mogelijkeTops.remove(top)
         mogelijkeBottoms.remove(bottom)
         recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex)
@@ -458,8 +456,6 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
     mogelijkeTops = mogelijkeTop
     mogelijkeBottoms = mogelijkeBottom
 
-    print(mogelijkeTops, "TOPSSSSSSSSSSSSSSSSSSSSSSSSSS")
-    print(mogelijkeBottoms, "BOTOMSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
     with open('Kledingkast.json', 'r+') as inf:
         data = json.load(inf)
 
@@ -478,14 +474,12 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
         top = None
 
     if top == None or top == None and bottom == None or top[2] != 'jurkje' and bottom == None:
-        # print('hoi')
         bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
         showinfo(title='Clothing error', message=bericht)
         rootGen.update()
         rootGen.destroy()
         Homescreen()
     else:
-        # pass
         global rootWear
         global Globroot
         rootWear = Tk()
