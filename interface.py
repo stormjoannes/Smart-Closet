@@ -487,8 +487,10 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
     else:
         # pass
         global rootWear
+        global Globroot
         rootWear = Tk()
         rootWear.title("Wear clothes")
+        Globroot = rootWear
 
         showMenu(rootWear)
 
@@ -509,24 +511,25 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
 
         rootWear.mainloop()
 
-    # if loopIndex == 1:
 
 def WearYes():
     rootWear.destroy()
     autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data, loopIndex)
+
 
 def WearNo():
     rootWear.destroy()
     autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data, loopIndex)
 
 
-
 def toHub():
     toDestroyRoot.destroy()
     Homescreen()
 
+
 def exit():
     Globroot.destroy()
+
 
 def commitPersonalData():
     global userName
