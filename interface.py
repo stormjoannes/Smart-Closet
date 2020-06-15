@@ -145,13 +145,13 @@ def AddScreen():
     addscreenNameEntry = Entry(rootAdd)
     addscreenNameEntry.grid(row=1, column=1)
 
-    addscreenLongShortLabel = Label(rootAdd, text='lange/korte broekspijpen/mouwen: ')
+    addscreenLongShortLabel = Label(rootAdd, text='lang/kort broekspijpen/mouwen: ')
     addscreenLongShortLabel.grid(row=2, column=0,  sticky=W)
 
     addscreenLongShortEntry = Entry(rootAdd)
     addscreenLongShortEntry.grid(row=2, column=1)
 
-    addscreenOpportunityLabel = Label(rootAdd, text='Gelegenheid(ddagelijks leven, sport of feestje): ')
+    addscreenOpportunityLabel = Label(rootAdd, text='Gelegenheid(dagelijks leven, sport of feestje): ')
     addscreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
 
     addscreenOpportunityEntry = Entry(rootAdd)
@@ -354,7 +354,7 @@ def setGenScreen():
 
 
 def WeatherForPickClothes(func):
-
+    global loopIndex
     if func == 'dagelijks':
         opportunity = 'dagelijks leven'
     elif func == 'sport':
@@ -374,8 +374,9 @@ def WeatherForPickClothes(func):
         gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
     print(gevoelsTemp)
     RandClothes = pickClothes(userName, gevoelsTemp, huidigeWeer[1], opportunity)
-    # indexEndlessLoop = 0
-    # getRandGenClothes(RandClothes[0], RandClothes[1], RandClothes[2], RandClothes[3], indexEndlessLoop)
+    loopIndex = 0
+    # getRandGenClothes(RandClothes[0], RandClothes[1], loopIndex)
+    recommendedClothes(RandClothes[0], RandClothes[1], loopIndex)
 
 
 def showMenu(root):
@@ -395,81 +396,98 @@ def showMenu(root):
     subMenu.add_command(label='personal data', command=changePersonalData)
     subMenu.add_separator()
     subMenu.add_command(label='homescreen', command=toHub)
-    subMenu.add_command(label='exit')
+    subMenu.add_command(label='exit', command=exit)
 
-def getRandGenClothes(mogelijkeTops, mogelijkeBottoms, top, bottom, indexEndlessLoop):
-
-    aangetrokken = False
-
-    while aangetrokken == False:
-        indexEndlessLoop += 1
-
-        with open('Kledingkast.json', 'r+') as inf:
-            data = json.load(inf)
-
-        top = random.choice(mogelijkeTops)
-
-        if top[2] != "jurkje":
-            bottom = random.choice(mogelijkeBottoms)
-            while bottom[1] == top[1] and len(bottom) > 1:
-                bottom = random.choice(mogelijkeBottoms)
-        else:
-            bottom == None
-
-        status = 'positive'
-
-        for index in data[userName][1]["gedragen"]:
-            if top in index and bottom in index:
-                status = 'negative'
-                if len(mogelijkeTops) <= 1 and len(mogelijkeBottoms) <= 1:
-                    print("Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
-                    status = 'execute'
-
-        if status != 'negative':
-            if len(mogelijkeBottoms) > 1 and len(mogelijkeTops) > 1 and status != 'execute':
-                print(top)
-                print(bottom)
-
-                # genTitleLabel = Label(rootGen, text='Ga je dit setje dragen:')
-                # genTitleLabel.grid()
-                #
-                # genYesButton = Button(rootGen, text='Ja', command=autoGen('ja', top, bottom, data, indexEndlessLoop))
-                # genYesButton.grid(row=10, sticky=W)
-                #
-                # genNoButton = Button(rootGen, text='Nee', command=autoGen('nee', top, bottom, data, indexEndlessLoop))
-                # genNoButton.grid(row=10, sticky=E)
-                autoGen('ja', top, bottom, data, indexEndlessLoop)
-
-
-
-
-                # if aantrekken == "ja":
-                #     aangetrokken = True
-                #
-                #     with open('Kledingkast.json', 'w') as ALL:
-                #         today = datetime.today().strftime("%Y-%m-%d")
-                #
-                #         formatVoorAppend = [top, bottom, str(today)]
-                #         data[naamUser][1]["gedragen"].append(formatVoorAppend)
-                #
-                #         print(formatVoorAppend)
-                #         json.dump(data, ALL)
-                #         ALL.close()
-                #
-                # else:
-                #     print('we zoeken een nieuw setje voor je!')
-                #     mogelijkeTops.remove(top)
-                #     mogelijkeBottoms.remove(bottom)
-
-        if len(mogelijkeBottoms) < 1 and len(mogelijkeTops) < 1 and status == 'execute' or indexEndlessLoop > 9999:
-            bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
-            showinfo(title='Clothing error', message=bericht)
-            aangetrokken = True
-
-def autoGen(aantrekken, top, bottom, data, indexEndlessLoop):
-    global mogelijkeTops
-    global mogelijkeBottoms
-
+# def getRandGenClothes(mogelijkeTops, mogelijkeBottoms, indexEndlessLoop):
+#
+#     aangetrokken = False
+#
+#     while aangetrokken == False:
+#         indexEndlessLoop += 1
+#
+#         with open('Kledingkast.json', 'r+') as inf:
+#             data = json.load(inf)
+#
+#         if len(mogelijkeTops) != 0:
+#             top = random.choice(mogelijkeTops)
+#
+#             if top[2] != "jurkje":
+#                 if len(mogelijkeBottoms) != 0:
+#                     bottom = random.choice(mogelijkeBottoms)
+#                 else:
+#                     bottom = None
+#                 if bottom != None:
+#                     while bottom[1] == top[1] and len(bottom) > 1:
+#                         if len(mogelijkeBottoms) != 0:
+#                             bottom = random.choice(mogelijkeBottoms)
+#                         else:
+#                             bottom = None
+#             else:
+#                 bottom = None
+#         else:
+#             top = None
+#
+#         status = 'positive'
+#
+#         #     for index in data[naamUser][1]["gedragen"]:
+#         #         if top in index and bottom in index:
+#         #             status = 'negative'
+#         #             if len(mogelijkeTops) <= 1 and len(mogelijkeBottoms) <= 1:
+#         #                 print("Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.")
+#         #                 status = 'execute'
+#
+#         for index in data[userName][1]["gedragen"]:
+#             if top in index and bottom in index:
+#                 status = 'negative'
+#                 if len(mogelijkeTops) <= 1 and len(mogelijkeBottoms) <= 1:
+#                     bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
+#                     showinfo(title='Clothing error', message=bericht)
+#                     rootGen.destroy()
+#                     Homescreen()
+#
+#         if status != 'negative':
+#             if len(mogelijkeBottoms) >= 1 and len(mogelijkeTops) >= 1 and status != 'execute':
+#                 print(top)
+#                 print(bottom)
+#
+#                 genTitleLabel = Label(rootGen, text='Ga je dit setje dragen:')
+#                 genTitleLabel.grid()
+#
+#                 genYesButton = Button(rootGen, text='Ja', command=autoGen('ja', top, bottom, data, indexEndlessLoop))
+#                 genYesButton.grid(row=10, sticky=W)
+#
+#                 genNoButton = Button(rootGen, text='Nee', command=autoGen('nee', top, bottom, data, indexEndlessLoop))
+#                 genNoButton.grid(row=10, sticky=E)
+#                 # autoGen('ja', top, bottom, data, indexEndlessLoop)
+#
+#
+#
+#
+#                 # if aantrekken == "ja":
+#                 #     aangetrokken = True
+#                 #
+#                 #     with open('Kledingkast.json', 'w') as ALL:
+#                 #         today = datetime.today().strftime("%Y-%m-%d")
+#                 #
+#                 #         formatVoorAppend = [top, bottom, str(today)]
+#                 #         data[naamUser][1]["gedragen"].append(formatVoorAppend)
+#                 #
+#                 #         print(formatVoorAppend)
+#                 #         json.dump(data, ALL)
+#                 #         ALL.close()
+#                 #
+#                 # else:
+#                 #     print('we zoeken een nieuw setje voor je!')
+#                 #     mogelijkeTops.remove(top)
+#                 #     mogelijkeBottoms.remove(bottom)
+#
+#         if len(mogelijkeBottoms) < 1 and len(mogelijkeTops) < 1 and status == 'execute' or indexEndlessLoop > 9999 or status == 'execute':
+#             bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
+#             showinfo(title='Clothing error', message=bericht)
+#             rootGen.destroy()
+#             Homescreen()
+#
+def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data):
     if aantrekken == "ja":
 
         with open('Kledingkast.json', 'w') as ALL:
@@ -481,16 +499,62 @@ def autoGen(aantrekken, top, bottom, data, indexEndlessLoop):
             print(formatVoorAppend)
             json.dump(data, ALL)
             ALL.close()
+            rootGen.destroy()
             Homescreen()
 
     else:
         print('we zoeken een nieuw setje voor je!')
         mogelijkeTops.remove(top)
         mogelijkeBottoms.remove(bottom)
+        recommendedClothes(mogelijkeTops, mogelijkeBottoms)
+
+def recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex):
+    with open('Kledingkast.json', 'r+') as inf:
+        data = json.load(inf)
+
+    loopIndex += 1
+
+    if len(mogelijkeTops) != 0:
+        top = random.choice(mogelijkeTops)
+    else:
+        top = None
+    if top[2] != 'jurkje':
+        if len(mogelijkeBottoms) != 0:
+            bottom = random.choice(mogelijkeBottoms)
+        else:
+            bottom = None
+
+    if top == None or top == None and bottom == None or top[2] != 'jurkje' and bottom == None:
+        bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
+        showinfo(title='Clothing error', message=bericht)
+        rootGen.destroy()
+        Homescreen()
+    else:
+        GenTopLabel = Label(rootGen, text=f'{top}')
+        GenTopLabel.grid(row=5)
+
+        GenBottomLabel = Label(rootGen, text=f'{bottom}')
+        GenBottomLabel.grid(row=6)
+
+        genTitleLabel = Label(rootGen, text='Ga je dit setje dragen:')
+        genTitleLabel.grid()
+
+        genYesButton = Button(rootGen, text='Ja', command=autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data))
+        genYesButton.grid(row=10, sticky=W)
+
+        genNoButton = Button(rootGen, text='Nee', command=autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data))
+        genNoButton.grid(row=10, sticky=E)
+
+    # if loopIndex == 1:
+
+
 
 def toHub():
     toDestroyRoot.destroy()
     Homescreen()
+
+def exit():
+    Globroot.destroy()
 
 def commitPersonalData():
     global userName
@@ -582,5 +646,8 @@ def forDetailFilter():
 
     chooseFilterButton = Button(rootChoose, text='SUBMIT', command=getDetailFilters)
     chooseFilterButton.grid(row=1, column=1)
-
-Login()
+try:
+    Login()
+except:
+    bericht = "Helaas er is iets misgegaan, je word terug gestuurd naar het beginscherm."
+    showinfo(title='Clothing error', message=bericht)
