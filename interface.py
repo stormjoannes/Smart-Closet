@@ -17,26 +17,25 @@ def Signup():  # This is the signup definition,
 
     showMenuLoginSignup(roots)
 
-    intruction = Label(roots,
-                       text='Sign aub\n')
+    intruction = Label(roots, text='Sign aub\n', background="gray")
     intruction.grid(row=0, column=0,
                     sticky=E)
 
-    nameL = Label(roots, text='Nieuwe naam: ')
+    nameL = Label(roots, text='Nieuwe naam: ', background="gray")
     nameL.grid(row=1, column=0,
                sticky=W)
 
     nameE = Entry(roots)
     nameE.grid(row=1, column=1)
 
-    signUpStadField = Label(roots, text='Stad naam: ')
+    signUpStadField = Label(roots, text='Stad naam: ', background="gray")
     signUpStadField.grid(row=2, column=0,
                sticky=W)
 
     signUpStadEntry = Entry(roots)
     signUpStadEntry.grid(row=2, column=1)
 
-    signUpLandField = Label(roots, text='De afkorting van je land: ')
+    signUpLandField = Label(roots, text='De afkorting van je land: ', background="gray")
     signUpLandField.grid(row=3, column=0,
                sticky=W)
 
@@ -81,10 +80,10 @@ def Login():
 
     showMenuLoginSignup(rootA)
 
-    intruction = Label(rootA, text='Log aub in\n')
-    intruction.grid(sticky=E)
+    intruction = Label(rootA, text='Log aub in\n', background="gray")
+    intruction.grid(column=1)
 
-    nameL = Label(rootA, text='Username: ')
+    nameL = Label(rootA, text='Username: ', background="gray")
     nameL.grid(row=1, sticky=W)
 
     nameEL = Entry(rootA)
@@ -111,7 +110,7 @@ def Homescreen():
     showMenu(rootHm)
     refreshGedragen(userName)
 
-    homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ')
+    homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ', background="gray")
     homescreenLabelTitle.grid(row=1, sticky=W)
 
     homescreenAddButton= Button(rootHm, text='voeg kleding toe ', command=AddScreen)
@@ -146,40 +145,40 @@ def AddScreen():
 
     showMenu(rootAdd)
 
-    addscreenTitle = Label(rootAdd, text='Vul de parameters van je kledingstuk in: ')
+    addscreenTitle = Label(rootAdd, text='Vul de parameters van je kledingstuk in: ', background="gray")
     addscreenTitle.grid(row=0, sticky=W)
 
-    addscreenNameLabel = Label(rootAdd, text='Naam: ')
+    addscreenNameLabel = Label(rootAdd, text='Naam: ', background="gray")
     addscreenNameLabel.grid(row=1, column=0,  sticky=W)
 
     addscreenNameEntry = Entry(rootAdd)
     addscreenNameEntry.grid(row=1, column=1)
 
-    addscreenLongShortLabel = Label(rootAdd, text='lang/kort broekspijpen/mouwen: ')
+    addscreenLongShortLabel = Label(rootAdd, text='lang/kort broekspijpen/mouwen: ', background="gray")
     addscreenLongShortLabel.grid(row=2, column=0,  sticky=W)
 
     addscreenLongShortEntry = Entry(rootAdd)
     addscreenLongShortEntry.grid(row=2, column=1)
 
-    addscreenOpportunityLabel = Label(rootAdd, text='Gelegenheid(dagelijks leven, sport of feestje): ')
+    addscreenOpportunityLabel = Label(rootAdd, text='Gelegenheid(dagelijks leven, sport of feestje): ', background="gray")
     addscreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
 
     addscreenOpportunityEntry = Entry(rootAdd)
     addscreenOpportunityEntry.grid(row=3, column=1)
 
-    addscreenColorLabel = Label(rootAdd, text='Kleur: ')
+    addscreenColorLabel = Label(rootAdd, text='Kleur: ', background="gray")
     addscreenColorLabel.grid(row=4, column=0,  sticky=W)
 
     addscreenColorEntry = Entry(rootAdd)
     addscreenColorEntry.grid(row=4, column=1)
 
-    addscreenBrandLabel = Label(rootAdd, text='Merk: ')
+    addscreenBrandLabel = Label(rootAdd, text='Merk: ', background="gray")
     addscreenBrandLabel.grid(row=5, column=0,  sticky=W)
 
     addscreenBrandEntry = Entry(rootAdd)
     addscreenBrandEntry.grid(row=5, column=1)
 
-    addscreenCategoryLabel = Label(rootAdd, text='Categorie: ')
+    addscreenCategoryLabel = Label(rootAdd, text='Categorie: ', background="gray")
     addscreenCategoryLabel.grid(row=6, column=0,  sticky=W)
 
     addscreenCategoryEntry = Entry(rootAdd)
@@ -207,40 +206,40 @@ def DeleteScreen():
 
     showMenu(rootDelete)
 
-    deletescreenTitle = Label(rootDelete, text='Vul de parameters van je kledingstuk in: ')
+    deletescreenTitle = Label(rootDelete, text='Vul de parameters van je kledingstuk in: ', background="gray")
     deletescreenTitle.grid(row=0, sticky=W)
 
-    deletescreenNameLabel = Label(rootDelete, text='Naam: ')
+    deletescreenNameLabel = Label(rootDelete, text='Naam: ', background="gray")
     deletescreenNameLabel.grid(row=1, column=0,  sticky=W)
 
     deletescreenNameEntry = Entry(rootDelete)
     deletescreenNameEntry.grid(row=1, column=1)
 
-    deletescreenLongShortLabel = Label(rootDelete, text='lange/korte broekspijpen/mouwen: ')
+    deletescreenLongShortLabel = Label(rootDelete, text='lange/korte broekspijpen/mouwen: ', background="gray")
     deletescreenLongShortLabel.grid(row=2, column=0,  sticky=W)
 
     deletescreenLongShortEntry = Entry(rootDelete)
     deletescreenLongShortEntry.grid(row=2, column=1)
 
-    deletescreenOpportunityLabel = Label(rootDelete, text='Gelegenheid(ddagelijks leven, sport of feestje): ')
+    deletescreenOpportunityLabel = Label(rootDelete, text='Gelegenheid(ddagelijks leven, sport of feestje): ', background="gray")
     deletescreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
 
     deletescreenOpportunityEntry = Entry(rootDelete)
     deletescreenOpportunityEntry.grid(row=3, column=1)
 
-    deletescreenColorLabel = Label(rootDelete, text='Kleur: ')
+    deletescreenColorLabel = Label(rootDelete, text='Kleur: ', background="gray")
     deletescreenColorLabel.grid(row=4, column=0,  sticky=W)
 
     deletescreenColorEntry = Entry(rootDelete)
     deletescreenColorEntry.grid(row=4, column=1)
 
-    deletescreenBrandLabel = Label(rootDelete, text='Merk: ')
+    deletescreenBrandLabel = Label(rootDelete, text='Merk: ', background="gray")
     deletescreenBrandLabel.grid(row=5, column=0,  sticky=W)
 
     deletescreenBrandEntry = Entry(rootDelete)
     deletescreenBrandEntry.grid(row=5, column=1)
 
-    deletescreenCategoryLabel = Label(rootDelete, text='Categorie: ')
+    deletescreenCategoryLabel = Label(rootDelete, text='Categorie: ', background="gray")
     deletescreenCategoryLabel.grid(row=6, column=0,  sticky=W)
 
     deletescreenCategoryEntry = Entry(rootDelete)
@@ -268,14 +267,14 @@ def changePersonalData():
     with open('Kledingkast.json', 'r+') as docPersonalData:
         personalData = json.load(docPersonalData)
 
-    personaldataUserNameLabel = Label(rootCPD, text='Username: ')
+    personaldataUserNameLabel = Label(rootCPD, text='Username: ', background="gray")
     personaldataUserNameLabel.grid(row=0, column=0,  sticky=W)
 
     personaldataUserNameEntry = Entry(rootCPD)
     personaldataUserNameEntry.insert(0, userName)
     personaldataUserNameEntry.grid(row=0, column=1)
 
-    personaldataBetweenWearLabel = Label(rootCPD, text='Tijd tussen het dragen van kleding: ')
+    personaldataBetweenWearLabel = Label(rootCPD, text='Tijd tussen het dragen van kleding: ', background="gray")
     personaldataBetweenWearLabel.grid(row=1, column=0,  sticky=W)
 
     personaldataBetweenWearEntry = Entry(rootCPD)
@@ -283,7 +282,7 @@ def changePersonalData():
     personaldataBetweenWearEntry.grid(row=1, column=1)
 
 
-    personaldataCityLabel = Label(rootCPD, text='Stad: ')
+    personaldataCityLabel = Label(rootCPD, text='Stad: ', background="gray")
     personaldataCityLabel.grid(row=2, column=0,  sticky=W)
 
     personaldataCityEntry = Entry(rootCPD)
@@ -291,7 +290,7 @@ def changePersonalData():
     personaldataCityEntry.grid(row=2, column=1)
 
 
-    personaldataLandLabel = Label(rootCPD, text='Afkorting van Land: ')
+    personaldataLandLabel = Label(rootCPD, text='Afkorting van Land: ', background="gray")
     personaldataLandLabel.grid(row=3, column=0,  sticky=W)
 
     personaldataLandEntry = Entry(rootCPD)
@@ -314,17 +313,17 @@ def UitkiezenScreen():
 
     showMenu(rootChoose)
 
-    chooseTitleLabel = Label(rootChoose, text='Al je kleren: ')
+    chooseTitleLabel = Label(rootChoose, text='Al je kleren: ', background="gray")
     chooseTitleLabel.grid(row=2)
 
-    chooseEmptySpaceLabel = Label(rootChoose, text='')
+    chooseEmptySpaceLabel = Label(rootChoose, text='', background="gray")
     chooseEmptySpaceLabel.grid(row=3)
 
     allClothes()
 
     possibleFilters = getAllPossibleFilters(userName)
 
-    chooseFilterLabel = Label(rootChoose, text='Filter: ')
+    chooseFilterLabel = Label(rootChoose, text='Filter: ', background="gray")
     chooseFilterLabel.grid(row=0, sticky=W)
 
     chooseFilterCombobox = ttk.Combobox(rootChoose, value=possibleFilters)
@@ -335,7 +334,10 @@ def UitkiezenScreen():
     chooseFilterButton.grid(row=0, column=1)
 
     chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=toDeleteFilter)
-    chooseDeleteFilterButton.grid(sticky=E)
+    chooseDeleteFilterButton.grid(row=100, sticky=E)
+
+    chooseBackButton = Button(rootChoose, text='Back', command=toHub)
+    chooseBackButton.grid(row=100, sticky=W)
 
 def setGenScreen():
     rootHm.destroy()
@@ -348,7 +350,7 @@ def setGenScreen():
 
     showMenu(rootGen)
 
-    GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ')
+    GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ', background="gray")
     GenTitleLabel.grid(row=0)
 
     genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=setChoiceGenDagelijks)
@@ -482,13 +484,13 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
 
         showMenu(rootWear)
 
-        GenTopLabel = Label(rootWear, text=f'Top: {top}')
+        GenTopLabel = Label(rootWear, text=f'Top: {top}', background="gray")
         GenTopLabel.grid(row=5)
 
-        GenBottomLabel = Label(rootWear, text=f'Bottom: {bottom}')
+        GenBottomLabel = Label(rootWear, text=f'Bottom: {bottom}', background="gray")
         GenBottomLabel.grid(row=6)
 
-        genTitleLabel = Label(rootWear, text='Ga je dit setje dragen:')
+        genTitleLabel = Label(rootWear, text='Ga je dit setje dragen:', background="gray")
         genTitleLabel.grid(row=9)
 
         genYesButton = Button(rootWear, text='Ja', command=WearYes)
@@ -570,7 +572,7 @@ def allClothes():
     for indexAll in range(2, len(allInfVariables[userName])):
         allClothingString += str(allInfVariables[userName][indexAll]) + '\n'
 
-    AllClothes = Label(rootChoose, text=f'{allClothingString}: ')
+    AllClothes = Label(rootChoose, text=f'{allClothingString}: ', background="gray")
     AllClothes.grid(row=indexAll + 2, column=0)
 
 def toDeleteFilter():
@@ -594,13 +596,13 @@ def getDetailFilters():
         if detailFilter in allInfVariables[userName][indexAllFiltered][watBekijken]:
             allFilteredClothingString += str(allInfVariables[userName][indexAllFiltered]) + '\n'
 
-    AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ')
+    AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ', background="gray")
     AllClothesDetailFiltered.grid(row=indexAllFiltered, column=0)
 
 def forDetailFilter():
     global chooseDetailFilterEntry
 
-    chooseFilterLabel = Label(rootChoose, text=f'Op welke {chooseFilterCombobox.get()} wil je filteren: ')
+    chooseFilterLabel = Label(rootChoose, text=f'Op welke {chooseFilterCombobox.get()} wil je filteren: ', background="gray")
     chooseFilterLabel.grid(row=1, sticky=W)
 
     chooseDetailFilterEntry = Entry(rootChoose)
