@@ -8,10 +8,10 @@ from tkinter import ttk
 
 def Signup():  # This is the signup definition,
     rootA.destroy()
-    global nameE
+    # global nameE
     global roots
-    global signUpStadEntry
-    global signUpLandEntry
+    # global signUpStadEntry
+    # global signUpLandEntry
 
     roots = Tk()
     roots.title('Signup')
@@ -44,7 +44,7 @@ def Signup():  # This is the signup definition,
     signUpLandEntry.grid(row=3, column=1)
 
     signupButton = Button(roots, text='Signup',
-                          command=toLogin)
+                          command=lambda:toLogin(nameE.get(), signUpStadEntry.get(), signUpLandEntry.get()))
     signupButton.grid(columnspan=2, sticky=W)
 
     backLogin = Button(roots, text='Login', fg='Blue',
@@ -78,7 +78,7 @@ def Signup():  # This is the signup definition,
     #
     # backLogin = Button(roots, text='Login', fg='Blue',
     #                 command=FSSignup)
-    backLogin.pack()
+    # backLogin.pack()
 
 
 
@@ -103,14 +103,11 @@ def showMenuLoginSignup(root):
 
 
 def Login():
-    global nameEL
     global rootA
     global Globroot
 
     rootA = Tk()
     rootA.title('Login')
-
-    checkData()
 
     Globroot = rootA
 
@@ -126,7 +123,7 @@ def Login():
     nameEL.grid(row=1, column=1)
 
     loginB = Button(rootA, text='Login',
-                    command=toHomeScreen)
+                    command=lambda:toHomeScreen(nameEL.get()))
     loginB.grid(columnspan=2, sticky=W)
 
     rmuser = Button(rootA, text='Sign in', fg='Blue',
@@ -320,6 +317,37 @@ def changePersonalData():
 
     rootCPD.mainloop()
 
+def deleteAccountCheck():
+    global rootDeleteAccount
+    rootDeleteAccount = Tk()
+    rootDeleteAccount.title('Account delete')
+
+    delAccountTitle = Label(rootDeleteAccount, text='Weet je zeker dat je je account wilt verwijderen: ', background="gray")
+    delAccountTitle.grid(row=3, column=0,  sticky=W)
+
+    delAccountYesButton = Button(rootDeleteAccount, text='Ja', command=deleteAccount)
+    delAccountYesButton.grid(sticky=W)
+
+    delAccountNeeButton = Button(rootDeleteAccount, text='Nee', command=toHub)
+    delAccountNeeButton.grid(sticky=E)
+
+    rootDeleteAccount.mainloop()
+
+
+
+def deleteAccount():
+    with open('Kledingkast.json', 'r') as ALLaccounts:
+        deleteAccountData = json.load(ALLaccounts)
+        deleteAccountData.pop(userName)
+
+    with open('Kledingkast.json', 'w') as deleteACC:
+        json.dump(deleteAccountData, deleteACC)
+    backupDump()
+    Globroot.destroy()
+    rootDeleteAccount.destroy()
+    Login()
+
+
 def UitkiezenScreen():
     rootHm.destroy()
     global Globroot
@@ -427,8 +455,9 @@ def showMenu(root):
     root.config(menu=menu)
 
     subMenu = Menu(menu)
-    menu.add_cascade(label='file', menu=subMenu)
+    menu.add_cascade(label='settings', menu=subMenu)
     subMenu.add_command(label='personal data', command=changePersonalData)
+    subMenu.add_command(label='delete account', command=deleteAccountCheck)
     subMenu.add_separator()
     subMenu.add_command(label='homescreen', command=toHub)
     subMenu.add_command(label='exit', command=exit)
@@ -539,22 +568,24 @@ def commitPersonalData():
     Globroot=rootHm
 
 
-def toHomeScreen():
-    if checkIfExist(str(nameEL.get())) == True:
+def toHomeScreen(name):
+    if checkIfExist(name) == True:
         global userName
-        userName = nameEL.get()
+        userName = name
         rootA.destroy()
         Homescreen()
     else:
         bericht = 'Username not existend, try it it again!'
         showinfo(title='UserName error', message=bericht)
 
-def toLogin():
-    if checkIfExist(str(nameE.get())) == False:
-        configSignUp(str(nameE.get()), str(signUpStadEntry.get()), str(signUpLandEntry.get()))
-        FSSignup()
+def toLogin(signUpName, signUpStad, signUpLand):
+    print('hoi')
+    if checkIfExist(signUpName) == False:
+        configSignUp(signUpName, signUpStad, signUpLand)
+        roots.destroy()
+        Login()
     else:
-        bericht = f'Username already existend, {nameE.get(), signUpStadEntry.get(), signUpLandEntry.get()} try it it again!'
+        bericht = f'Username already existend, {signUpName, signUpStad, signUpLand} try it it again!'
         showinfo(title='UserName error', message=bericht)
 
 def toAddClothing():
@@ -627,3 +658,10 @@ try:
 except:
     bericht = "Helaas er is iets misgegaan, je word terug gestuurd naar het beginscherm."
     showinfo(title='Clothing error', message=bericht)
+
+    with open('BackupKledingkast.json', 'r') as BackupData:
+        backupDataDrawBack = json.load(BackupData)
+
+    with open('Kledingkast.json', 'w') as frRefresh:
+        json.dump(backupDataDrawBack, frRefresh)
+        frRefresh.close()

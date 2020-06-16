@@ -2,20 +2,19 @@ from AutomatischSetje import *
 from WeerAPI import *
 from AddOrDelete import *
 import random
+import json
 from KledingkastBekijken import *
 
 def configSignUp(naamUser, stad, land):
-    with open('Kledingkast.json', 'r+') as doc:
+    with open('Kledingkast.json', 'r') as doc:
         allInf = json.load(doc)
-
-    with open('Kledingkast.json', 'w') as document:
         allInf[naamUser] = [
             {"gegevens": [{"locatie": {"stad": stad, "land": land}}, {"overigeGeg": {"betweenWear": 1}}]},
             {"gedragen": []}]
 
+    with open('Kledingkast.json', 'w') as document:
         json.dump(allInf, document)
-        document.close()
-        doc.close()
+
 
 def checkIfExist(naamUser):
     with open('Kledingkast.json', 'r') as doc:
@@ -33,24 +32,6 @@ def backupDump():
     with open('BackupKledingkast.json', 'w') as frRefresh:
         json.dump(ForbackupDATA, frRefresh)
         frRefresh.close()
-
-def checkData():
-    try:
-        with open('Kledingkast.json', 'r') as MainData:
-            mainData = json.load(MainData)
-
-        with open('BackupKledingkast.json', 'r') as BackupData:
-            backupData = json.load(BackupData)
-
-        if mainData != backupData:
-            with open('Kledingkast.json', 'w') as frRefresh:
-                json.dump(backupData, mainData)
-                frRefresh.close()
-    except:
-        if mainData != backupData:
-            with open('Kledingkast.json', 'w') as frRefresh:
-                json.dump(backupData, mainData)
-                frRefresh.close()
 
 
 def refreshGedragen(naamUser):
