@@ -82,4 +82,6 @@ def gegWijzigen(naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUserna
 
         json.dump(allWijzig, vrWijzigWrite)
         vrWijzigWrite.close()
+
+    backupDump()
     return wijzigUsername

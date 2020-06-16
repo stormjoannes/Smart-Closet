@@ -160,9 +160,9 @@ try:
         rootHm.title('Home')
         Globroot = rootHm
 
+        backupDump()
         showMenu(rootHm)
         refreshGedragen(userName)
-        backupDump()
 
         homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ', background="gray")
         homescreenLabelTitle.grid(row=1, sticky=W)
@@ -425,7 +425,6 @@ def showMenu(root):
     toDestroyRoot = root
     menu = Menu(root)
     root.config(menu=menu)
-    Globroot = toDestroyRoot
 
     subMenu = Menu(menu)
     menu.add_cascade(label='file', menu=subMenu)
@@ -533,9 +532,11 @@ def exit():
 
 def commitPersonalData():
     global userName
+    global Globroot
     changedUserName = str(gegWijzigen(userName, personaldataBetweenWearEntry.get(), personaldataCityEntry.get(), personaldataLandEntry.get(), personaldataUserNameEntry.get()))
     userName = changedUserName
-    Globroot.destroy()
+    rootCPD.destroy()
+    Globroot=rootHm
 
 
 def toHomeScreen():
