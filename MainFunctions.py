@@ -1,4 +1,7 @@
 from AutomatischSetje import *
+from WeerAPI import *
+from AddOrDelete import *
+import random
 from KledingkastBekijken import *
 
 def configSignUp(naamUser, stad, land):
