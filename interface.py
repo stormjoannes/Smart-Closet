@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
 from Main import *
 import json
@@ -49,6 +50,38 @@ def Signup():  # This is the signup definition,
     backLogin = Button(roots, text='Login', fg='Blue',
                     command=FSSignup)
     backLogin.grid(columnspan=2, sticky=W)
+
+    # intruction = Label(roots, text='Sign aub\n', background="gray", font=("Helvetica", 100))
+    # intruction.pack()
+    #
+    # nameL = Label(roots, text='Nieuwe naam: ', background="gray", font=("Helvetica", 50))
+    # nameL.pack()
+    #
+    # nameE = Entry(roots, font=("Helvetica", 50))
+    # nameE.pack()
+    #
+    # signUpStadField = Label(roots, text='Stad naam: ', background="gray", font=("Helvetica", 50))
+    # signUpStadField.pack()
+    #
+    # signUpStadEntry = Entry(roots, font=("Helvetica", 50))
+    # signUpStadEntry.pack()
+    #
+    # signUpLandField = Label(roots, text='De afkorting van je land: ', background="gray", font=("Helvetica", 50))
+    # signUpLandField.pack()
+    #
+    # signUpLandEntry = Entry(roots, font=("Helvetica", 50))
+    # signUpLandEntry.pack()
+    #
+    # signupButton = Button(roots, text='Signup',
+    #                       command=toLogin)
+    # signupButton.pack()
+    #
+    # backLogin = Button(roots, text='Login', fg='Blue',
+    #                 command=FSSignup)
+    backLogin.pack()
+
+
+
     roots.mainloop()
 
 
@@ -77,10 +110,12 @@ def Login():
     rootA = Tk()
     rootA.title('Login')
     Globroot = rootA
+    # frame = Frame(rootA, bg="black")
+    # frame.grid(ipadx=1920 , ipady=1080)
 
     showMenuLoginSignup(rootA)
 
-    intruction = Label(rootA, text='Log aub in\n', background="gray")
+    intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 20))
     intruction.grid(column=1)
 
     nameL = Label(rootA, text='Username: ', background="gray")
@@ -96,6 +131,23 @@ def Login():
     rmuser = Button(rootA, text='Sign in', fg='Blue',
                     command=Signup)
     rmuser.grid(columnspan=2, sticky=W)
+
+    # intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 100))
+    # intruction.pack(side=TOP)
+    #
+    # nameL = Label(rootA, text='Username: ', background="gray", font=("Helvetica", 50))
+    # nameL.pack(pady=10, )
+    #
+    # nameEL = Entry(rootA, font=("Helvetica", 20))
+    # nameEL.pack(ipadx=100, ipady=10, pady=10)
+    #
+    # loginB = Button(rootA, text='Login', command=toHomeScreen, font=("Helvetica", 50))
+    # loginB.pack(side=LEFT, ipadx=100, ipady=70, padx=20)
+    #
+    # rmuser = Button(rootA, text='Sign in', fg='Blue',
+    #                 command=Signup, font=("Helvetica", 50))
+    # rmuser.pack(side=LEFT, ipadx=100, ipady=70)
+
     rootA.mainloop()
 
 
