@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
-from Main import *
+from MainFunctions import *
 import json
 from tkinter import ttk
 
@@ -109,9 +109,10 @@ def Login():
 
     rootA = Tk()
     rootA.title('Login')
+
+    checkData()
+
     Globroot = rootA
-    # frame = Frame(rootA, bg="black")
-    # frame.grid(ipadx=1920 , ipady=1080)
 
     showMenuLoginSignup(rootA)
 
@@ -150,45 +151,44 @@ def Login():
 
     rootA.mainloop()
 
+try:
+    def Homescreen():
+        global rootHm
+        global Globroot
 
-def Homescreen():
-    global rootHm
-    global Globroot
+        rootHm = Tk()
+        rootHm.title('Home')
+        Globroot = rootHm
 
-    rootHm = Tk()
-    rootHm.title('Home')
-    Globroot = rootHm
+        showMenu(rootHm)
+        refreshGedragen(userName)
+        backupDump()
 
-    showMenu(rootHm)
-    refreshGedragen(userName)
+        homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ', background="gray")
+        homescreenLabelTitle.grid(row=1, sticky=W)
 
-    homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ', background="gray")
-    homescreenLabelTitle.grid(row=1, sticky=W)
+        homescreenAddButton= Button(rootHm, text='voeg kleding toe ', command=AddScreen)
+        homescreenAddButton.grid(row=2)
 
-    homescreenAddButton= Button(rootHm, text='voeg kleding toe ', command=AddScreen)
-    homescreenAddButton.grid(row=2)
+        homescreenDeleteButton = Button(rootHm, text='Verwijder kleding ', command=DeleteScreen)
+        homescreenDeleteButton.grid(row=3)
 
-    homescreenDeleteButton = Button(rootHm, text='Verwijder kleding ', command=DeleteScreen)
-    homescreenDeleteButton.grid(row=3)
+        homescreenSettingsButton = Button(rootHm, text='Kleding uitkiezen', command=UitkiezenScreen)
+        homescreenSettingsButton.grid(row=4)
 
-    homescreenSettingsButton = Button(rootHm, text='Kleding uitkiezen', command=UitkiezenScreen)
-    homescreenSettingsButton.grid(row=4)
+        homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatisch genereren van je kleding setje ', command=setGenScreen)
+        homescreenAutomaticGenButton.grid(row=5)
 
-    homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatisch genereren van je kleding setje ', command=setGenScreen)
-    homescreenAutomaticGenButton.grid(row=5)
-
-    rootHm.mainloop()
+        rootHm.mainloop()
+except:
+    bericht = "Er is iets mis gegaan, probeer het opnieuw!"
+    showinfo(title='System error', message=bericht)
+    Login()
 
 
 def AddScreen():
     rootHm.destroy()
     global rootAdd
-    # global addscreenNameEntry
-    # global addscreenLongShortEntry
-    # global addscreenOpportunityEntry
-    # global addscreenColorEntry
-    # global addscreenBrandEntry
-    # global addscreenCategoryEntry
     global Globroot
 
     rootAdd = Tk()
@@ -196,46 +196,6 @@ def AddScreen():
     Globroot = rootAdd
 
     showMenu(rootAdd)
-
-    # addscreenTitle = Label(rootAdd, text='Vul de parameters van je kledingstuk in: ', background="gray")
-    # addscreenTitle.grid(row=0, sticky=W)
-    #
-    # addscreenNameLabel = Label(rootAdd, text='Naam: ', background="gray")
-    # addscreenNameLabel.grid(row=1, column=0,  sticky=W)
-    #
-    # addscreenNameEntry = Entry(rootAdd)
-    # addscreenNameEntry.grid(row=1, column=1)
-    #
-    # addscreenLongShortLabel = Label(rootAdd, text='lang/kort broekspijpen/mouwen: ', background="gray")
-    # addscreenLongShortLabel.grid(row=2, column=0,  sticky=W)
-    #
-    # addscreenLongShortEntry = Entry(rootAdd)
-    # addscreenLongShortEntry.grid(row=2, column=1)
-    #
-    # addscreenOpportunityLabel = Label(rootAdd, text='Gelegenheid(dagelijks leven, sport of feestje): ', background="gray")
-    # addscreenOpportunityLabel.grid(row=3, column=0,  sticky=W)
-    #
-    # addscreenOpportunityEntry = Entry(rootAdd)
-    # addscreenOpportunityEntry.grid(row=3, column=1)
-    #
-    # addscreenColorLabel = Label(rootAdd, text='Kleur: ', background="gray")
-    # addscreenColorLabel.grid(row=4, column=0,  sticky=W)
-    #
-    # addscreenColorEntry = Entry(rootAdd)
-    # addscreenColorEntry.grid(row=4, column=1)
-    #
-    # addscreenBrandLabel = Label(rootAdd, text='Merk: ', background="gray")
-    # addscreenBrandLabel.grid(row=5, column=0,  sticky=W)
-    #
-    # addscreenBrandEntry = Entry(rootAdd)
-    # addscreenBrandEntry.grid(row=5, column=1)
-    #
-    # addscreenCategoryLabel = Label(rootAdd, text='Categorie: ', background="gray")
-    # addscreenCategoryLabel.grid(row=6, column=0,  sticky=W)
-    #
-    # addscreenCategoryEntry = Entry(rootAdd)
-    # addscreenCategoryEntry.grid(row=6, column=1)
-
     inputParametersClothing(rootAdd)
 
     addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=toAddClothing)
@@ -422,8 +382,6 @@ def setGenScreen():
     genFeestButton = Button(rootGen, text='Feest', command=setChoiceGenFeest)
     genFeestButton.grid(row=10, column=1)
 
-
-    # WeatherForPickClothes()
     rootGen.mainloop()
 
 def setChoiceGenDagelijks():
@@ -454,16 +412,12 @@ def WeatherForPickClothes(func):
         gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
     RandClothes = pickClothes(userName, gevoelsTemp, huidigeWeer[1], opportunity)
     loopIndex = 0
-    # getRandGenClothes(RandClothes[0], RandClothes[1], loopIndex)
     recommendedClothes(RandClothes[0], RandClothes[1], loopIndex)
-    # rootGen.mainloop()
 
 
 def showMenu(root):
     global toDestroyRoot
     global Globroot
-
-    # Globroot = root
 
     Globroot.geometry('1920x1080')
     Globroot.configure(background='gray')
