@@ -194,7 +194,7 @@ def AddScreen():
     showMenu(rootAdd)
     inputParametersClothing(rootAdd)
 
-    addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=toAddClothing)
+    addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=lambda:toAddClothing(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), toHub))
     addscreenADDButton.grid(row=7)
 
     rootAdd.mainloop()
@@ -268,7 +268,7 @@ def DeleteScreen():
 
         inputParametersClothing(rootDelete)
 
-        deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=toDeleteClothing)
+        deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=lambda:toDeleteClothing(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), toHub))
         deletescreenDELETEButton.grid(row=7)
 
         rootDelete.mainloop()
@@ -363,7 +363,7 @@ def UitkiezenScreen():
         global Globroot
         global rootChoose
 
-        global chooseFilterCombobox
+        # global chooseFilterCombobox
 
         rootChoose = Tk()
         rootChoose.title('Choose')
@@ -377,7 +377,7 @@ def UitkiezenScreen():
         chooseEmptySpaceLabel = Label(rootChoose, text='', background="gray")
         chooseEmptySpaceLabel.grid(row=3)
 
-        allClothes()
+        allClothes(rootChoose, userName)
 
         possibleFilters = getAllPossibleFilters(userName)
 
@@ -388,10 +388,10 @@ def UitkiezenScreen():
         chooseFilterCombobox.insert(0, 'None')
         chooseFilterCombobox.grid(row=0, column=0)
 
-        chooseFilterButton = Button(rootChoose, text='SUBMIT', command=lambda:forDetailFilter(chooseFilterCombobox.get()))
+        chooseFilterButton = Button(rootChoose, text='SUBMIT', command=lambda:forDetailFilter(chooseFilterCombobox.get(), rootChoose))
         chooseFilterButton.grid(row=0, column=1)
 
-        chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=toDeleteFilter)
+        chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=lambda:toDeleteFilter(rootChoose))
         chooseDeleteFilterButton.grid(row=100, sticky=E)
 
         chooseBackButton = Button(rootChoose, text='Back', command=toHub)
@@ -611,77 +611,6 @@ def toLogin(signUpName, signUpStad, signUpLand):
         except:
             bericht = f'De ingevulde stad of het ingevulde land is niet herkenbaar!'
             showinfo(title='Field error', message=bericht)
-
-def toAddClothing():
-    addClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()),
-               str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()),
-               str(screenCategoryEntry.get()))
-    toHub()
-
-def toDeleteClothing():
-    statusDelete = deleteClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()),
-               str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()),
-               str(screenCategoryEntry.get()))
-
-    if statusDelete == False:
-        bericht = f'kledingstuk {str(screenNameEntry.get())} bestaat niet en kan dus ook niet verwijderd worden!'
-        showinfo(title='Delete Error', message=bericht)
-    else:
-        toHub()
-
-def allClothes():
-    global AllClothes
-
-    allClothingString = ''
-
-    for indexAll in range(2, len(allInfVariables[userName])):
-        allClothingString += str(allInfVariables[userName][indexAll]) + '\n'
-
-    AllClothes = Label(rootChoose, text=f'{allClothingString}: ', background="gray")
-    AllClothes.grid(row=2, column=0)
-
-def toDeleteFilter():
-    try:
-        AllClothesDetailFiltered.destroy()
-        chooseFilterLabel.destroy()
-        chooseDetailFilterEntry.destroy()
-        chooseFilterButton.destroy()
-    except:
-        bericht = 'No filter applied!'
-        showinfo(title='Filter Error', message=bericht)
-    allClothes()
-
-def getDetailFilters(watBekijken, detailFilter):
-    print(watBekijken, "uah")
-    print(detailFilter, "tot hier")
-    global AllClothesDetailFiltered
-
-    allFilteredClothingString = ''
-    for indexAllFiltered in range(2, len(allInfVariables[userName])):
-        if detailFilter in allInfVariables[userName][indexAllFiltered][watBekijken]:
-            allFilteredClothingString += str(allInfVariables[userName][indexAllFiltered]) + '\n'
-
-    if len(allFilteredClothingString) > 0:
-        AllClothes.destroy()
-        AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ', background="gray")
-        AllClothesDetailFiltered.grid(row=indexAllFiltered, column=0)
-    else:
-        bericht = "Helaas zijn er 0 resultaten met deze filter"
-        showinfo(title='Filter error', message=bericht)
-
-def forDetailFilter(Combobox):
-    global chooseFilterLabel
-    global chooseDetailFilterEntry
-    global chooseFilterButton
-
-    chooseFilterLabel = Label(rootChoose, text=f'Op welke {Combobox} wil je filteren: ', background="gray")
-    chooseFilterLabel.grid(row=1, sticky=W)
-
-    chooseDetailFilterEntry = Entry(rootChoose)
-    chooseDetailFilterEntry.grid(row=1, column=0)
-
-    chooseFilterButton = Button(rootChoose, text='SUBMIT', command=lambda:getDetailFilters(Combobox, chooseDetailFilterEntry.get()))
-    chooseFilterButton.grid(row=1, column=1)
 
 
 # statusDB = "positive"
