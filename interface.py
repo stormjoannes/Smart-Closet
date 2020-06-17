@@ -9,46 +9,49 @@ from tkinter import ttk
 def Signup():  # This is the signup definition,
     rootA.destroy()
     # global nameE
-    global roots
+    global rootSignUp
+    global Globroot
+
     # global signUpStadEntry
     # global signUpLandEntry
 
-    roots = Tk()
-    roots.title('Signup')
+    rootSignUp = Tk()
+    rootSignUp.title('Signup')
+    Globroot = rootSignUp
 
-    showMenuLoginSignup(roots)
+    showMenuLoginSignup(rootSignUp)
 
-    intruction = Label(roots, text='Sign aub\n', background="gray")
+    intruction = Label(rootSignUp, text='Sign aub\n', background="gray")
     intruction.grid(row=0, column=0,
                     sticky=E)
 
-    nameL = Label(roots, text='Nieuwe naam: ', background="gray")
+    nameL = Label(rootSignUp, text='Nieuwe naam: ', background="gray")
     nameL.grid(row=1, column=0,
                sticky=W)
 
-    nameE = Entry(roots)
+    nameE = Entry(rootSignUp)
     nameE.grid(row=1, column=1)
 
-    signUpStadField = Label(roots, text='Stad naam: ', background="gray")
+    signUpStadField = Label(rootSignUp, text='Stad naam: ', background="gray")
     signUpStadField.grid(row=2, column=0,
                sticky=W)
 
-    signUpStadEntry = Entry(roots)
+    signUpStadEntry = Entry(rootSignUp)
     signUpStadEntry.grid(row=2, column=1)
 
-    signUpLandField = Label(roots, text='De afkorting van je land: ', background="gray")
+    signUpLandField = Label(rootSignUp, text='De afkorting van je land: ', background="gray")
     signUpLandField.grid(row=3, column=0,
                sticky=W)
 
-    signUpLandEntry = Entry(roots)
+    signUpLandEntry = Entry(rootSignUp)
     signUpLandEntry.grid(row=3, column=1)
 
-    signupButton = Button(roots, text='Signup',
+    signupButton = Button(rootSignUp, text='Signup',
                           command=lambda:toLogin(nameE.get(), signUpStadEntry.get(), signUpLandEntry.get()))
     signupButton.grid(columnspan=2, sticky=W)
 
-    backLogin = Button(roots, text='Login', fg='Blue',
-                    command=FSSignup)
+    backLogin = Button(rootSignUp, text='Login', fg='Blue',
+                       command=toLogIn)
     backLogin.grid(columnspan=2, sticky=W)
 
     # intruction = Label(roots, text='Sign aub\n', background="gray", font=("Helvetica", 100))
@@ -82,11 +85,11 @@ def Signup():  # This is the signup definition,
 
 
 
-    roots.mainloop()
+    rootSignUp.mainloop()
 
 
-def FSSignup():
-    roots.destroy()
+def toLogIn():
+    Globroot.destroy()
     Login()
 
 def showMenuLoginSignup(root):
@@ -347,9 +350,9 @@ def deleteAccount():
     rootDeleteAccount.destroy()
     Login()
 
-def logout():
-    Globroot.destroy()
-    Login()
+# def logout():
+#     Globroot.destroy()
+#     Login()
 
 
 def UitkiezenScreen():
@@ -405,14 +408,23 @@ def setGenScreen():
     GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ', background="gray")
     GenTitleLabel.grid(row=0)
 
+    GenSpaceLabel = Label(rootGen, text='', background="gray")
+    GenSpaceLabel.grid(row=1)
+
     genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:WeatherForPickClothes('dagelijks'))
-    genDagelijksButton.grid(row=10, sticky=W)
+    genDagelijksButton.grid(row=2, sticky=W)
 
     genSportutton = Button(rootGen, text='Sport', command=lambda:WeatherForPickClothes('sport'))
-    genSportutton.grid(row=10, column=0)
+    genSportutton.grid(row=2, column=0)
 
     genFeestButton = Button(rootGen, text='Feest', command=lambda:WeatherForPickClothes('feest'))
-    genFeestButton.grid(row=10, column=1)
+    genFeestButton.grid(row=2, column=1)
+
+    GenSpaceLabel = Label(rootGen, text='', background="gray")
+    GenSpaceLabel.grid(row=3)
+
+    genBackButton = Button(rootGen, text='Back', command=toHub)
+    genBackButton.grid(row=5, sticky=W)
 
     rootGen.mainloop()
 
@@ -457,7 +469,7 @@ def showMenu(root):
     subMenu.add_command(label='delete account', command=deleteAccountCheck)
     subMenu.add_separator()
     subMenu.add_command(label='homescreen', command=toHub)
-    subMenu.add_command(label='Log out', command=logout)
+    subMenu.add_command(label='Log out', command=toLogIn)
     subMenu.add_command(label='exit', command=exit)
 
 def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loopIndex):
@@ -542,7 +554,6 @@ def toHub():
 def exit():
     Globroot.destroy()
 
-
 def commitPersonalData():
     global userName
     global Globroot
@@ -566,7 +577,7 @@ def toLogin(signUpName, signUpStad, signUpLand):
     print('hoi')
     if checkIfExist(signUpName) == False:
         configSignUp(signUpName, signUpStad, signUpLand)
-        roots.destroy()
+        rootSignUp.destroy()
         Login()
     else:
         bericht = f'Username {signUpName} already existend, try another name!'
@@ -585,7 +596,7 @@ def toDeleteClothing():
                str(screenCategoryEntry.get()))
 
     if statusDelete == False:
-        bericht = f'kledingstuk {str(deletescreenNameEntry.get())} bestaat niet en kan dus ook niet verwijderd worden!'
+        bericht = f'kledingstuk {str(screenNameEntry.get())} bestaat niet en kan dus ook niet verwijderd worden!'
         showinfo(title='Delete Error', message=bericht)
 
     rootDelete.destroy()
@@ -596,11 +607,13 @@ def allClothes():
 
     allClothingString = ''
 
+    # indexAll =
+
     for indexAll in range(2, len(allInfVariables[userName])):
         allClothingString += str(allInfVariables[userName][indexAll]) + '\n'
 
     AllClothes = Label(rootChoose, text=f'{allClothingString}: ', background="gray")
-    AllClothes.grid(row=indexAll + 2, column=0)
+    AllClothes.grid(row=2, column=0)
 
 def toDeleteFilter():
     try:

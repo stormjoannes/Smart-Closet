@@ -28,11 +28,13 @@ def bekijken(naamUser):
            print(allInfVariables[naamUser][i])
 
 def getAllPossibleFilters(naamUser):
-
     differentVariables = []
-    for variable in allInfVariables[naamUser][2]:
-        differentVariables.append(variable)
-    return differentVariables
+    if len(allInfVariables[naamUser]) > 2:
+        for variable in allInfVariables[naamUser][2]:
+            differentVariables.append(variable)
+        return differentVariables
+    else:
+        return []
 
 
 
