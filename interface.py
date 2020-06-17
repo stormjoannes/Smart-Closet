@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
-from MainFunctions import *
+from Functions import *
 import json
 from tkinter import ttk
 
@@ -279,15 +279,9 @@ def DeleteScreen():
 
 def changePersonalData():
     global rootCPD
-    global Globroot
-    global personaldataUserNameEntry
-    global personaldataBetweenWearEntry
-    global personaldataCityEntry
-    global personaldataLandEntry
 
     rootCPD = Tk()
     rootCPD.title('personal data')
-    Globroot = rootCPD
 
     showMenu(rootCPD)
 
@@ -324,7 +318,7 @@ def changePersonalData():
     personaldataLandEntry.insert(0, personalData[userName][0]["gegevens"][0]["locatie"]["land"])
     personaldataLandEntry.grid(row=3, column=1)
 
-    personaldataSubmitChanges = Button(rootCPD, text='Toepassen', command=commitPersonalData)
+    personaldataSubmitChanges = Button(rootCPD, text='Toepassen', command=lambda:commitPersonalData(personaldataBetweenWearEntry.get(), personaldataCityEntry.get(), personaldataLandEntry.get(), personaldataUserNameEntry.get()))
     personaldataSubmitChanges.grid(sticky=E)
 
     rootCPD.mainloop()
@@ -367,8 +361,8 @@ def UitkiezenScreen():
     if len(CheckforClothes[userName]) > 2:
         rootHm.destroy()
         global Globroot
-
         global rootChoose
+
         global chooseFilterCombobox
 
         rootChoose = Tk()
@@ -394,7 +388,7 @@ def UitkiezenScreen():
         chooseFilterCombobox.insert(0, 'None')
         chooseFilterCombobox.grid(row=0, column=0)
 
-        chooseFilterButton = Button(rootChoose, text='SUBMIT', command=forDetailFilter)
+        chooseFilterButton = Button(rootChoose, text='SUBMIT', command=lambda:forDetailFilter(chooseFilterCombobox.get()))
         chooseFilterButton.grid(row=0, column=1)
 
         chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=toDeleteFilter)
@@ -467,10 +461,9 @@ def WeatherForPickClothes(func):
 
 def showMenu(root):
     global toDestroyRoot
-    global Globroot
 
-    Globroot.geometry('1920x1080')
-    Globroot.configure(background='gray')
+    root.geometry('1920x1080')
+    root.configure(background='gray')
 
     toDestroyRoot = root
     menu = Menu(root)
@@ -484,7 +477,6 @@ def showMenu(root):
     subMenu.add_command(label='homescreen', command=toHub)
     subMenu.add_command(label='Log out', command=toLogIn)
     subMenu.add_command(label='exit', command=exit)
-
 def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loopIndex):
     rootWear.destroy()
     if aantrekken == "ja":
@@ -505,7 +497,6 @@ def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loop
         recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex)
 
 def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
-
     mogelijkeTops = mogelijkeTop
     mogelijkeBottoms = mogelijkeBottom
 
@@ -520,9 +511,10 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
         if top[2] != 'jurkje':
             if len(mogelijkeBottoms) != 0:
                 bottom = random.choice(mogelijkeBottoms)
+                if bottom[1] == top[1]:
+                    bottom.random.choice(mogelijkeBottoms)
             else:
                 bottom = None
-
     else:
         top = None
 
@@ -556,6 +548,9 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
         genNoButton = Button(rootWear, text='Nee', command=lambda:autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data, loopIndex))
         genNoButton.grid(row=11, sticky=E)
 
+        genBackButton = Button(rootWear, text='Back', command=exit)
+        genBackButton.grid(row=12)
+
         rootWear.mainloop()
 
 
@@ -567,10 +562,10 @@ def toHub():
 def exit():
     Globroot.destroy()
 
-def commitPersonalData():
+def commitPersonalData(BetweenWear, City, Land, ChangeName):
     global userName
     global Globroot
-    changedUserName = str(gegWijzigen(userName, personaldataBetweenWearEntry.get(), personaldataCityEntry.get(), personaldataLandEntry.get(), personaldataUserNameEntry.get()))
+    changedUserName = str(gegWijzigen(userName, BetweenWear, City, Land, ChangeName))
     userName = changedUserName
     rootCPD.destroy()
     Globroot=rootHm
@@ -631,8 +626,8 @@ def toDeleteClothing():
     if statusDelete == False:
         bericht = f'kledingstuk {str(screenNameEntry.get())} bestaat niet en kan dus ook niet verwijderd worden!'
         showinfo(title='Delete Error', message=bericht)
-
-    toHub()
+    else:
+        toHub()
 
 def allClothes():
     global AllClothes
@@ -648,47 +643,57 @@ def allClothes():
 def toDeleteFilter():
     try:
         AllClothesDetailFiltered.destroy()
+        chooseFilterLabel.destroy()
+        chooseDetailFilterEntry.destroy()
+        chooseFilterButton.destroy()
     except:
         bericht = 'No filter applied!'
         showinfo(title='Filter Error', message=bericht)
     allClothes()
 
-def getDetailFilters():
+def getDetailFilters(watBekijken, detailFilter):
+    print(watBekijken, "uah")
+    print(detailFilter, "tot hier")
     global AllClothesDetailFiltered
-
-    watBekijken = chooseFilterCombobox.get()
-    detailFilter = chooseDetailFilterEntry.get()
-
-    AllClothes.destroy()
 
     allFilteredClothingString = ''
     for indexAllFiltered in range(2, len(allInfVariables[userName])):
         if detailFilter in allInfVariables[userName][indexAllFiltered][watBekijken]:
             allFilteredClothingString += str(allInfVariables[userName][indexAllFiltered]) + '\n'
 
-    AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ', background="gray")
-    AllClothesDetailFiltered.grid(row=indexAllFiltered, column=0)
+    if len(allFilteredClothingString) > 0:
+        AllClothes.destroy()
+        AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ', background="gray")
+        AllClothesDetailFiltered.grid(row=indexAllFiltered, column=0)
+    else:
+        bericht = "Helaas zijn er 0 resultaten met deze filter"
+        showinfo(title='Filter error', message=bericht)
 
-def forDetailFilter():
+def forDetailFilter(Combobox):
+    global chooseFilterLabel
     global chooseDetailFilterEntry
+    global chooseFilterButton
 
-    chooseFilterLabel = Label(rootChoose, text=f'Op welke {chooseFilterCombobox.get()} wil je filteren: ', background="gray")
+    chooseFilterLabel = Label(rootChoose, text=f'Op welke {Combobox} wil je filteren: ', background="gray")
     chooseFilterLabel.grid(row=1, sticky=W)
 
     chooseDetailFilterEntry = Entry(rootChoose)
     chooseDetailFilterEntry.grid(row=1, column=0)
 
-    chooseFilterButton = Button(rootChoose, text='SUBMIT', command=getDetailFilters)
+    chooseFilterButton = Button(rootChoose, text='SUBMIT', command=lambda:getDetailFilters(Combobox, chooseDetailFilterEntry.get()))
     chooseFilterButton.grid(row=1, column=1)
-try:
-    Login()
-except:
-    bericht = "Helaas er is iets misgegaan, je word terug gestuurd naar het beginscherm."
-    showinfo(title='Clothing error', message=bericht)
 
-    with open('BackupKledingkast.json', 'r') as BackupData:
-        backupDataDrawBack = json.load(BackupData)
 
-    with open('Kledingkast.json', 'w') as frRefresh:
-        json.dump(backupDataDrawBack, frRefresh)
-        frRefresh.close()
+# statusDB = "positive"
+# try:
+#     with open('BackupKledingkast.json', 'r') as BackupData:
+#         backupDataDrawBack = json.load(BackupData)
+#
+#     with open('Kledingkast.json', 'w') as frRefresh:
+#         json.dump(backupDataDrawBack, frRefresh)
+#         frRefresh.close()
+# except:
+#     statusDB = "negative"
+#
+# if statusDB == "positive":
+Login()
