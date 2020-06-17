@@ -283,26 +283,13 @@ def deleteAccountCheck():
     delAccountTitle = Label(rootDeleteAccount, text='Weet je zeker dat je je account wilt verwijderen: ', background="gray")
     delAccountTitle.grid(row=1, column=0,  sticky=W)
 
-    delAccountYesButton = Button(rootDeleteAccount, text='Ja', command=deleteAccount)
+    delAccountYesButton = Button(rootDeleteAccount, text='Ja', command=lambda:deleteAccount(Login, userName, Globroot, rootDeleteAccount))
     delAccountYesButton.grid(row=3, sticky=W)
 
     delAccountNeeButton = Button(rootDeleteAccount, text='Nee', command=toHub)
     delAccountNeeButton.grid(row=3, sticky=E)
 
     rootDeleteAccount.mainloop()
-
-
-def deleteAccount():
-    with open('Kledingkast.json', 'r') as ALLaccounts:
-        deleteAccountData = json.load(ALLaccounts)
-        deleteAccountData.pop(userName)
-
-    with open('Kledingkast.json', 'w') as deleteACC:
-        json.dump(deleteAccountData, deleteACC)
-    backupDump()
-    Globroot.destroy()
-    rootDeleteAccount.destroy()
-    Login()
 
 
 def UitkiezenScreen():
@@ -369,13 +356,13 @@ def setGenScreen():
     GenSpaceLabel = Label(rootGen, text='', background="gray")
     GenSpaceLabel.grid(row=1)
 
-    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:WeatherForPickClothes('dagelijks'))
+    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:WeatherForPickClothes('dagelijks', rootGen, userName, Homescreen, showMenu))
     genDagelijksButton.grid(row=2, sticky=W)
 
-    genSportutton = Button(rootGen, text='Sport', command=lambda:WeatherForPickClothes('sport'))
+    genSportutton = Button(rootGen, text='Sport', command=lambda:WeatherForPickClothes('sport', rootGen, userName, Homescreen, showMenu))
     genSportutton.grid(row=2, column=0)
 
-    genFeestButton = Button(rootGen, text='Feest', command=lambda:WeatherForPickClothes('feest'))
+    genFeestButton = Button(rootGen, text='Feest', command=lambda:WeatherForPickClothes('feest', rootGen, userName, Homescreen, showMenu))
     genFeestButton.grid(row=2, column=1)
 
     GenSpaceLabel = Label(rootGen, text='', background="gray")
@@ -385,29 +372,6 @@ def setGenScreen():
     genBackButton.grid(row=5, sticky=W)
 
     rootGen.mainloop()
-
-def WeatherForPickClothes(func):
-    global loopIndex
-    if func == 'dagelijks':
-        opportunity = 'dagelijks leven'
-    elif func == 'sport':
-        opportunity = 'sport'
-    elif func == 'feest':
-        opportunity = 'feestje'
-
-    with open('Kledingkast.json', 'r+') as Data:
-        placeInfo = json.load(Data)
-
-    stad = placeInfo[userName][0]["gegevens"][0]["locatie"]["stad"]
-    land = placeInfo[userName][0]["gegevens"][0]["locatie"]["land"]
-    huidigeWeer = setValuesWeer(stad, land)
-    gevoelsTemp = huidigeWeer[0]
-    windSnelheid = huidigeWeer[2]
-    if windSnelheid >= 5:
-        gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
-    RandClothes = pickClothes(userName, gevoelsTemp, huidigeWeer[1], opportunity)
-    loopIndex = 0
-    recommendedClothes(RandClothes[0], RandClothes[1], loopIndex)
 
 
 def showMenu(root):
@@ -428,81 +392,6 @@ def showMenu(root):
     subMenu.add_command(label='homescreen', command=toHub)
     subMenu.add_command(label='Log out', command=toLogIn)
     subMenu.add_command(label='exit', command=exit)
-def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loopIndex):
-    rootWear.destroy()
-    if aantrekken == "ja":
-
-        with open('Kledingkast.json', 'w') as ALL:
-            today = datetime.today().strftime("%Y-%m-%d")
-            formatVoorAppend = [top, bottom, str(today)]
-            data[userName][1]["gedragen"].append(formatVoorAppend)
-            json.dump(data, ALL)
-            ALL.close()
-            rootGen.update()
-            rootGen.destroy()
-            Homescreen()
-
-    else:
-        mogelijkeTops.remove(top)
-        mogelijkeBottoms.remove(bottom)
-        recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex)
-
-def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
-    mogelijkeTops = mogelijkeTop
-    mogelijkeBottoms = mogelijkeBottom
-
-    with open('Kledingkast.json', 'r+') as inf:
-        data = json.load(inf)
-
-    loopIndex += 1
-
-    if len(mogelijkeTops) != 0:
-        top = random.choice(mogelijkeTops)
-
-        if top[2] != 'jurkje':
-            if len(mogelijkeBottoms) != 0:
-                bottom = random.choice(mogelijkeBottoms)
-                if bottom[1] == top[1]:
-                    bottom.random.choice(mogelijkeBottoms)
-            else:
-                bottom = None
-    else:
-        top = None
-
-    if top == None or top == None and bottom == None or top[2] != 'jurkje' and bottom == None:
-        bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
-        showinfo(title='Clothing error', message=bericht)
-        rootGen.update()
-        rootGen.destroy()
-        Homescreen()
-    else:
-        global rootWear
-        global Globroot
-        rootWear = Tk()
-        rootWear.title("Wear clothes")
-        Globroot = rootWear
-
-        showMenu(rootWear)
-
-        GenTopLabel = Label(rootWear, text=f'Top: {top}', background="gray")
-        GenTopLabel.grid(row=5)
-
-        GenBottomLabel = Label(rootWear, text=f'Bottom: {bottom}', background="gray")
-        GenBottomLabel.grid(row=6)
-
-        genTitleLabel = Label(rootWear, text='Ga je dit setje dragen:', background="gray")
-        genTitleLabel.grid(row=9)
-
-        genYesButton = Button(rootWear, text='Ja', command=lambda:autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data, loopIndex))
-        genYesButton.grid(row=11, sticky=W)
-
-        genNoButton = Button(rootWear, text='Nee', command=lambda:autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data, loopIndex))
-        genNoButton.grid(row=11, sticky=E)
-
-        genBackButton = Button(rootWear, text='Back', command=exit)
-        genBackButton.grid(row=12)
-
-        rootWear.mainloop()
 
 
 def toHub():

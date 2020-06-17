@@ -1,6 +1,9 @@
 import json
 from datetime import datetime
-
+from tkinter.messagebox import showinfo
+from WeerAPI import *
+import random
+from tkinter import *
 
 def pickClothes(naamUser, currentTemp, weersSituatie, keuzeGelegenheid):
     WarmNaarKoudTopDagelijks = {1: ["trui", "vest", "sweater"], 2: ["shirt"], 3: ["topje", "naveltrui", "shirt"]}
@@ -90,3 +93,109 @@ def getTimeDifference(x):
 
     diff = abs((today - previousDay).days)
     return diff
+
+
+def WeatherForPickClothes(func, rootGen, userName, Homescreen, showMenu):
+    global loopIndex
+    if func == 'dagelijks':
+        opportunity = 'dagelijks leven'
+    elif func == 'sport':
+        opportunity = 'sport'
+    elif func == 'feest':
+        opportunity = 'feestje'
+
+    with open('Kledingkast.json', 'r+') as Data:
+        placeInfo = json.load(Data)
+
+    stad = placeInfo[userName][0]["gegevens"][0]["locatie"]["stad"]
+    land = placeInfo[userName][0]["gegevens"][0]["locatie"]["land"]
+    huidigeWeer = setValuesWeer(stad, land)
+    gevoelsTemp = huidigeWeer[0]
+    windSnelheid = huidigeWeer[2]
+    if windSnelheid >= 5:
+        gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
+    RandomClothes = pickClothes(userName, gevoelsTemp, huidigeWeer[1], opportunity)
+    loopIndex = 0
+    recommendedClothes(RandomClothes[0], RandomClothes[1], loopIndex, rootGen, Homescreen, showMenu)
+
+
+def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loopIndex, rootGen, Homescreen, showMenu):
+    rootWear.destroy()
+    if aantrekken == "ja":
+
+        with open('Kledingkast.json', 'w') as ALL:
+            today = datetime.today().strftime("%Y-%m-%d")
+            formatVoorAppend = [top, bottom, str(today)]
+            data[userName][1]["gedragen"].append(formatVoorAppend)
+            json.dump(data, ALL)
+            ALL.close()
+            rootGen.update()
+            rootGen.destroy()
+            Homescreen()
+
+    else:
+        mogelijkeTops.remove(top)
+        mogelijkeBottoms.remove(bottom)
+        recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex, rootGen, Homescreen, showMenu)
+
+
+def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homescreen, showMenu):
+    mogelijkeTops = mogelijkeTop
+    mogelijkeBottoms = mogelijkeBottom
+
+    with open('Kledingkast.json', 'r+') as inf:
+        data = json.load(inf)
+
+    loopIndex += 1
+
+    if len(mogelijkeTops) != 0:
+        top = random.choice(mogelijkeTops)
+
+        if top[2] != 'jurkje':
+            if len(mogelijkeBottoms) != 0:
+                bottom = random.choice(mogelijkeBottoms)
+                if bottom[1] == top[1]:
+                    bottom.random.choice(mogelijkeBottoms)
+            else:
+                bottom = None
+    else:
+        top = None
+
+    if top == None or top == None and bottom == None or top[2] != 'jurkje' and bottom == None:
+        bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
+        showinfo(title='Clothing error', message=bericht)
+        rootGen.update()
+        rootGen.destroy()
+        Homescreen()
+    else:
+        global rootWear
+        global Globroot
+        rootWear = Tk()
+        rootWear.title("Wear clothes")
+        Globroot = rootWear
+
+        showMenu(rootWear)
+
+        GenTopLabel = Label(rootWear, text=f'Top: {top}', background="gray")
+        GenTopLabel.grid(row=5)
+
+        GenBottomLabel = Label(rootWear, text=f'Bottom: {bottom}', background="gray")
+        GenBottomLabel.grid(row=6)
+
+        genTitleLabel = Label(rootWear, text='Ga je dit setje dragen:', background="gray")
+        genTitleLabel.grid(row=9)
+
+        genYesButton = Button(rootWear, text='Ja',
+                              command=lambda: autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data,
+                                                      loopIndex, rootGen, Homescreen, showMenu))
+        genYesButton.grid(row=11, sticky=W)
+
+        genNoButton = Button(rootWear, text='Nee',
+                             command=lambda: autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data,
+                                                     loopIndex, rootGen, Homescreen, showMenu))
+        genNoButton.grid(row=11, sticky=E)
+
+        genBackButton = Button(rootWear, text='Back', command=exit)
+        genBackButton.grid(row=12)
+
+        rootWear.mainloop()

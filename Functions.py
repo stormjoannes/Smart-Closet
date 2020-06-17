@@ -66,3 +66,15 @@ def gegWijzigen(naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUserna
 
     backupDump()
     return wijzigUsername
+
+def deleteAccount(Login, userName, Globroot, rootDeleteAccount):
+    with open('Kledingkast.json', 'r') as ALLaccounts:
+        deleteAccountData = json.load(ALLaccounts)
+        deleteAccountData.pop(userName)
+
+    with open('Kledingkast.json', 'w') as deleteACC:
+        json.dump(deleteAccountData, deleteACC)
+    backupDump()
+    Globroot.destroy()
+    rootDeleteAccount.destroy()
+    Login()
