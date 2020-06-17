@@ -39,8 +39,6 @@ def toDeleteFilter(rootChoose):
     allClothes(rootChoose, userName)
 
 def getDetailFilters(watBekijken, detailFilter, rootChoose):
-    print(watBekijken, "uah")
-    print(detailFilter, "tot hier")
     global AllClothesDetailFiltered
 
     allFilteredClothingString = ''
