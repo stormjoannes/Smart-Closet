@@ -356,43 +356,52 @@ def deleteAccount():
 
 
 def UitkiezenScreen():
-    rootHm.destroy()
-    global Globroot
 
-    global rootChoose
-    global chooseFilterCombobox
+    with open('Kledingkast.json', 'r') as Clothes:
+        CheckforClothes = json.load(Clothes)
 
-    rootChoose = Tk()
-    rootChoose.title('Choose')
-    Globroot = rootChoose
+    if len(CheckforClothes[userName]) > 2:
+        rootHm.destroy()
+        global Globroot
 
-    showMenu(rootChoose)
+        global rootChoose
+        global chooseFilterCombobox
 
-    chooseTitleLabel = Label(rootChoose, text='Al je kleren: ', background="gray")
-    chooseTitleLabel.grid(row=2)
+        rootChoose = Tk()
+        rootChoose.title('Choose')
+        Globroot = rootChoose
 
-    chooseEmptySpaceLabel = Label(rootChoose, text='', background="gray")
-    chooseEmptySpaceLabel.grid(row=3)
+        showMenu(rootChoose)
 
-    allClothes()
+        chooseTitleLabel = Label(rootChoose, text='Al je kleren: ', background="gray")
+        chooseTitleLabel.grid(row=2)
 
-    possibleFilters = getAllPossibleFilters(userName)
+        chooseEmptySpaceLabel = Label(rootChoose, text='', background="gray")
+        chooseEmptySpaceLabel.grid(row=3)
 
-    chooseFilterLabel = Label(rootChoose, text='Filter: ', background="gray")
-    chooseFilterLabel.grid(row=0, sticky=W)
+        allClothes()
 
-    chooseFilterCombobox = ttk.Combobox(rootChoose, value=possibleFilters)
-    chooseFilterCombobox.insert(0, 'None')
-    chooseFilterCombobox.grid(row=0, column=0)
+        possibleFilters = getAllPossibleFilters(userName)
 
-    chooseFilterButton = Button(rootChoose, text='SUBMIT', command=forDetailFilter)
-    chooseFilterButton.grid(row=0, column=1)
+        chooseFilterLabel = Label(rootChoose, text='Filter: ', background="gray")
+        chooseFilterLabel.grid(row=0, sticky=W)
 
-    chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=toDeleteFilter)
-    chooseDeleteFilterButton.grid(row=100, sticky=E)
+        chooseFilterCombobox = ttk.Combobox(rootChoose, value=possibleFilters)
+        chooseFilterCombobox.insert(0, 'None')
+        chooseFilterCombobox.grid(row=0, column=0)
 
-    chooseBackButton = Button(rootChoose, text='Back', command=toHub)
-    chooseBackButton.grid(row=100, sticky=W)
+        chooseFilterButton = Button(rootChoose, text='SUBMIT', command=forDetailFilter)
+        chooseFilterButton.grid(row=0, column=1)
+
+        chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=toDeleteFilter)
+        chooseDeleteFilterButton.grid(row=100, sticky=E)
+
+        chooseBackButton = Button(rootChoose, text='Back', command=toHub)
+        chooseBackButton.grid(row=100, sticky=W)
+    else:
+        bericht = "Helaas hebben we geen kledingstukken aangetroffen."
+        showinfo(title='Clothing error', message=bericht)
+
 
 def setGenScreen():
     rootHm.destroy()
@@ -606,8 +615,6 @@ def allClothes():
     global AllClothes
 
     allClothingString = ''
-
-    # indexAll =
 
     for indexAll in range(2, len(allInfVariables[userName])):
         allClothingString += str(allInfVariables[userName][indexAll]) + '\n'
