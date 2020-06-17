@@ -347,6 +347,10 @@ def deleteAccount():
     rootDeleteAccount.destroy()
     Login()
 
+def logout():
+    Globroot.destroy()
+    Login()
+
 
 def UitkiezenScreen():
     rootHm.destroy()
@@ -401,23 +405,16 @@ def setGenScreen():
     GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ', background="gray")
     GenTitleLabel.grid(row=0)
 
-    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=setChoiceGenDagelijks)
+    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:WeatherForPickClothes('dagelijks'))
     genDagelijksButton.grid(row=10, sticky=W)
 
-    genSportutton = Button(rootGen, text='Sport', command=setChoiceGenSport)
+    genSportutton = Button(rootGen, text='Sport', command=lambda:WeatherForPickClothes('sport'))
     genSportutton.grid(row=10, column=0)
 
-    genFeestButton = Button(rootGen, text='Feest', command=setChoiceGenFeest)
+    genFeestButton = Button(rootGen, text='Feest', command=lambda:WeatherForPickClothes('feest'))
     genFeestButton.grid(row=10, column=1)
 
     rootGen.mainloop()
-
-def setChoiceGenDagelijks():
-    WeatherForPickClothes('dagelijks')
-def setChoiceGenSport():
-    WeatherForPickClothes('sport')
-def setChoiceGenFeest():
-    WeatherForPickClothes('feest')
 
 def WeatherForPickClothes(func):
     global loopIndex
@@ -460,9 +457,11 @@ def showMenu(root):
     subMenu.add_command(label='delete account', command=deleteAccountCheck)
     subMenu.add_separator()
     subMenu.add_command(label='homescreen', command=toHub)
+    subMenu.add_command(label='Log out', command=logout)
     subMenu.add_command(label='exit', command=exit)
 
 def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loopIndex):
+    rootWear.destroy()
     if aantrekken == "ja":
 
         with open('Kledingkast.json', 'w') as ALL:
@@ -481,11 +480,6 @@ def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loop
         recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex)
 
 def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
-    global mogelijkeTops
-    global mogelijkeBottoms
-    global top
-    global bottom
-    global data
 
     mogelijkeTops = mogelijkeTop
     mogelijkeBottoms = mogelijkeBottom
@@ -531,23 +525,13 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex):
         genTitleLabel = Label(rootWear, text='Ga je dit setje dragen:', background="gray")
         genTitleLabel.grid(row=9)
 
-        genYesButton = Button(rootWear, text='Ja', command=WearYes)
+        genYesButton = Button(rootWear, text='Ja', command=lambda:autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data, loopIndex))
         genYesButton.grid(row=11, sticky=W)
 
-        genNoButton = Button(rootWear, text='Nee', command=WearNo)
+        genNoButton = Button(rootWear, text='Nee', command=lambda:autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data, loopIndex))
         genNoButton.grid(row=11, sticky=E)
 
         rootWear.mainloop()
-
-
-def WearYes():
-    rootWear.destroy()
-    autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data, loopIndex)
-
-
-def WearNo():
-    rootWear.destroy()
-    autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data, loopIndex)
 
 
 def toHub():
@@ -585,7 +569,7 @@ def toLogin(signUpName, signUpStad, signUpLand):
         roots.destroy()
         Login()
     else:
-        bericht = f'Username already existend, {signUpName, signUpStad, signUpLand} try it it again!'
+        bericht = f'Username {signUpName} already existend, try another name!'
         showinfo(title='UserName error', message=bericht)
 
 def toAddClothing():
