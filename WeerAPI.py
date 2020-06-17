@@ -7,6 +7,7 @@ def setValuesWeer(stad, land):
 
 def getWeatherDetails(stad, plek, key):
     url = f'https://api.openweathermap.org/data/2.5/weather?q={plek}&appid={key}'
+
     print('\n')
 
     request = requests.get(url)

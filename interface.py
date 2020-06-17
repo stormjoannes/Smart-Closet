@@ -8,12 +8,8 @@ from tkinter import ttk
 
 def Signup():  # This is the signup definition,
     rootA.destroy()
-    # global nameE
     global rootSignUp
     global Globroot
-
-    # global signUpStadEntry
-    # global signUpLandEntry
 
     rootSignUp = Tk()
     rootSignUp.title('Signup')
@@ -203,6 +199,7 @@ def AddScreen():
 
     rootAdd.mainloop()
 
+
 def inputParametersClothing(root):
     global screenNameEntry
     global screenLongShortEntry
@@ -250,6 +247,10 @@ def inputParametersClothing(root):
     screenCategoryEntry = Entry(root)
     screenCategoryEntry.grid(row=6, column=1)
 
+    addscreenBackButton = Button(root, text='Back', command=toHub)
+    addscreenBackButton.grid(row=7, sticky=W)
+
+
 def DeleteScreen():
     with open('Kledingkast.json', 'r') as Clothes:
         CheckforClothes = json.load(Clothes)
@@ -274,6 +275,7 @@ def DeleteScreen():
     else:
         bericht = "Helaas hebben we geen kledingstukken aangetroffen om te verwijderen."
         showinfo(title='Clothing error', message=bericht)
+
 
 def changePersonalData():
     global rootCPD
@@ -327,22 +329,22 @@ def changePersonalData():
 
     rootCPD.mainloop()
 
+
 def deleteAccountCheck():
     global rootDeleteAccount
     rootDeleteAccount = Tk()
     rootDeleteAccount.title('Account delete')
 
     delAccountTitle = Label(rootDeleteAccount, text='Weet je zeker dat je je account wilt verwijderen: ', background="gray")
-    delAccountTitle.grid(row=3, column=0,  sticky=W)
+    delAccountTitle.grid(row=1, column=0,  sticky=W)
 
     delAccountYesButton = Button(rootDeleteAccount, text='Ja', command=deleteAccount)
-    delAccountYesButton.grid(sticky=W)
+    delAccountYesButton.grid(row=3, sticky=W)
 
     delAccountNeeButton = Button(rootDeleteAccount, text='Nee', command=toHub)
-    delAccountNeeButton.grid(sticky=E)
+    delAccountNeeButton.grid(row=3, sticky=E)
 
     rootDeleteAccount.mainloop()
-
 
 
 def deleteAccount():
@@ -356,10 +358,6 @@ def deleteAccount():
     Globroot.destroy()
     rootDeleteAccount.destroy()
     Login()
-
-# def logout():
-#     Globroot.destroy()
-#     Login()
 
 
 def UitkiezenScreen():
@@ -589,21 +587,43 @@ def toHomeScreen(name):
         showinfo(title='UserName error', message=bericht)
 
 def toLogin(signUpName, signUpStad, signUpLand):
+    print(len(signUpLand), 'jup')
     print('hoi')
-    if checkIfExist(signUpName) == False:
-        configSignUp(signUpName, signUpStad, signUpLand)
-        rootSignUp.destroy()
-        Login()
+    if len(signUpStad) == 0 or len(signUpLand) == 0 or len(signUpName) == 0:
+        emptyInput = ''
+        if len(signUpName) == 0:
+            emptyInput += "naam"
+        if len(signUpStad) == 0:
+            if len(emptyInput) > 0:
+                emptyInput += ', stad'
+            else:
+                emptyInput += 'stad'
+        if len(signUpLand) == 0:
+            if len(emptyInput) > 0:
+                emptyInput += ', land'
+            else:
+                emptyInput += 'land'
+        bericht = f'Vul je {emptyInput} in!'
+        showinfo(title='Field error', message=bericht)
     else:
-        bericht = f'Username {signUpName} already existend, try another name!'
-        showinfo(title='UserName error', message=bericht)
+        try:
+            setValuesWeer(signUpStad, signUpLand)
+            if checkIfExist(signUpName) == False:
+                configSignUp(signUpName, signUpStad, signUpLand)
+                rootSignUp.destroy()
+                Login()
+            else:
+                bericht = f'Username {signUpName} already existend, try another name!'
+                showinfo(title='UserName error', message=bericht)
+        except:
+            bericht = f'De ingevulde stad of het ingevulde land is niet herkenbaar!'
+            showinfo(title='Field error', message=bericht)
 
 def toAddClothing():
     addClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()),
                str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()),
                str(screenCategoryEntry.get()))
-    rootAdd.destroy()
-    Homescreen()
+    toHub()
 
 def toDeleteClothing():
     statusDelete = deleteClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()),
@@ -614,8 +634,7 @@ def toDeleteClothing():
         bericht = f'kledingstuk {str(screenNameEntry.get())} bestaat niet en kan dus ook niet verwijderd worden!'
         showinfo(title='Delete Error', message=bericht)
 
-    rootDelete.destroy()
-    Homescreen()
+    toHub()
 
 def allClothes():
     global AllClothes
