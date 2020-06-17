@@ -587,8 +587,6 @@ def toHomeScreen(name):
         showinfo(title='UserName error', message=bericht)
 
 def toLogin(signUpName, signUpStad, signUpLand):
-    print(len(signUpLand), 'jup')
-    print('hoi')
     if len(signUpStad) == 0 or len(signUpLand) == 0 or len(signUpName) == 0:
         emptyInput = ''
         if len(signUpName) == 0:
