@@ -251,22 +251,29 @@ def inputParametersClothing(root):
     screenCategoryEntry.grid(row=6, column=1)
 
 def DeleteScreen():
-    rootHm.destroy()
-    global rootDelete
-    global Globroot
+    with open('Kledingkast.json', 'r') as Clothes:
+        CheckforClothes = json.load(Clothes)
 
-    rootDelete = Tk()
-    rootDelete.title('DELETE')
-    Globroot = rootDelete
+    if len(CheckforClothes[userName]) > 2:
+        rootHm.destroy()
+        global rootDelete
+        global Globroot
 
-    showMenu(rootDelete)
+        rootDelete = Tk()
+        rootDelete.title('DELETE')
+        Globroot = rootDelete
 
-    inputParametersClothing(rootDelete)
+        showMenu(rootDelete)
 
-    deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=toDeleteClothing)
-    deletescreenDELETEButton.grid(row=7)
+        inputParametersClothing(rootDelete)
 
-    rootDelete.mainloop()
+        deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=toDeleteClothing)
+        deletescreenDELETEButton.grid(row=7)
+
+        rootDelete.mainloop()
+    else:
+        bericht = "Helaas hebben we geen kledingstukken aangetroffen om te verwijderen."
+        showinfo(title='Clothing error', message=bericht)
 
 def changePersonalData():
     global rootCPD
@@ -356,7 +363,6 @@ def deleteAccount():
 
 
 def UitkiezenScreen():
-
     with open('Kledingkast.json', 'r') as Clothes:
         CheckforClothes = json.load(Clothes)
 
@@ -399,7 +405,7 @@ def UitkiezenScreen():
         chooseBackButton = Button(rootChoose, text='Back', command=toHub)
         chooseBackButton.grid(row=100, sticky=W)
     else:
-        bericht = "Helaas hebben we geen kledingstukken aangetroffen."
+        bericht = "Helaas hebben we geen kledingstukken aangetroffen om uit te kiezen."
         showinfo(title='Clothing error', message=bericht)
 
 
