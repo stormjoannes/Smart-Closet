@@ -6,6 +6,7 @@ with open('Kledingkast.json', 'r') as allVariables:
     allInfVariables = json.load(allVariables)
 
 def getAllPossibleFilters(naamUser):
+    "'Deze functie pakt alle mogelijke categorieën waar je op kunt filterren, bijvoorbeeld: merk en kleur'"
     differentVariables = []
     if len(allInfVariables[naamUser]) > 2:
         for variable in allInfVariables[naamUser][2]:
@@ -15,6 +16,7 @@ def getAllPossibleFilters(naamUser):
         return []
 
 def allClothes(rootChoose, naam):
+    "'Deze functie zorgt dat als je op kleding uitkiezen klikt je gelijk al je kleding onder elkaar ziet staan.'"
     global userName
     global AllClothes
     userName = naam
@@ -28,6 +30,7 @@ def allClothes(rootChoose, naam):
     AllClothes.grid(row=2, column=0)
 
 def toDeleteFilter(rootChoose):
+    "'Deze functie verwijdert de huidige filter als je die hebt toegepast.'"
     try:
         AllClothesDetailFiltered.destroy()
         chooseFilterLabel.destroy()
@@ -39,6 +42,7 @@ def toDeleteFilter(rootChoose):
     allClothes(rootChoose, userName)
 
 def getDetailFilters(watBekijken, detailFilter, rootChoose):
+    "'Deze functie past de hele filter toe, bijvoorbeeld: op kleur met de naam oranje of op merk met de naam abercrombie.'"
     global AllClothesDetailFiltered
 
     allFilteredClothingString = ''
@@ -55,6 +59,7 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
         showinfo(title='Filter error', message=bericht)
 
 def forDetailFilter(Combobox, rootChoose):
+    "'Deze functie maakt de combobox en de buttons aan om een filter categorie uit te kiezen.'"
     global chooseFilterLabel
     global chooseDetailFilterEntry
     global chooseFilterButton
