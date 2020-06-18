@@ -59,7 +59,7 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
         showinfo(title='Filter error', message=bericht)
 
 def forDetailFilter(Combobox, rootChoose):
-    "'Deze functie maakt de combobox en de buttons aan om een filter categorie uit te kiezen.'"
+    "'Deze functie zorgt ervoor dat er een nieuwe regel met entry in je beeld komt zodra je de categorie filter hebt gekozen..'"
     global chooseFilterLabel
     global chooseDetailFilterEntry
     global chooseFilterButton
