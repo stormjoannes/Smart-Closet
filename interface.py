@@ -7,6 +7,7 @@ from tkinter import ttk
 
 
 def Signup():  # This is the signup definition,
+    "'In deze functie maak ik het signup frame aan, hier kun je jezelf aanmelden'"
     rootA.destroy()
     global rootSignUp
     global Globroot
@@ -53,11 +54,12 @@ def Signup():  # This is the signup definition,
 
 
 def toLogIn():
+    "'deze functie word vaker gebruikt om vanuit dat frame naar het login frame te gaan'"
     Globroot.destroy()
     Login()
 
 def showMenuLoginSignup(root):
-
+    "'Dit is een aparte functie om het dropdown menu voor de signup en de login te maken'"
     root.geometry('1920x1080')
     root.configure(background='gray')
 
@@ -70,6 +72,7 @@ def showMenuLoginSignup(root):
 
 
 def Login():
+    "'In deze functie kun je inloggen met je username'"
     global rootA
     global Globroot
 
@@ -100,6 +103,7 @@ def Login():
 
 try:
     def Homescreen():
+        "'deze functie geeft het hoofdmenu weer. hier kun je alle opties uitkiezen die er zijn.'"
         global rootHm
         global Globroot
 
@@ -134,6 +138,7 @@ except:
 
 
 def AddScreen():
+    "'In deze functie word het frame aangemaakt om kleding toe te voegen aan je digitale kledingkast'"
     rootHm.destroy()
     global rootAdd
     global Globroot
@@ -152,6 +157,7 @@ def AddScreen():
 
 
 def inputParametersClothing(root):
+    "'Deze functie zorgt voor de input van de paramaters van de kleding. deze worden gebruikt om kleren te verwijderen en toe te voegen'"
     global screenNameEntry
     global screenLongShortEntry
     global screenOpportunityEntry
@@ -203,6 +209,7 @@ def inputParametersClothing(root):
 
 
 def DeleteScreen():
+    "'In deze functie word het frame aangemaakt om kleding te verwijderen van je digitale kledingkast'"
     with open('Kledingkast.json', 'r') as Clothes:
         CheckforClothes = json.load(Clothes)
 
@@ -229,6 +236,7 @@ def DeleteScreen():
 
 
 def changePersonalData():
+    "'Deze functie word gebruikt in het dropdown menu. Hier kun je persoonlijke gegevens aanpassen.'"
     global rootCPD
 
     rootCPD = Tk()
@@ -276,6 +284,7 @@ def changePersonalData():
 
 
 def deleteAccountCheck():
+    "'Deze functie zorgt er voor dat je je account kan verwijderen'"
     global rootDeleteAccount
     rootDeleteAccount = Tk()
     rootDeleteAccount.title('Account delete')
@@ -293,6 +302,7 @@ def deleteAccountCheck():
 
 
 def UitkiezenScreen():
+    "'Deze functie opent je kledingkast zodat je gewoon in je kledingkast kan kijken, filters kunnen ook toegepast worden.'"
     with open('Kledingkast.json', 'r') as Clothes:
         CheckforClothes = json.load(Clothes)
 
@@ -340,6 +350,7 @@ def UitkiezenScreen():
 
 
 def setGenScreen():
+    "'In deze functie word het frame aangemaakt voor het automatisch uitkiezen van een kledingsetje voor jou.'"
     rootHm.destroy()
     global rootGen
     global Globroot
@@ -375,6 +386,7 @@ def setGenScreen():
 
 
 def showMenu(root):
+    "'Deze functie word in bijna alle frames aangeroepen om zo het drop down menu overal het zelfde weer te geven.'"
     global toDestroyRoot
 
     root.geometry('1920x1080')
@@ -395,14 +407,17 @@ def showMenu(root):
 
 
 def toHub():
+    "'deze functie zorgt voor het destroyen van het vorige frame en stuurt je door naar het homescreen'"
     toDestroyRoot.destroy()
     Homescreen()
 
 
 def exit():
+    "'deze functie zorgt ervoor dat je het programma  afsluit door het enige frame dat openstaat te destroyen.'"
     Globroot.destroy()
 
 def commitPersonalData(BetweenWear, City, Land, ChangeName):
+    "'Deze functie zorgt ervoor dat de ingevulde data die je wilt veranderen van jouw profiel opgeslagen word.'"
     global userName
     global Globroot
     changedUserName = str(gegWijzigen(userName, BetweenWear, City, Land, ChangeName))
@@ -412,6 +427,7 @@ def commitPersonalData(BetweenWear, City, Land, ChangeName):
 
 
 def toHomeScreen(name):
+    "'Deze functie word gebruikt bij de login om te checken of je door kan worden gestuurde naar het hoofdscherm'"
     if checkIfExist(name) == True:
         global userName
         userName = name
@@ -422,6 +438,7 @@ def toHomeScreen(name):
         showinfo(title='UserName error', message=bericht)
 
 def toLogin(signUpName, signUpStad, signUpLand):
+    "''hier check je of de ingevulde waardes om je aan te melden kloppen en correct kunnen worden verwerkt."
     if len(signUpStad) == 0 or len(signUpLand) == 0 or len(signUpName) == 0:
         emptyInput = ''
         if len(signUpName) == 0:
