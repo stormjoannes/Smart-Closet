@@ -6,6 +6,7 @@ import random
 from tkinter import *
 
 def pickClothes(naamUser, currentTemp, weersSituatie, keuzeGelegenheid):
+    "'Hier zet ik de verschillende tresholds van wat warm en wat koud is bij welke gelegenheid.'"
     WarmNaarKoudTopDagelijks = {1: ["trui", "vest", "sweater"], 2: ["shirt"], 3: ["topje", "naveltrui", "shirt"]}
     WarmNaarKoudBottomDagelijks = {1: ["jeans", "joggingsbroek"], 2: ["chino", "jeans met gaten", "jeans"],
                                    3: ["rokje", "broekje"]}
@@ -30,6 +31,7 @@ def pickClothes(naamUser, currentTemp, weersSituatie, keuzeGelegenheid):
 
 
 def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, gelegenheid):
+    "'Hier zet ik door middel van hoe warm het is de combinatie van bijvoorbelde een kort shirt en een lange broek.'"
     if currentTemp < 15:
         LangOfKortTop = "lang"
         LangOfKortBottom = "lang"
@@ -69,6 +71,7 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, g
 
 
 def searchTopBottom(LangOfKortTopBottom, tresholdTopBottomIndex, WarmNaarKoudTopBottom, naamUser, gelegenheid):
+    "'In deze functie zoek ik naar de top of de bottom door middel van de of het lang of kort moet zijn en van de lijst waarin kledingstukken staan georden van warm naar koud.'"
     with open('Kledingkast.json', 'r') as allKleding:
         dataSearch = json.load(allKleding)
 
@@ -86,6 +89,7 @@ def searchTopBottom(LangOfKortTopBottom, tresholdTopBottomIndex, WarmNaarKoudTop
     return possibleTopBottom
 
 def getTimeDifference(x):
+    "'In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen).'"
     date_format = "%Y-%m-%d"
     today = datetime.today()
 
@@ -96,6 +100,7 @@ def getTimeDifference(x):
 
 
 def WeatherForPickClothes(func, rootGen, userName, Homescreen, showMenu):
+    "'Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.'"
     global loopIndex
     if func == 'dagelijks':
         opportunity = 'dagelijks leven'
@@ -116,10 +121,11 @@ def WeatherForPickClothes(func, rootGen, userName, Homescreen, showMenu):
         gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
     RandomClothes = pickClothes(userName, gevoelsTemp, huidigeWeer[1], opportunity)
     loopIndex = 0
-    recommendedClothes(RandomClothes[0], RandomClothes[1], loopIndex, rootGen, Homescreen, showMenu)
+    recommendedClothes(RandomClothes[0], RandomClothes[1], loopIndex, rootGen, Homescreen, showMenu, userName)
 
 
-def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loopIndex, rootGen, Homescreen, showMenu):
+def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loopIndex, rootGen, Homescreen, showMenu, userName):
+    "'Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand.'"
     rootWear.destroy()
     if aantrekken == "ja":
 
@@ -136,10 +142,13 @@ def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loop
     else:
         mogelijkeTops.remove(top)
         mogelijkeBottoms.remove(bottom)
-        recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex, rootGen, Homescreen, showMenu)
+        recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex, rootGen, Homescreen, showMenu, userName)
 
 
-def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homescreen, showMenu):
+def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homescreen, showMenu, userName):
+    "'Hier zorg ik voor dat alle errors worden opgevangen bij bijvoorbeeld te weinig kleding om uit te kiezen.'"
+    "'Ook zorg ik er hier voor dat de kleur niet het zelfde zal zijn of dat je bij een jurkje geen broek draagt.'"
+    "'Als laatst worden hier nog de knoppen aangemaakt om bijvoorbeeld een nieuw setje uit te gaan berekenen in een andere functie.'"
     mogelijkeTops = mogelijkeTop
     mogelijkeBottoms = mogelijkeBottom
 
@@ -187,12 +196,12 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homesc
 
         genYesButton = Button(rootWear, text='Ja',
                               command=lambda: autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data,
-                                                      loopIndex, rootGen, Homescreen, showMenu))
+                                                      loopIndex, rootGen, Homescreen, showMenu, userName))
         genYesButton.grid(row=11, sticky=W)
 
         genNoButton = Button(rootWear, text='Nee',
                              command=lambda: autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data,
-                                                     loopIndex, rootGen, Homescreen, showMenu))
+                                                     loopIndex, rootGen, Homescreen, showMenu, userName))
         genNoButton.grid(row=11, sticky=E)
 
         genBackButton = Button(rootWear, text='Back', command=exit)
