@@ -1,7 +1,8 @@
 import json
 from tkinter.messagebox import showinfo
 
-def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd):
+def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd, toHub):
+    "'Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).'"
     with open('Kledingkast.json', 'r') as allKleding:
         data = json.load(allKleding)
 
@@ -16,8 +17,10 @@ def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, bran
         data[personName].append(nieuweData)
         json.dump(data, ALL)
         ALL.close()
+        toHub()
 
-def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, colorDelete, brandDelete, categoryDelete):
+def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, colorDelete, brandDelete, categoryDelete, toHub):
+    "'Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).'"
     with open('Kledingkast.json', 'r') as allKleding:
         dataDelete = json.load(allKleding)
 
@@ -29,23 +32,10 @@ def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, co
                 checkIfDone = True
                 break
 
-        json.dump(dataDelete, ALL)
-        ALL.close()
-        return checkIfDone
-
-def toAddClothing(userName, naam, langkort, gelegenheid, kleur, merk, categorie, toHub):
-    addClothes(userName, str(naam), str(langkort),
-               str(gelegenheid), str(kleur), str(merk),
-               str(categorie))
-    toHub()
-
-def toDeleteClothing(userName, naam, langkort, gelegenheid, kleur, merk, categorie, toHub):
-    statusDelete = deleteClothes(userName, str(naam), str(langkort),
-               str(gelegenheid), str(kleur), str(merk),
-               str(categorie))
-
-    if statusDelete == False:
-        bericht = f'kledingstuk {str(naam)} bestaat niet en kan dus ook niet verwijderd worden!'
-        showinfo(title='Delete Error', message=bericht)
-    else:
-        toHub()
+        if checkIfDone == False:
+            bericht = f'kledingstuk {str(personName)} bestaat niet en kan dus ook niet verwijderd worden!'
+            showinfo(title='Delete Error', message=bericht)
+        else:
+            json.dump(dataDelete, ALL)
+            ALL.close()
+            toHub()

@@ -150,7 +150,7 @@ def AddScreen():
     showMenu(rootAdd)
     inputParametersClothing(rootAdd)
 
-    addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=lambda:toAddClothing(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), toHub))
+    addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=lambda:addClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), toHub))
     addscreenADDButton.grid(row=7)
 
     rootAdd.mainloop()
@@ -226,7 +226,7 @@ def DeleteScreen():
 
         inputParametersClothing(rootDelete)
 
-        deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=lambda:toDeleteClothing(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), toHub))
+        deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=lambda:deleteClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), toHub))
         deletescreenDELETEButton.grid(row=7)
 
         rootDelete.mainloop()
