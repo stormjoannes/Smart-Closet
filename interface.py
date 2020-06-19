@@ -4,7 +4,7 @@ from tkinter.messagebox import showinfo
 from Functions import *
 import json
 from tkinter import ttk
-
+import pydoc
 
 def Signup():  # This is the signup definition,
     "'In deze functie maak ik het signup frame aan, hier kun je jezelf aanmelden'"
