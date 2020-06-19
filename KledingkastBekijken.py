@@ -2,9 +2,6 @@ from tkinter import *
 import json
 from tkinter.messagebox import showinfo
 
-with open('Kledingkast.json', 'r') as allVariables:
-    allInfVariables = json.load(allVariables)
-
 def getAllPossibleFilters(naamUser):
     "'Deze functie pakt alle mogelijke categorieën waar je op kunt filterren, bijvoorbeeld: merk en kleur'"
     differentVariables = []
@@ -17,6 +14,11 @@ def getAllPossibleFilters(naamUser):
 
 def allClothes(rootChoose, naam):
     "'Deze functie zorgt dat als je op kleding uitkiezen klikt je gelijk al je kleding onder elkaar ziet staan.'"
+
+    global allInfVariables
+
+    with open('Kledingkast.json', 'r') as allVariables:
+        allInfVariables = json.load(allVariables)
     global userName
     global AllClothes
     userName = naam

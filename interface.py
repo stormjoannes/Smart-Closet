@@ -1,10 +1,23 @@
+import json
+
+try:
+    with open('Kledingkast.json', 'r') as BackupData:
+        backupDataDrawBack = json.load(BackupData)
+except:
+    with open('BackupKledingkast.json', 'r') as BackupData:
+        backupDataDrawBack = json.load(BackupData)
+    with open("Kledingkast.json", 'w+') as f:
+        f.write(f"{backupDataDrawBack}")
+
 from tkinter import *
 from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
+import io
+import os
+from Tools.scripts.win_add2path import PATH
 from Functions import *
-import json
 from tkinter import ttk
-import pydoc
+import pathlib
 
 def Signup():  # This is the signup definition,
     "'In deze functie maak ik het signup frame aan, hier kun je jezelf aanmelden'"
@@ -482,4 +495,12 @@ def toLogin(signUpName, signUpStad, signUpLand):
 #     statusDB = "negative"
 #
 # if statusDB == "positive":
-Login()
+file = pathlib.Path("Kledingkast.json")
+if file.exists():
+    Login()
+else:
+    with open("Kledingkast.json", 'w+') as f:
+        f.write('{}')
+    with open("BackupKledingkast.json", 'w+') as f:
+        f.write('{}')
+    Login()
