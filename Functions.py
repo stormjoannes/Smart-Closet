@@ -6,6 +6,7 @@ import json
 from KledingkastBekijken import *
 
 def configSignUp(naamUser, stad, land):
+    "'Hier zet ik de ingevulde gegevens van de signup in het json bestand.'"
     with open('Kledingkast.json', 'r') as doc:
         allInf = json.load(doc)
         allInf[naamUser] = [
@@ -17,6 +18,7 @@ def configSignUp(naamUser, stad, land):
 
 
 def checkIfExist(naamUser):
+    "'Deze functie gebruik ik om de controleren of een ingevulde username bestaat of niet.'"
     with open('Kledingkast.json', 'r') as doc:
         allNames = json.load(doc)
 
@@ -26,6 +28,7 @@ def checkIfExist(naamUser):
     return False
 
 def backupDump():
+    "'Deze functie gebruik ik om de recente gegevens steeds worden gekopieerd naar een backup 'server'.'"
     with open('Kledingkast.json', 'r') as forBackup:
         ForbackupDATA = json.load(forBackup)
 
@@ -35,6 +38,7 @@ def backupDump():
 
 
 def refreshGedragen(naamUser):
+    "'Deze functie zorgt ervoor dat er gedragen kleding word verwijderd zodra die buiten de range valt van hoe lang iemand zijn setjes niet achter elkaar wilt dragen (tussenWear).'"
     with open('Kledingkast.json', 'r+') as forRefresh:
         dataRefresh = json.load(forRefresh)
 
@@ -50,6 +54,7 @@ def refreshGedragen(naamUser):
 
 
 def gegWijzigen(naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUsername):
+    "'In deze functie worden de ingevulde veranderde persoonlijke gegevens in het json bestand gezet.'"
     with open('Kledingkast.json', 'r+') as vrWijzig:
         allWijzig = json.load(vrWijzig)
 
@@ -68,6 +73,7 @@ def gegWijzigen(naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUserna
     return wijzigUsername
 
 def deleteAccount(Login, userName, Globroot, rootDeleteAccount):
+    "'In deze functie word je account verwijderd uit de bestanden.'"
     with open('Kledingkast.json', 'r') as ALLaccounts:
         deleteAccountData = json.load(ALLaccounts)
         deleteAccountData.pop(userName)
