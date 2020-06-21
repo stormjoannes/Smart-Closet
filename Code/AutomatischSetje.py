@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 from tkinter.messagebox import showinfo
-from WeerAPI import *
+from Code.WeerAPI import *
 import random
 from tkinter import *
 
@@ -72,7 +72,7 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, g
 
 def searchTopBottom(LangOfKortTopBottom, tresholdTopBottomIndex, WarmNaarKoudTopBottom, naamUser, gelegenheid):
     "'In deze functie zoek ik naar de top of de bottom door middel van de of het lang of kort moet zijn en van de lijst waarin kledingstukken staan georden van warm naar koud.'"
-    with open('Kledingkast.json', 'r') as allKleding:
+    with open('../jsonFiles/Kledingkast.json', 'r') as allKleding:
         dataSearch = json.load(allKleding)
 
     possibleTopBottom = []
@@ -109,7 +109,7 @@ def WeatherForPickClothes(func, rootGen, userName, Homescreen, showMenu):
     elif func == 'feest':
         opportunity = 'feestje'
 
-    with open('Kledingkast.json', 'r+') as Data:
+    with open('../jsonFiles/Kledingkast.json', 'r+') as Data:
         placeInfo = json.load(Data)
 
     stad = placeInfo[userName][0]["gegevens"][0]["locatie"]["stad"]
@@ -129,7 +129,7 @@ def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loop
     rootWear.destroy()
     if aantrekken == "ja":
 
-        with open('Kledingkast.json', 'w') as ALL:
+        with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
             today = datetime.today().strftime("%Y-%m-%d")
             formatVoorAppend = [top, bottom, str(today)]
             data[userName][1]["gedragen"].append(formatVoorAppend)
@@ -152,7 +152,7 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homesc
     mogelijkeTops = mogelijkeTop
     mogelijkeBottoms = mogelijkeBottom
 
-    with open('Kledingkast.json', 'r+') as inf:
+    with open('../jsonFiles/Kledingkast.json', 'r+') as inf:
         data = json.load(inf)
 
     loopIndex += 1

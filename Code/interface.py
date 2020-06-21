@@ -1,21 +1,15 @@
 import json
 
-try:
-    with open('Kledingkast.json', 'r') as BackupData:
-        backupDataDrawBack = json.load(BackupData)
-except:
-    with open('BackupKledingkast.json', 'r') as BackupData:
-        backupDataDrawBack = json.load(BackupData)
-    with open("Kledingkast.json", 'w+') as f:
-        f.write(f"{backupDataDrawBack}")
+# try:
+with open('../jsonFiles/Kledingkast.json', 'r') as BackupData:
+    backupDataDrawBack = json.load(BackupData)
+# except:
+#     with open('../jsonFiles/BackupKledingkast.json', 'r') as BackupData:
+#         backupDataDrawBack = json.load(BackupData)
+#     with open("../jsonFiles/Kledingkast.json", 'w+') as f:
+#         f.write(f"{backupDataDrawBack}")
 
-from tkinter import *
-from tkinter.font import BOLD
-from tkinter.messagebox import showinfo
-import io
-import os
-from Tools.scripts.win_add2path import PATH
-from Functions import *
+from Code.Functions import *
 from tkinter import ttk
 import pathlib
 
@@ -223,7 +217,7 @@ def inputParametersClothing(root):
 
 def DeleteScreen():
     "'In deze functie word het frame aangemaakt om kleding te verwijderen van je digitale kledingkast'"
-    with open('Kledingkast.json', 'r') as Clothes:
+    with open('../jsonFiles/Kledingkast.json', 'r') as Clothes:
         CheckforClothes = json.load(Clothes)
 
     if len(CheckforClothes[userName]) > 2:
@@ -257,7 +251,7 @@ def changePersonalData():
 
     showMenu(rootCPD)
 
-    with open('Kledingkast.json', 'r+') as docPersonalData:
+    with open('../jsonFiles/Kledingkast.json', 'r+') as docPersonalData:
         personalData = json.load(docPersonalData)
 
     personaldataUserNameLabel = Label(rootCPD, text='Username: ', background="gray")
@@ -316,7 +310,7 @@ def deleteAccountCheck():
 
 def UitkiezenScreen():
     "'Deze functie opent je kledingkast zodat je gewoon in je kledingkast kan kijken, filters kunnen ook toegepast worden.'"
-    with open('Kledingkast.json', 'r') as Clothes:
+    with open('../jsonFiles/Kledingkast.json', 'r') as Clothes:
         CheckforClothes = json.load(Clothes)
 
     if len(CheckforClothes[userName]) > 2:
@@ -495,12 +489,12 @@ def toLogin(signUpName, signUpStad, signUpLand):
 #     statusDB = "negative"
 #
 # if statusDB == "positive":
-file = pathlib.Path("Kledingkast.json")
+file = pathlib.Path("../jsonFiles/Kledingkast.json")
 if file.exists():
     Login()
 else:
-    with open("Kledingkast.json", 'w+') as f:
+    with open("../jsonFiles/Kledingkast.json", 'w+') as f:
         f.write('{}')
-    with open("BackupKledingkast.json", 'w+') as f:
+    with open("../jsonFiles/BackupKledingkast.json", 'w+') as f:
         f.write('{}')
     Login()

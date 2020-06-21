@@ -3,10 +3,10 @@ from tkinter.messagebox import showinfo
 
 def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd, toHub):
     "'Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).'"
-    with open('Kledingkast.json', 'r') as allKleding:
+    with open('../jsonFiles/Kledingkast.json', 'r') as allKleding:
         data = json.load(allKleding)
 
-    with open('Kledingkast.json', 'w') as ALL:
+    with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
         nieuweData = {"naam": nameAdd,
                       "langKort": longShortAdd,
                       "gelegenheid": opportunityAdd,
@@ -21,10 +21,10 @@ def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, bran
 
 def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, colorDelete, brandDelete, categoryDelete, toHub):
     "'Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).'"
-    with open('Kledingkast.json', 'r') as allKleding:
+    with open('../jsonFiles/Kledingkast.json', 'r') as allKleding:
         dataDelete = json.load(allKleding)
 
-    with open('Kledingkast.json', 'w') as ALL:
+    with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
         checkIfDone = False
         for i in range(2, len(dataDelete[personName])):
             if dataDelete[personName][i]['naam'] == nameDelete and dataDelete[personName][i]['langKort'] == longShortDelete and dataDelete[personName][i]['gelegenheid'] == opportunityDelete and dataDelete[personName][i]['kleur'] == colorDelete and dataDelete[personName][i]['merk'] == brandDelete and dataDelete[personName][i]['categorie'] == categoryDelete:

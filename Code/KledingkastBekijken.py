@@ -17,7 +17,7 @@ def allClothes(rootChoose, naam):
 
     global allInfVariables
 
-    with open('Kledingkast.json', 'r') as allVariables:
+    with open('../jsonFiles/Kledingkast.json', 'r') as allVariables:
         allInfVariables = json.load(allVariables)
     global userName
     global AllClothes
