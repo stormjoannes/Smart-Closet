@@ -5,6 +5,7 @@ import pytest
 def test_get_all_possible_filters():
     returnList = getAllPossibleFilters("admin")
     expectedList = ["naam", "langKort", "gelegenheid", "kleur", "merk", "categorie"]
+    print(returnList, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     assert returnList == expectedList
 
 

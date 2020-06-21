@@ -5,6 +5,9 @@ from tkinter.messagebox import showinfo
 
 def getAllPossibleFilters(naamUser):
     "'Deze functie pakt alle mogelijke categorieën waar je op kunt filterren, bijvoorbeeld: merk en kleur'"
+    with open('../jsonFiles/Kledingkast.json', 'r') as allVariables:
+        allInfVariables = json.load(allVariables)
+
     differentVariables = []
     if len(allInfVariables[naamUser]) > 2:
         for variable in allInfVariables[naamUser][2]:
@@ -33,7 +36,7 @@ def allClothes(rootChoose, naam):
     AllClothes = Label(rootChoose, text=f'{allClothingString}: ', background="gray")
     AllClothes.grid(row=2, column=0)
 
-    return AllClothes
+    return allClothingString
 
 
 def toDeleteFilter(rootChoose):
