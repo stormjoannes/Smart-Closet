@@ -157,7 +157,7 @@ def AddScreen():
     showMenu(rootAdd)
     inputParametersClothing(rootAdd)
 
-    addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=lambda:addClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), toHub))
+    addscreenADDButton = Button(rootAdd, text='Voeg kledingstuk toe!', command=lambda:DeleteOrAdd(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), "add"))
     addscreenADDButton.grid(row=7)
 
     rootAdd.mainloop()
@@ -233,13 +233,20 @@ def DeleteScreen():
 
         inputParametersClothing(rootDelete)
 
-        deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=lambda:deleteClothes(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), toHub))
+        deletescreenDELETEButton = Button(rootDelete, text='Verwijder kledingstuk!', command=lambda:DeleteOrAdd(userName, str(screenNameEntry.get()), str(screenLongShortEntry.get()), str(screenOpportunityEntry.get()), str(screenColorEntry.get()), str(screenBrandEntry.get()), str(screenCategoryEntry.get()), "delete"))
         deletescreenDELETEButton.grid(row=7)
 
         rootDelete.mainloop()
     else:
         bericht = "Helaas hebben we geen kledingstukken aangetroffen om te verwijderen."
         showinfo(title='Clothing error', message=bericht)
+
+def DeleteOrAdd(userName, name, LongShort, opportunity, color, brand, category, switch):
+    if switch == "add":
+        addClothes(userName, name, LongShort, opportunity, color, brand, category)
+    else:
+        deleteClothes(userName, name, LongShort, opportunity, color, brand, category)
+    toHub()
 
 
 def changePersonalData():

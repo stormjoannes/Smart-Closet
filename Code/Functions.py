@@ -1,5 +1,6 @@
 from Code.AutomatischSetje import *
 from Code.KledingkastBekijken import *
+from Code.AddOrDelete import *
 
 def configSignUp(naamUser, stad, land):
     "'Hier zet ik de ingevulde gegevens van de signup in het json bestand.'"

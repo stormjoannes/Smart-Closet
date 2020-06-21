@@ -1,7 +1,7 @@
 import json
 from tkinter.messagebox import showinfo
 
-def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd, toHub):
+def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd):
     "'Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).'"
     with open('../jsonFiles/Kledingkast.json', 'r') as allKleding:
         data = json.load(allKleding)
@@ -17,9 +17,8 @@ def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, bran
         data[personName].append(nieuweData)
         json.dump(data, ALL)
         ALL.close()
-        toHub()
 
-def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, colorDelete, brandDelete, categoryDelete, toHub):
+def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, colorDelete, brandDelete, categoryDelete):
     "'Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).'"
     with open('../jsonFiles/Kledingkast.json', 'r') as allKleding:
         dataDelete = json.load(allKleding)
@@ -38,4 +37,3 @@ def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, co
         else:
             json.dump(dataDelete, ALL)
             ALL.close()
-            toHub()
