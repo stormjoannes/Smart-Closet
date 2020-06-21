@@ -1,11 +1,17 @@
-from unittest import TestCase
+# from unittest import TestCase
+import pytest
+from WeerAPI import *
+
+# class setValuesWeer(TestCase):
+def test_set_values_weer():
+    assert len(setValuesWeer('breda', 'nl')) == 3
 
 
-class setValuesWeer(TestCase):
-    def test_set_values_weer(self):
-        self.fail()
 
+# # class getWeatherDetails(TestCase):
+# def test_get_weather_details(self):
+#     self.object = getWeatherDetails(plek="breda, nl", key='bee7d179860ed0c029ffedd7e94aea87')
+#     print(self.object)
+#     self.assertEquals(3, len(self.object))
 
-class getWeatherDetails(TestCase):
-    def test_get_weather_details(self):
-        self.fail()
+test_set_values_weer()
