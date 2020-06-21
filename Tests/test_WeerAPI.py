@@ -1,4 +1,5 @@
 from Code.WeerAPI import *
+import pytest
 
 
 # class setValuesWeer(TestCase):

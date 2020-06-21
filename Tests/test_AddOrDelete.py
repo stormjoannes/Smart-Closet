@@ -1,5 +1,6 @@
 from Code.AddOrDelete import *
-from Code.interface import toHub
+import pytest
+
 
 def test_add_clothes():
     userName = "admin"
@@ -43,7 +44,5 @@ def test_delete_clothes():
         if i["naam"] == naam and i["langKort"] == langKort and i["gelegenheid"] == gelegenheid and i[
             "kleur"] == kleur and i["merk"] == merk and i["categorie"] == categorie:
             x = i
-
-    uitkomst = [naam, langKort, gelegenheid, kleur, merk, categorie]
 
     assert x == None

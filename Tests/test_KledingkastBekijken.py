@@ -1,26 +1,15 @@
-from unittest import TestCase
+from Code.KledingkastBekijken import *
+import tkinter
+import pytest
+
+def test_get_all_possible_filters():
+    returnList = getAllPossibleFilters("admin")
+    expectedList = ["naam", "langKort", "gelegenheid", "kleur", "merk", "categorie"]
+    assert returnList == expectedList
 
 
-class getAllPossibleFilters(TestCase):
-    def test_get_all_possible_filters(self):
-        self.fail()
-
-
-class allClothes(TestCase):
-    def test_all_clothes(self):
-        self.fail()
-
-
-class toDeleteFilter(TestCase):
-    def test_to_delete_filter(self):
-        self.fail()
-
-
-class getDetailFilters(TestCase):
-    def test_get_detail_filters(self):
-        self.fail()
-
-
-class forDetailFilter(TestCase):
-    def test_for_detail_filter(self):
-        self.fail()
+def test_all_clothes():
+    rootChoose = Tk()
+    naam = "admin"
+    returnValue = allClothes(rootChoose, naam)
+    assert returnValue != None
