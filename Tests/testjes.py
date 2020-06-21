@@ -1,5 +1,7 @@
-from Code.KledingkastBekijken import *
+import json
 
-returnList = getAllPossibleFilters("admin")
-expectedList = ["naam", "langKort", "gelegenheid", "kleur", "merk", "categorie"]
-print(returnList, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+with open('../jsonFiles/Kledingkast.json', 'r') as doc:
+    allInf = json.load(doc)
+
+for i in allInf:
+    print(i)
