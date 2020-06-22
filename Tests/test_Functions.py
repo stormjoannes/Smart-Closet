@@ -9,16 +9,11 @@ def test_config_sign_up():
         land = "nl"
         StatusBefore = checkIfExist(naamUser)
 
-
-        naamUser = "TestUserName"
-        stad = "breda"
-        land = "nl"
         configSignUp(naamUser, stad, land)
         StatusAfter = checkIfExist(naamUser)
+        deleteAccount(naamUser)
 
         assert StatusBefore == False and StatusAfter == True
-
-
 
 
 def test_check_if_exist():
@@ -34,7 +29,31 @@ def test_check_if_exist():
 
 
 def test_backup_dump():
-    pass
+    username = "TestBackupDump"
+    configSignUp(username, "utrecht", "nl")
+
+    with open('../jsonFiles/BackupKledingkast.json', 'r') as doc:
+        allInf = json.load(doc)
+
+        TestBefore = False
+        for i in allInf:
+            if i == username:
+                TestBefore = True
+
+    backupDump()
+
+    with open('../jsonFiles/BackupKledingkast.json', 'r') as doc:
+        allInf = json.load(doc)
+
+        TestAfter = False
+        for i in allInf:
+            if i == username:
+                TestAfter = True
+
+    deleteAccount(username)
+
+    assert TestBefore == False and TestAfter == True
+
 
 
 def test_refresh_gedragen():
@@ -42,8 +61,74 @@ def test_refresh_gedragen():
 
 
 def test_geg_wijzigen():
-    pass
+    naamUser = "TestGegevens"
+    stad = "Utrecht"
+    land = "nl"
+    tussenWear = 1
+
+    WijzigUserName = "TestGewijzigd"
+
+    configSignUp(naamUser, stad, land)
+
+    with open('../jsonFiles/Kledingkast.json', 'r') as doc:
+        allInf = json.load(doc)
+
+        TestBeforeName = False
+        for i in allInf:
+            if i == naamUser:
+                TestBeforeName = True
+
+        TestBeforeWijzigName = False
+        for i in allInf:
+            if i == WijzigUserName:
+                TestBeforeWijzigName = True
+
+    gegWijzigen(naamUser, tussenWear, stad, land, WijzigUserName) #Alleen de username word hier gewijzigd
+
+    with open('../jsonFiles/Kledingkast.json', 'r') as doc:
+        allInf = json.load(doc)
+
+        TestAfterName = False
+        for i in allInf:
+            if i == naamUser:
+                TestAfterName = True
+
+        TestAfterWijzigName = False
+        for i in allInf:
+            if i == WijzigUserName:
+                TestAfterWijzigName = True
+
+    deleteAccount(WijzigUserName)
+
+    assert TestBeforeName == True and TestBeforeWijzigName == False and TestAfterName == False and TestAfterWijzigName == True
+
+
+
 
 
 def test_delete_account():
-    pass
+    naamUser = "TestDeleteAccount"
+    stad = "breda"
+    land = "nl"
+
+    configSignUp(naamUser, stad, land)
+
+    with open('../jsonFiles/Kledingkast.json', 'r') as doc:
+        allInf = json.load(doc)
+
+        TestBefore = False
+        for i in allInf:
+            if i == naamUser:
+                TestBefore = True
+
+    deleteAccount(naamUser)
+
+    with open('../jsonFiles/Kledingkast.json', 'r') as doc:
+        allInf = json.load(doc)
+
+        TestAfter = False
+        for i in allInf:
+            if i == naamUser:
+                TestAfter = True
+
+    assert TestBefore == True and TestAfter == False

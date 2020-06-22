@@ -314,6 +314,13 @@ def deleteAccountCheck():
 
     rootDeleteAccount.mainloop()
 
+def toDeleteAccount(Login, userName, Globroot, rootDeleteAccount):
+    deleteAccount(userName)
+    Globroot.destroy()
+    rootDeleteAccount.destroy()
+    Login()
+
+
 
 def UitkiezenScreen():
     "'Deze functie opent je kledingkast zodat je gewoon in je kledingkast kan kijken, filters kunnen ook toegepast worden.'"
