@@ -26,8 +26,7 @@ def Signup():  # This is the signup definition,
     showMenuLoginSignup(rootSignUp)
 
     intruction = Label(rootSignUp, text='Sign aub\n', background="gray")
-    intruction.grid(row=0, column=0,
-                    sticky=E)
+    intruction.grid(row=0, column=0)
 
     nameL = Label(rootSignUp, text='Nieuwe naam: ', background="gray")
     nameL.grid(row=1, column=0,
@@ -57,6 +56,38 @@ def Signup():  # This is the signup definition,
     backLogin = Button(rootSignUp, text='Login', fg='Blue',
                        command=toLogIn)
     backLogin.grid(columnspan=2, sticky=W)
+
+    # intruction.pack(ipadx=10000)
+    #
+    # nameL = Label(rootSignUp, text='Nieuwe naam: ', background="gray")
+    # nameL.pack(row=1, column=0,
+    #            sticky=W)
+    #
+    # nameE = Entry(rootSignUp)
+    # nameE.pack(row=1, column=1)
+    #
+    # signUpStadField = Label(rootSignUp, text='Stad naam: ', background="gray")
+    # signUpStadField.pack(row=2, column=0,
+    #            sticky=W)
+    #
+    # signUpStadEntry = Entry(rootSignUp)
+    # signUpStadEntry.pack(row=2, column=1)
+    #
+    # signUpLandField = Label(rootSignUp, text='De afkorting van je land: ', background="gray")
+    # signUpLandField.pack(row=3, column=0,
+    #            sticky=W)
+    #
+    # signUpLandEntry = Entry(rootSignUp)
+    # signUpLandEntry.pack(row=3, column=1)
+    #
+    # signupButton = Button(rootSignUp, text='Signup',
+    #                       command=lambda:toLogin(nameE.get(), signUpStadEntry.get(), signUpLandEntry.get()))
+    # signupButton.pack(columnspan=2, sticky=W)
+    #
+    # backLogin = Button(rootSignUp, text='Login', fg='Blue',
+    #                    command=toLogIn)
+    # backLogin.pack(columnspan=2, sticky=W)
+
     rootSignUp.mainloop()
 
 
@@ -64,6 +95,7 @@ def toLogIn():
     "'deze functie word vaker gebruikt om vanuit dat frame naar het login frame te gaan'"
     Globroot.destroy()
     Login()
+
 
 def showMenuLoginSignup(root):
     "'Dit is een aparte functie om het dropdown menu voor de signup en de login te maken'"
@@ -90,22 +122,39 @@ def Login():
 
     showMenuLoginSignup(rootA)
 
-    intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 20))
-    intruction.grid(column=1)
+    # intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 20))
+    # intruction.grid(column=1)
+    #
+    # nameL = Label(rootA, text='Username: ', background="gray")
+    # nameL.grid(row=1, sticky=W)
+    #
+    # nameEL = Entry(rootA)
+    # nameEL.grid(row=1, column=1)
+    #
+    # loginB = Button(rootA, text='Login',
+    #                 command=lambda:toHomeScreen(nameEL.get()))
+    # loginB.grid(columnspan=2, sticky=W)
+    #
+    # rmuser = Button(rootA, text='Sign in', fg='Blue',
+    #                 command=Signup)
+    # rmuser.grid(columnspan=2, sticky=W)
 
-    nameL = Label(rootA, text='Username: ', background="gray")
-    nameL.grid(row=1, sticky=W)
+    intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 50))
+    intruction.pack()
+
+    nameL = Label(rootA, text='Username: ', background="gray", font=("Helvetica", 20))
+    nameL.pack()
 
     nameEL = Entry(rootA)
-    nameEL.grid(row=1, column=1)
+    nameEL.pack()
 
     loginB = Button(rootA, text='Login',
                     command=lambda:toHomeScreen(nameEL.get()))
-    loginB.grid(columnspan=2, sticky=W)
+    loginB.pack(side=BOTTOM)
 
     rmuser = Button(rootA, text='Sign in', fg='Blue',
                     command=Signup)
-    rmuser.grid(columnspan=2, sticky=W)
+    rmuser.pack()
     rootA.mainloop()
 
 try:
@@ -134,7 +183,7 @@ try:
         homescreenSettingsButton = Button(rootHm, text='Kleding uitkiezen', command=UitkiezenScreen)
         homescreenSettingsButton.grid(row=4)
 
-        homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatisch genereren van je kleding setje ', command=setGenScreen)
+        homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatisch genereren van je kleding setje ', command=toGenScreen)
         homescreenAutomaticGenButton.grid(row=5)
 
         rootHm.mainloop()
@@ -241,6 +290,7 @@ def DeleteScreen():
         bericht = "Helaas hebben we geen kledingstukken aangetroffen om te verwijderen."
         showinfo(title='Clothing error', message=bericht)
 
+
 def DeleteOrAdd(userName, name, LongShort, opportunity, color, brand, category, switch):
     if switch == "add":
         addClothes(userName, name, LongShort, opportunity, color, brand, category)
@@ -314,12 +364,12 @@ def deleteAccountCheck():
 
     rootDeleteAccount.mainloop()
 
+
 def toDeleteAccount(Login, userName, Globroot, rootDeleteAccount):
     deleteAccount(userName)
     Globroot.destroy()
     rootDeleteAccount.destroy()
     Login()
-
 
 
 def UitkiezenScreen():
@@ -370,9 +420,13 @@ def UitkiezenScreen():
         showinfo(title='Clothing error', message=bericht)
 
 
+def toGenScreen():
+    rootHm.destroy()
+    setGenScreen()
+
+
 def setGenScreen():
     "'In deze functie word het frame aangemaakt voor het automatisch uitkiezen van een kledingsetje voor jou.'"
-    rootHm.destroy()
     global rootGen
     global Globroot
 
@@ -388,13 +442,13 @@ def setGenScreen():
     GenSpaceLabel = Label(rootGen, text='', background="gray")
     GenSpaceLabel.grid(row=1)
 
-    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:WeatherForPickClothes('dagelijks', rootGen, userName, Homescreen, showMenu))
+    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:WeatherForPickClothes('dagelijks', rootGen, userName, Homescreen, showMenu, setGenScreen))
     genDagelijksButton.grid(row=2, sticky=W)
 
-    genSportutton = Button(rootGen, text='Sport', command=lambda:WeatherForPickClothes('sport', rootGen, userName, Homescreen, showMenu))
+    genSportutton = Button(rootGen, text='Sport', command=lambda:WeatherForPickClothes('sport', rootGen, userName, Homescreen, showMenu, setGenScreen))
     genSportutton.grid(row=2, column=0)
 
-    genFeestButton = Button(rootGen, text='Feest', command=lambda:WeatherForPickClothes('feest', rootGen, userName, Homescreen, showMenu))
+    genFeestButton = Button(rootGen, text='Feest', command=lambda:WeatherForPickClothes('feest', rootGen, userName, Homescreen, showMenu, setGenScreen))
     genFeestButton.grid(row=2, column=1)
 
     GenSpaceLabel = Label(rootGen, text='', background="gray")
@@ -437,6 +491,7 @@ def exit():
     "'deze functie zorgt ervoor dat je het programma  afsluit door het enige frame dat openstaat te destroyen.'"
     Globroot.destroy()
 
+
 def commitPersonalData(BetweenWear, City, Land, ChangeName):
     "'Deze functie zorgt ervoor dat de ingevulde data die je wilt veranderen van jouw profiel opgeslagen word.'"
     global userName
@@ -457,6 +512,7 @@ def toHomeScreen(name):
     else:
         bericht = 'Username not existend, try it it again!'
         showinfo(title='UserName error', message=bericht)
+
 
 def toLogin(signUpName, signUpStad, signUpLand):
     "''hier check je of de ingevulde waardes om je aan te melden kloppen en correct kunnen worden verwerkt."
@@ -490,19 +546,6 @@ def toLogin(signUpName, signUpStad, signUpLand):
             bericht = f'De ingevulde stad of het ingevulde land is niet herkenbaar!'
             showinfo(title='Field error', message=bericht)
 
-
-# statusDB = "positive"
-# try:
-#     with open('BackupKledingkast.json', 'r') as BackupData:
-#         backupDataDrawBack = json.load(BackupData)
-#
-#     with open('Kledingkast.json', 'w') as frRefresh:
-#         json.dump(backupDataDrawBack, frRefresh)
-#         frRefresh.close()
-# except:
-#     statusDB = "negative"
-#
-# if statusDB == "positive":
 file = pathlib.Path("../jsonFiles/Kledingkast.json")
 if file.exists():
     Login()

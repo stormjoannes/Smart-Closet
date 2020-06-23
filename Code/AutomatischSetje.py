@@ -29,7 +29,6 @@ def pickClothes(naamUser, currentTemp, weersSituatie, keuzeGelegenheid):
         return opportunitySet(WarmNaarKoudTopFeestje, WarmNaarKoudBottomFeestje, naamUser, currentTemp, "feestje")
 
 
-
 def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, gelegenheid):
     "'Hier zet ik door middel van hoe warm het is de combinatie van bijvoorbelde een kort shirt en een lange broek.'"
     if currentTemp < 15:
@@ -59,7 +58,6 @@ def opportunitySet(WarmNaarKoudTop, WarmNaarKoudBottom, naamUser, currentTemp, g
 
         tresholdTopIndex = len(WarmNaarKoudTop)
         tresholdBottomIndex = len(WarmNaarKoudBottom)
-
 
 
     mogelijkeTops = searchTopBottom(LangOfKortTop, tresholdTopIndex, WarmNaarKoudTop, naamUser, gelegenheid)
@@ -99,7 +97,7 @@ def getTimeDifference(x):
     return diff
 
 
-def WeatherForPickClothes(func, rootGen, userName, Homescreen, showMenu):
+def WeatherForPickClothes(func, rootGen, userName, Homescreen, showMenu, setGenScreen):
     "'Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.'"
     global loopIndex
     if func == 'dagelijks':
@@ -121,10 +119,15 @@ def WeatherForPickClothes(func, rootGen, userName, Homescreen, showMenu):
         gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
     RandomClothes = pickClothes(userName, gevoelsTemp, huidigeWeer[1], opportunity)
     loopIndex = 0
-    recommendedClothes(RandomClothes[0], RandomClothes[1], loopIndex, rootGen, Homescreen, showMenu, userName)
+    if len(RandomClothes[0]) == 0 and len(RandomClothes[1]) == 0:
+        bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
+        showinfo(title='Clothing error', message=bericht)
+        rootGen.destroy()
+        Homescreen()
+    recommendedClothes(RandomClothes[0], RandomClothes[1], loopIndex, rootGen, Homescreen, showMenu, userName, setGenScreen)
 
 
-def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loopIndex, rootGen, Homescreen, showMenu, userName):
+def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loopIndex, rootGen, Homescreen, showMenu, userName, setGenScreen):
     "'Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand.'"
     rootWear.destroy()
     if aantrekken == "ja":
@@ -135,20 +138,21 @@ def autoGen(mogelijkeTops, mogelijkeBottoms, aantrekken, top, bottom, data, loop
             data[userName][1]["gedragen"].append(formatVoorAppend)
             json.dump(data, ALL)
             ALL.close()
-            rootGen.update()
-            rootGen.destroy()
             Homescreen()
 
     else:
         mogelijkeTops.remove(top)
         mogelijkeBottoms.remove(bottom)
-        recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex, rootGen, Homescreen, showMenu, userName)
+        recommendedClothes(mogelijkeTops, mogelijkeBottoms, loopIndex, rootGen, Homescreen, showMenu, userName, setGenScreen)
 
 
-def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homescreen, showMenu, userName):
+def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homescreen, showMenu, userName, setGenScreen):
     "'Hier zorg ik voor dat alle errors worden opgevangen bij bijvoorbeeld te weinig kleding om uit te kiezen.'"
     "'Ook zorg ik er hier voor dat de kleur niet het zelfde zal zijn of dat je bij een jurkje geen broek draagt.'"
     "'Als laatst worden hier nog de knoppen aangemaakt om bijvoorbeeld een nieuw setje uit te gaan berekenen in een andere functie.'"
+    loopIndex += 1
+    if loopIndex <= 1:
+        rootGen.destroy()
     mogelijkeTops = mogelijkeTop
     mogelijkeBottoms = mogelijkeBottom
 
@@ -164,21 +168,24 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homesc
             if len(mogelijkeBottoms) != 0:
                 bottom = random.choice(mogelijkeBottoms)
                 if bottom[1] == top[1]:
-                    bottom.random.choice(mogelijkeBottoms)
+                    bottom = random.choice(mogelijkeBottoms)
             else:
                 bottom = None
     else:
         top = None
 
     if top == None or top == None and bottom == None or top[2] != 'jurkje' and bottom == None:
+        rootWhite = Tk()
+        rootWhite.title("midscreen")
+        showMenu(rootWhite)
         bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
         showinfo(title='Clothing error', message=bericht)
-        rootGen.update()
-        rootGen.destroy()
+        rootWhite.destroy()
         Homescreen()
     else:
         global rootWear
         global Globroot
+
         rootWear = Tk()
         rootWear.title("Wear clothes")
         Globroot = rootWear
@@ -196,15 +203,19 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homesc
 
         genYesButton = Button(rootWear, text='Ja',
                               command=lambda: autoGen(mogelijkeTops, mogelijkeBottoms, 'ja', top, bottom, data,
-                                                      loopIndex, rootGen, Homescreen, showMenu, userName))
+                                                      loopIndex, rootGen, Homescreen, showMenu, userName, setGenScreen))
         genYesButton.grid(row=11, sticky=W)
 
         genNoButton = Button(rootWear, text='Nee',
                              command=lambda: autoGen(mogelijkeTops, mogelijkeBottoms, 'nee', top, bottom, data,
-                                                     loopIndex, rootGen, Homescreen, showMenu, userName))
+                                                     loopIndex, rootGen, Homescreen, showMenu, userName, setGenScreen))
         genNoButton.grid(row=11, sticky=E)
 
-        genBackButton = Button(rootWear, text='Back', command=exit)
+        genBackButton = Button(rootWear, text='Back', command=lambda:backtoGenScreen(setGenScreen, rootWear))
         genBackButton.grid(row=12)
 
         rootWear.mainloop()
+
+def backtoGenScreen(setGenScreen, rootWear):
+    rootWear.destroy()
+    setGenScreen()
