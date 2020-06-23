@@ -64,18 +64,18 @@ def test_refresh_gedragen():
     configSignUp(username, stad, land)
 
     gedragenSetje = [["h&m shirt wit", "wit", "shirt", "h&m", "kort"],
-     ["grijze jeans", "grijze", "jeans", "denham", "lang"], "2020-06-10"]
+                     ["grijze jeans", "grijze", "jeans", "denham", "lang"], "2020-06-10"]
 
-    with open('../jsonFiles/BackupKledingkast.json', 'r') as doc:
+    with open('../jsonFiles/Kledingkast.json', 'r') as doc:
         allInf = json.load(doc)
 
-    with open('../jsonFiles/BackupKledingkast.json', 'w') as docWrite:
+    with open('../jsonFiles/Kledingkast.json', 'w') as docWrite:
         allInf[username][1]["gedragen"].append(gedragenSetje)
         json.dump(allInf, docWrite)
 
     refreshGedragen(username)
 
-    with open('../jsonFiles/BackupKledingkast.json', 'r') as doc:
+    with open('../jsonFiles/Kledingkast.json', 'r') as doc:
         allInf = json.load(doc)
 
         lengteGedragenList = allInf[username][1]["gedragen"]
