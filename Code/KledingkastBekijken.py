@@ -17,12 +17,12 @@ def getAllPossibleFilters(naamUser):
         return []
 
 
-def allClothes(rootChoose, naam):
+def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
     "'Deze functie zorgt dat als je op kleding uitkiezen klikt je gelijk al je kleding onder elkaar ziet staan.'"
 
     global allInfVariables
 
-    with open('../jsonFiles/Kledingkast.json', 'r') as allVariables:
+    with open(path, 'r') as allVariables:
         allInfVariables = json.load(allVariables)
     global userName
     global AllClothes

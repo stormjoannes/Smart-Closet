@@ -1,5 +1,5 @@
 import json
-
+#boven 22 is warm, onder 13 is koud
 # try:
 with open('../jsonFiles/Kledingkast.json', 'r') as BackupData:
     backupDataDrawBack = json.load(BackupData)
@@ -99,7 +99,7 @@ def toLogIn():
 
 def showMenuLoginSignup(root):
     "'Dit is een aparte functie om het dropdown menu voor de signup en de login te maken'"
-    root.geometry('1920x1080')
+    # root.geometry('1920x1080')
     root.configure(background='gray')
 
     menu = Menu(root)
@@ -122,39 +122,39 @@ def Login():
 
     showMenuLoginSignup(rootA)
 
-    # intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 20))
-    # intruction.grid(column=1)
-    #
-    # nameL = Label(rootA, text='Username: ', background="gray")
-    # nameL.grid(row=1, sticky=W)
-    #
-    # nameEL = Entry(rootA)
-    # nameEL.grid(row=1, column=1)
-    #
-    # loginB = Button(rootA, text='Login',
-    #                 command=lambda:toHomeScreen(nameEL.get()))
-    # loginB.grid(columnspan=2, sticky=W)
-    #
-    # rmuser = Button(rootA, text='Sign in', fg='Blue',
-    #                 command=Signup)
-    # rmuser.grid(columnspan=2, sticky=W)
+    intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 20))
+    intruction.grid(column=1)
 
-    intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 50))
-    intruction.pack()
-
-    nameL = Label(rootA, text='Username: ', background="gray", font=("Helvetica", 20))
-    nameL.pack()
+    nameL = Label(rootA, text='Username: ', background="gray")
+    nameL.grid(row=1, sticky=W)
 
     nameEL = Entry(rootA)
-    nameEL.pack()
+    nameEL.grid(row=1, column=1)
 
     loginB = Button(rootA, text='Login',
                     command=lambda:toHomeScreen(nameEL.get()))
-    loginB.pack(side=BOTTOM)
+    loginB.grid(columnspan=2, sticky=W)
 
     rmuser = Button(rootA, text='Sign in', fg='Blue',
                     command=Signup)
-    rmuser.pack()
+    rmuser.grid(columnspan=2, sticky=W)
+
+    # intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 50))
+    # intruction.pack()
+    #
+    # nameL = Label(rootA, text='Username: ', background="gray", font=("Helvetica", 20))
+    # nameL.pack()
+    #
+    # nameEL = Entry(rootA)
+    # nameEL.pack()
+    #
+    # loginB = Button(rootA, text='Login',
+    #                 command=lambda:toHomeScreen(nameEL.get()))
+    # loginB.pack(side=BOTTOM)
+    #
+    # rmuser = Button(rootA, text='Sign in', fg='Blue',
+    #                 command=Signup)
+    # rmuser.pack()
     rootA.mainloop()
 
 try:
@@ -464,7 +464,7 @@ def showMenu(root):
     "'Deze functie word in bijna alle frames aangeroepen om zo het drop down menu overal het zelfde weer te geven.'"
     global toDestroyRoot
 
-    root.geometry('1920x1080')
+    # root.geometry('1920x1080')
     root.configure(background='gray')
 
     toDestroyRoot = root

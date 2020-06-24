@@ -218,4 +218,4 @@ def recommendedClothes(mogelijkeTop, mogelijkeBottom, loopIndex, rootGen, Homesc
 
 def backtoGenScreen(setGenScreen, rootWear):
     rootWear.destroy()
-    setGenScreen()
+    setGenScreen() 
