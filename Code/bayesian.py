@@ -2,6 +2,7 @@ import json
 from Code.WeerAPI import *
 from tkinter.messagebox import showinfo
 import random
+from sys import exit
 
 def WeatherForPickClothes(func, userName):
     "'Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.'"
@@ -23,7 +24,6 @@ def WeatherForPickClothes(func, userName):
     windSnelheid = huidigeWeer[2]
     if windSnelheid >= 5:
         gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
-
     if gevoelsTemp < 12:
         hitteNiveau = "cold"
     elif gevoelsTemp >= 12 and gevoelsTemp < 23:
@@ -43,21 +43,37 @@ def WeatherForPickClothes(func, userName):
         kans = kans.split("/")[0]
         for i in range(0, int(kans)):
             randomChoiceLijst.append(x)
-    # print(randomChoiceLijst)
+
     keuzeLangKort = random.choice(randomChoiceLijst)
-    # print(FiguratieLangKort)
-    # print(keuzeLangKort)
+    print(keuzeLangKort)
     LengteMouwen = keuzeLangKort.split("-")[0]
     LengtePijpen = keuzeLangKort.split("-")[1]
     soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
     soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
-    # print(LengteMouwen, "!!!!!!!!!!!!!!!")
-    # print(LengtePijpen, "!!!!!!!!!!!!!!!")
     Tops = ChoiceTopBottom(userName, LengteMouwen, soortenTop, opportunity)
     Bottoms = ChoiceTopBottom(userName, LengtePijpen, soortenBottom, opportunity)
-    # print(Tops)
-    # print(Bottoms)
-    CollorChoice(userName, Tops, Bottoms)
+    if len(Tops) == 0 or len(Bottoms) == 0:
+        errorMessage()
+        exit(0)
+
+    # print(Tops, "first")
+    # print(Bottoms, "first")
+    funcTops = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Tops, "tops")
+    Tops = funcTops[0]
+    voorkomendeCategorieTop = funcTops[1]
+    wearableTopBottomListTop = funcTops[2]
+    funcBottoms = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Bottoms, "bottoms")
+    Bottoms = funcTops[0]
+    voorkomendeCategorieBottom = funcBottoms[1]
+    wearableTopBottomListBottom = funcBottoms[2]
+
+    if len(Tops) == 0 or len(Bottoms) == 0:
+        errorMessage()
+        exit(0)
+    # print(Tops, "second")
+    # print(Bottoms, "second")
+    return CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom)
+
 
 def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid):
     mogelijkeTopBottom = []
@@ -77,60 +93,87 @@ def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid):
             mogelijkeTopBottom.append(tempList)
     return mogelijkeTopBottom
 
-def CollorChoice(userName, Tops, Bottoms):
-    if len(Tops) == 0 or len(Bottoms) == 0:
-        errorMessage()
-    mogelijkSetjes = []
-    for shirt in Tops:
-        for bottom in Bottoms:
-            collorTop = shirt[1]
-            collorBottom = bottom[1]
-            with open('../jsonFiles/Datastructuur.json', 'r') as ColorCombInf:
-                collorCombinationsInfo = json.load(ColorCombInf)
+# def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom):
+#     if len(Tops) == 0 or len(Bottoms) == 0:
+#         errorMessage()
+#         exit(0)
+#
+#     mogelijkSetjes = []
+#
+#     for shirt in Tops:
+#         for bottom in Bottoms:
+#             collorTop = shirt[1]
+#             collorBottom = bottom[1]
+#             with open('../jsonFiles/Datastructuur.json', 'r') as ColorCombInf:
+#                 collorCombinationsInfo = json.load(ColorCombInf)
+#
+#             try:
+#                 collorStatus = getCollorStatus(collorCombinationsInfo, collorTop, collorBottom)
+#             except:
+#                 if "-" in collorTop and "-" in collorBottom:
+#                     collorTop = collorTop.split("-")
+#                     collorBottom = collorBottom.split("-")
+#
+#                     splitStatusTop = []
+#                     splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[0]))
+#                     splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[1]))
+#                     splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[0]))
+#                     splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[1]))
+#                     collorStatus = random.choice(splitStatusTop)
+#
+#                 elif "-" in collorTop:
+#                     collorTop = collorTop.split("-")
+#                     splitStatusTop = []
+#                     splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
+#                     splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
+#                     collorStatus = random.choice(splitStatusTop)
+#
+#                 elif "-" in collorBottom:
+#                     collorBottom = collorBottom.split("-")
+#                     splitStatusBottom = []
+#                     splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[0]))
+#                     splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[1]))
+#                     collorStatus = random.choice(splitStatusBottom)
+#
+#             if collorStatus == "ja":
+#                 tempList = []
+#                 if shirt[2] == "jumpsuit" or shirt[2] == "jurk":
+#                     tempList.append(shirt)
+#                 else:
+#                     tempList.append(shirt)
+#                     tempList.append(bottom)
+#
+#                 statusGedragen = checkGedragen(userName, tempList)
+#                 if statusGedragen == False:
+#                     mogelijkSetjes.append(tempList)
+#     if len(Tops) == 0 or len(Bottoms) == 0:
+#         errorMessage()
+#         exit(0)
+#     for y in mogelijkSetjes:
+#         print(y)
 
-            try:
-                collorStatus = getCollorStatus(collorCombinationsInfo, collorTop, collorBottom)
-            except:
-                if "-" in collorTop and "-" in collorBottom:
-                    collorTop = collorTop.split("-")
-                    collorBottom = collorBottom.split("-")
+def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom):
+    FiguratieLangKort = kortOfLangInf[TopOrBottom][hitteNiveau]
+    # print(hitteNiveau)
+    print(TopsBottoms, 'list')
 
-                    splitStatusTop = []
-                    splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[0]))
-                    splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[1]))
-                    splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[0]))
-                    splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[1]))
-                    collorStatus = random.choice(splitStatusTop)
-
-                elif "-" in collorTop:
-                    collorTop = collorTop.split("-")
-                    splitStatusTop = []
-                    splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
-                    splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
-                    collorStatus = random.choice(splitStatusTop)
-
-                elif "-" in collorBottom:
-                    collorBottom = collorBottom.split("-")
-                    splitStatusBottom = []
-                    splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[0]))
-                    splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[1]))
-                    collorStatus = random.choice(splitStatusBottom)
-
-            if collorStatus == "ja":
-                tempList = []
-                if shirt[2] == "jumpsuit" or shirt[2] == "jurk":
-                    tempList.append(shirt)
-                else:
-                    tempList.append(shirt)
-                    tempList.append(bottom)
-
-                statusGedragen = checkGedragen(userName, tempList)
-                if statusGedragen == False:
-                    mogelijkSetjes.append(tempList)
-    if len(mogelijkSetjes) == 0:
-        errorMessage()
-    for y in mogelijkSetjes:
-        print(y)
+    wearableTopBottomList = []
+    voorkomendeCategorie = []
+    for x in FiguratieLangKort:
+        kans = FiguratieLangKort[x]["yes"]
+        kans = kans.split("/")[0]
+        for i in range(0, int(kans)):
+            wearableTopBottomList.append(x)
+    # print(wearableTopBottomList)
+    print(TopsBottoms[0][2], "juahhhhhhhhhh")
+    for kledingstuk in TopsBottoms:
+        if kledingstuk[2] not in wearableTopBottomList:
+            TopsBottoms.remove(kledingstuk)
+        else:
+            voorkomendeCategorie.append(kledingstuk[2])
+    # keuzeLangKort = random.choice(wearableTopBottomList)
+    print(wearableTopBottomList, "filters")
+    return TopsBottoms, voorkomendeCategorie, wearableTopBottomList
 
 def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
     try:
@@ -157,4 +200,81 @@ def errorMessage():
     bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
     showinfo(title='Clothing error', message=bericht)
 
-WeatherForPickClothes("dagelijks", "admin")
+def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom):
+    if len(Tops) == 0 or len(Bottoms) == 0:
+        errorMessage()
+        exit(0)
+
+    mogelijkSetjes = []
+
+    while len(Tops) != 0 and len(Bottoms) != 0:
+        randTopCat = None
+        randBottomCat = None
+        while randTopCat not in voorkomendeCategorieTop:
+            randTopCat = random.choice(wearableTopBottomListTop)
+
+        while randBottomCat not in voorkomendeCategorieBottom:
+            randBottomCat = random.choice(wearableTopBottomListBottom)
+
+        wearableTopBottomListTop.remove(randTopCat)
+        wearableTopBottomListBottom.remove(randBottomCat)
+        for shirt in Tops:
+            print(shirt, "shirt")
+            if shirt[2] == randTopCat:
+                Tops.remove(shirt)
+                for bottom in Bottoms:
+                    if bottom[2] == randBottomCat:
+                        print(bottom, "bottom")
+                        Bottoms.remove(bottom)
+                        collorTop = shirt[1]
+                        collorBottom = bottom[1]
+                        with open('../jsonFiles/Datastructuur.json', 'r') as ColorCombInf:
+                            collorCombinationsInfo = json.load(ColorCombInf)
+                        try:
+                            collorStatus = getCollorStatus(collorCombinationsInfo, collorTop, collorBottom)
+                        except:
+                            if "-" in collorTop and "-" in collorBottom:
+                                collorTop = collorTop.split("-")
+                                collorBottom = collorBottom.split("-")
+
+                                splitStatusTop = []
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[0]))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[1]))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[0]))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[1]))
+                                collorStatus = random.choice(splitStatusTop)
+
+                            elif "-" in collorTop:
+                                collorTop = collorTop.split("-")
+                                splitStatusTop = []
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
+                                collorStatus = random.choice(splitStatusTop)
+
+                            elif "-" in collorBottom:
+                                collorBottom = collorBottom.split("-")
+                                splitStatusBottom = []
+                                splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[0]))
+                                splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[1]))
+                                collorStatus = random.choice(splitStatusBottom)
+
+                        if collorStatus == "ja":
+                            tempList = []
+                            if shirt[2] == "jumpsuit" or shirt[2] == "jurk":
+                                tempList.append(shirt)
+                            else:
+                                tempList.append(shirt)
+                                tempList.append(bottom)
+                            print(tempList)
+
+                            statusGedragen = checkGedragen(userName, tempList)
+                            if statusGedragen == False:
+                                mogelijkSetjes.append(tempList)
+    print("\n")
+    for y in mogelijkSetjes:
+        print(y)
+    return mogelijkSetjes
+
+
+print(WeatherForPickClothes("dagelijks", "admin"))
+# print(getCommonClothingPieces())

@@ -1,4 +1,6 @@
 import json
+from sys import exit
+
 #boven 22 is warm, onder 13 is koud
 # try:
 with open('../jsonFiles/Kledingkast.json', 'r') as BackupData:
@@ -489,7 +491,7 @@ def toHub():
 
 def exit():
     "'deze functie zorgt ervoor dat je het programma  afsluit door het enige frame dat openstaat te destroyen.'"
-    Globroot.destroy()
+    exit(0)
 
 
 def commitPersonalData(BetweenWear, City, Land, ChangeName):
