@@ -263,21 +263,20 @@ def frame(func, userName, setGenScreen, showMenu, rootGen):
     global SetsList
     loopIndex = -1
     SetsList = WeatherForPickClothes(func, userName, setGenScreen, rootGen)
-    # print(SetsList)
+    if len(SetsList) == 0:
+        errorMessage(setGenScreen, rootGen)
+
     clothingloop(func, userName, loopIndex, setGenScreen, showMenu, rootGen)
 
 
 def clothingloop(func, userName, loopIndex, setGenScreen, showMenu, rootGen):
     loopIndex += 1
-    if loopIndex == len(SetsList):
-        bericht = "Helaas hebben we geen setjes meer om te laten zien."
-        showinfo(title='Clothing error', message=bericht)
-        backtoGenScreen(setGenScreen, rootGen)
-    else:
-        sideScreen(SetsList[loopIndex][0], SetsList[loopIndex][1], func, loopIndex, setGenScreen, showMenu, userName, rootGen)
+    sideScreen(SetsList[loopIndex][0], SetsList[loopIndex][1], func, loopIndex, setGenScreen, showMenu, userName, rootGen)
 
 
 def sideScreen(top, bottom, func, loopindex, setGenScreen, showMenu, userName, rootGen):
+    if loopindex == 0:
+        rootGen.destroy()
     global rootWear
     global Globroot
 
@@ -312,8 +311,8 @@ def sideScreen(top, bottom, func, loopindex, setGenScreen, showMenu, userName, r
 
 def autoGen(aantrekken, top, bottom, userName, loopIndex, func, setGenScreen, showMenu, rootGen):
     "'Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand.'"
-    rootWear.destroy()
     if aantrekken == "ja":
+        rootWear.destroy()
         with open('../jsonFiles/Kledingkast.json', 'r') as alldata:
             allinformatie = json.load(alldata)
         with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
@@ -325,10 +324,15 @@ def autoGen(aantrekken, top, bottom, userName, loopIndex, func, setGenScreen, sh
             backtoGenScreen(setGenScreen, rootGen)
 
     else:
-        clothingloop(func, userName, loopIndex, setGenScreen, showMenu, rootGen)
+        if loopIndex + 1 == len(SetsList):
+            bericht = "Helaas hebben we geen setjes meer om te laten zien."
+            showinfo(title='Clothing error', message=bericht)
+            backButton(setGenScreen, rootWear)
+        else:
+            rootWear.destroy()
+            clothingloop(func, userName, loopIndex, setGenScreen, showMenu, rootGen)
 
 def backtoGenScreen(setGenScreen, rootGen):
-    rootGen.destroy()
     setGenScreen()
 
 def backButton(setGenScreen, rootWear):
