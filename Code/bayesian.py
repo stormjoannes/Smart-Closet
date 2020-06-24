@@ -63,7 +63,7 @@ def WeatherForPickClothes(func, userName):
     voorkomendeCategorieTop = funcTops[1]
     wearableTopBottomListTop = funcTops[2]
     funcBottoms = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Bottoms, "bottoms")
-    Bottoms = funcTops[0]
+    Bottoms = funcBottoms[0]
     voorkomendeCategorieBottom = funcBottoms[1]
     wearableTopBottomListBottom = funcBottoms[2]
 
@@ -276,5 +276,5 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
     return mogelijkSetjes
 
 
-print(WeatherForPickClothes("dagelijks", "admin"))
+WeatherForPickClothes("dagelijks", "admin")
 # print(getCommonClothingPieces())
