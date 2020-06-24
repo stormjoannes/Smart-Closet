@@ -28,7 +28,7 @@
 from tkinter.messagebox import showinfo
 
 def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd):
-    &#34;&#39;Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).&#39;&#34;
+    &#34;&#34;&#34;Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as allKleding:
         data = json.load(allKleding)
 
@@ -45,7 +45,7 @@ def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, bran
         ALL.close()
 
 def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, colorDelete, brandDelete, categoryDelete):
-    &#34;&#39;Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).&#39;&#34;
+    &#34;&#34;&#34;Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as allKleding:
         dataDelete = json.load(allKleding)
 
@@ -76,13 +76,13 @@ def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, co
 <span>def <span class="ident">addClothes</span></span>(<span>personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>'Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).'</p></div>
+<div class="desc"><p>Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd):
-    &#34;&#39;Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).&#39;&#34;
+    &#34;&#34;&#34;Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as allKleding:
         data = json.load(allKleding)
 
@@ -103,13 +103,13 @@ def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, co
 <span>def <span class="ident">deleteClothes</span></span>(<span>personName, nameDelete, longShortDelete, opportunityDelete, colorDelete, brandDelete, categoryDelete)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>'Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).'</p></div>
+<div class="desc"><p>Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, colorDelete, brandDelete, categoryDelete):
-    &#34;&#39;Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).&#39;&#34;
+    &#34;&#34;&#34;Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as allKleding:
         dataDelete = json.load(allKleding)
 

@@ -1,22 +1,12 @@
 import json
 from sys import exit
 
-#boven 22 is warm, onder 13 is koud
-# try:
-with open('../jsonFiles/Kledingkast.json', 'r') as BackupData:
-    backupDataDrawBack = json.load(BackupData)
-# except:
-#     with open('../jsonFiles/BackupKledingkast.json', 'r') as BackupData:
-#         backupDataDrawBack = json.load(BackupData)
-#     with open("../jsonFiles/Kledingkast.json", 'w+') as f:
-#         f.write(f"{backupDataDrawBack}")
-
 from Code.Functions import *
 from tkinter import ttk
 import pathlib
 
 def Signup():  # This is the signup definition,
-    "'In deze functie maak ik het signup frame aan, hier kun je jezelf aanmelden'"
+    """In deze functie maak ik het signup frame aan, hier kun je jezelf aanmelden"""
     rootLogin.destroy()
     global rootSignUp
     global Globroot
@@ -59,48 +49,17 @@ def Signup():  # This is the signup definition,
                        command=toLogIn)
     backLogin.grid(columnspan=2, sticky=W)
 
-    # intruction.pack(ipadx=10000)
-    #
-    # signUpEntryNameLabel = Label(rootSignUp, text='Nieuwe naam: ', background="gray")
-    # signUpEntryNameLabel.pack(row=1, column=0,
-    #            sticky=W)
-    #
-    # signUpNameEntry = Entry(rootSignUp)
-    # signUpNameEntry.pack(row=1, column=1)
-    #
-    # signUpStadField = Label(rootSignUp, text='Stad naam: ', background="gray")
-    # signUpStadField.pack(row=2, column=0,
-    #            sticky=W)
-    #
-    # signUpStadEntry = Entry(rootSignUp)
-    # signUpStadEntry.pack(row=2, column=1)
-    #
-    # signUpLandField = Label(rootSignUp, text='De afkorting van je land: ', background="gray")
-    # signUpLandField.pack(row=3, column=0,
-    #            sticky=W)
-    #
-    # signUpLandEntry = Entry(rootSignUp)
-    # signUpLandEntry.pack(row=3, column=1)
-    #
-    # signupButton = Button(rootSignUp, text='Signup',
-    #                       command=lambda:toLogin(signUpNameEntry.get(), signUpStadEntry.get(), signUpLandEntry.get()))
-    # signupButton.pack(columnspan=2, sticky=W)
-    #
-    # backLogin = Button(rootSignUp, text='Login', fg='Blue',
-    #                    command=toLogIn)
-    # backLogin.pack(columnspan=2, sticky=W)
-
     rootSignUp.mainloop()
 
 
 def toLogIn():
-    "'deze functie word vaker gebruikt om vanuit dat frame naar het login frame te gaan'"
+    """deze functie word vaker gebruikt om vanuit dat frame naar het login frame te gaan"""
     Globroot.destroy()
     Login()
 
 
 def showMenuLoginSignup(root):
-    "'Dit is een aparte functie om het dropdown menu voor de signup en de login te maken'"
+    """Dit is een aparte functie om het dropdown menu voor de signup en de login te maken"""
     # root.geometry('1920x1080')
     root.configure(background='gray')
 
@@ -113,7 +72,7 @@ def showMenuLoginSignup(root):
 
 
 def Login():
-    "'In deze functie kun je inloggen met je username'"
+    """In deze functie kun je inloggen met je username"""
     global rootLogin
     global Globroot
 
@@ -141,27 +100,11 @@ def Login():
                     command=Signup)
     rmuser.grid(columnspan=2, sticky=W)
 
-    # LoginTitleLabel = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 50))
-    # LoginTitleLabel.pack()
-    #
-    # LoginEntryNameLabel = Label(rootA, text='Username: ', background="gray", font=("Helvetica", 20))
-    # LoginEntryNameLabel.pack()
-    #
-    # LoginUserNameEntry = Entry(rootA)
-    # LoginUserNameEntry.pack()
-    #
-    # loginB = Button(rootA, text='Login',
-    #                 command=lambda:toHomeScreen(LoginUserNameEntry.get()))
-    # loginB.pack(side=BOTTOM)
-    #
-    # rmuser = Button(rootA, text='Sign in', fg='Blue',
-    #                 command=Signup)
-    # rmuser.pack()
     rootLogin.mainloop()
 
 try:
     def Homescreen():
-        "'deze functie geeft het hoofdmenu weer. hier kun je alle opties uitkiezen die er zijn.'"
+        """deze functie geeft het hoofdmenu weer. hier kun je alle opties uitkiezen die er zijn."""
         global rootHm
         global Globroot
 
@@ -196,7 +139,7 @@ except:
 
 
 def AddScreen():
-    "'In deze functie word het frame aangemaakt om kleding toe te voegen aan je digitale kledingkast'"
+    """In deze functie word het frame aangemaakt om kleding toe te voegen aan je digitale kledingkast"""
     rootHm.destroy()
     global rootAdd
     global Globroot
@@ -215,7 +158,7 @@ def AddScreen():
 
 
 def inputParametersClothing(root):
-    "'Deze functie zorgt voor de input van de paramaters van de kleding. deze worden gebruikt om kleren te verwijderen en toe te voegen'"
+    """Deze functie zorgt voor de input van de paramaters van de kleding. deze worden gebruikt om kleren te verwijderen en toe te voegen"""
     global screenNameEntry
     global screenLongShortEntry
     global screenOpportunityEntry
@@ -267,7 +210,7 @@ def inputParametersClothing(root):
 
 
 def DeleteScreen():
-    "'In deze functie word het frame aangemaakt om kleding te verwijderen van je digitale kledingkast'"
+    """In deze functie word het frame aangemaakt om kleding te verwijderen van je digitale kledingkast"""
     with open('../jsonFiles/Kledingkast.json', 'r') as Clothes:
         CheckforClothes = json.load(Clothes)
 
@@ -294,6 +237,7 @@ def DeleteScreen():
 
 
 def DeleteOrAdd(userName, name, LongShort, opportunity, color, brand, category, switch):
+    """Hier word er gekeken of ik een kledingstuk wil toevoegen of verwijderen. Zo word de juiste functie aangeroepen."""
     if switch == "add":
         addClothes(userName, name, LongShort, opportunity, color, brand, category)
     else:
@@ -302,7 +246,7 @@ def DeleteOrAdd(userName, name, LongShort, opportunity, color, brand, category, 
 
 
 def changePersonalData():
-    "'Deze functie word gebruikt in het dropdown menu. Hier kun je persoonlijke gegevens aanpassen.'"
+    """Deze functie word gebruikt in het dropdown menu. Hier kun je persoonlijke gegevens aanpassen."""
     global rootCPD
 
     rootCPD = Tk()
@@ -350,7 +294,7 @@ def changePersonalData():
 
 
 def deleteAccountCheck():
-    "'Deze functie zorgt er voor dat je je account kan verwijderen'"
+    """Deze functie zorgt er voor dat je je account kan verwijderen"""
     global rootDeleteAccount
     rootDeleteAccount = Tk()
     rootDeleteAccount.title('Account delete')
@@ -368,6 +312,7 @@ def deleteAccountCheck():
 
 
 def toDeleteAccount(Login, userName, Globroot, rootDeleteAccount):
+    """Via deze functie ga ik naar mijn functie om mijn account te deleten en zorg ik dat overige roots gedestroyed worden."""
     deleteAccount(userName)
     Globroot.destroy()
     rootDeleteAccount.destroy()
@@ -375,7 +320,7 @@ def toDeleteAccount(Login, userName, Globroot, rootDeleteAccount):
 
 
 def UitkiezenScreen():
-    "'Deze functie opent je kledingkast zodat je gewoon in je kledingkast kan kijken, filters kunnen ook toegepast worden.'"
+    """Deze functie opent je kledingkast zodat je gewoon in je kledingkast kan kijken, filters kunnen ook toegepast worden."""
     with open('../jsonFiles/Kledingkast.json', 'r') as Clothes:
         CheckforClothes = json.load(Clothes)
 
@@ -423,12 +368,13 @@ def UitkiezenScreen():
 
 
 def toGenScreen():
+    """Via deze functie ga je vanaf het homescreen naar het automatisch setjes genereren scherm."""
     rootHm.destroy()
     setGenScreen()
 
 
 def setGenScreen():
-    "'In deze functie word het frame aangemaakt voor het automatisch uitkiezen van een kledingsetje voor jou.'"
+    """In deze functie word het frame aangemaakt voor het automatisch uitkiezen van een kledingsetje voor jou."""
     global rootGen
     global Globroot
 
@@ -464,7 +410,7 @@ def setGenScreen():
 
 
 def showMenu(root):
-    "'Deze functie word in bijna alle frames aangeroepen om zo het drop down menu overal het zelfde weer te geven.'"
+    """Deze functie word in bijna alle frames aangeroepen om zo het drop down menu overal het zelfde weer te geven."""
     global toDestroyRoot
 
     # root.geometry('1920x1080')
@@ -485,18 +431,18 @@ def showMenu(root):
 
 
 def toHub():
-    "'deze functie zorgt voor het destroyen van het vorige frame en stuurt je door naar het homescreen'"
+    """deze functie zorgt voor het destroyen van het vorige frame en stuurt je door naar het homescreen"""
     toDestroyRoot.destroy()
     Homescreen()
 
 
 def exitProg():
-    "'deze functie zorgt ervoor dat je het programma  afsluit door het enige frame dat openstaat te destroyen.'"
+    """deze functie zorgt ervoor dat je het programma  afsluit door het enige frame dat openstaat te destroyen."""
     exit(0)
 
 
 def commitPersonalData(BetweenWear, City, Land, ChangeName):
-    "'Deze functie zorgt ervoor dat de ingevulde data die je wilt veranderen van jouw profiel opgeslagen word.'"
+    """Deze functie zorgt ervoor dat de ingevulde data die je wilt veranderen van jouw profiel opgeslagen word."""
     global userName
     global Globroot
     changedUserName = str(gegWijzigen(userName, BetweenWear, City, Land, ChangeName))
@@ -506,7 +452,7 @@ def commitPersonalData(BetweenWear, City, Land, ChangeName):
 
 
 def toHomeScreen(name):
-    "'Deze functie word gebruikt bij de login om te checken of je door kan worden gestuurde naar het hoofdscherm'"
+    """Deze functie word gebruikt bij de login om te checken of je door kan worden gestuurde naar het hoofdscherm"""
     if checkIfExist(name) == True:
         global userName
         userName = name
@@ -518,7 +464,7 @@ def toHomeScreen(name):
 
 
 def toLogin(signUpName, signUpStad, signUpLand):
-    "''hier check je of de ingevulde waardes om je aan te melden kloppen en correct kunnen worden verwerkt."
+    """hier check je of de ingevulde waardes om je aan te melden kloppen en correct kunnen worden verwerkt."""
     if len(signUpStad) == 0 or len(signUpLand) == 0 or len(signUpName) == 0:
         emptyInput = ''
         if len(signUpName) == 0:

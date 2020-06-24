@@ -29,7 +29,7 @@ from Code.KledingkastBekijken import *
 from Code.AddOrDelete import *
 
 def configSignUp(naamUser, stad, land):
-    &#34;&#39;Hier zet ik de ingevulde gegevens van de signup in het json bestand.&#39;&#34;
+    &#34;&#34;&#34;Hier zet ik de ingevulde gegevens van de signup in het json bestand.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as doc:
         allInf = json.load(doc)
         allInf[naamUser] = [
@@ -41,7 +41,7 @@ def configSignUp(naamUser, stad, land):
 
 
 def checkIfExist(naamUser):
-    &#34;&#39;Deze functie gebruik ik om de controleren of een ingevulde username bestaat of niet.&#39;&#34;
+    &#34;&#34;&#34;Deze functie gebruik ik om de controleren of een ingevulde username bestaat of niet.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as doc:
         allNames = json.load(doc)
 
@@ -51,7 +51,7 @@ def checkIfExist(naamUser):
     return False
 
 def backupDump():
-    &#34;&#39;Deze functie gebruik ik om de recente gegevens steeds worden gekopieerd naar een backup &#39;server&#39;.&#39;&#34;
+    &#34;&#34;&#34;Deze functie gebruik ik om de recente gegevens steeds worden gekopieerd naar een backup &#39;server&#39;.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as forBackup:
         ForbackupDATA = json.load(forBackup)
 
@@ -61,7 +61,7 @@ def backupDump():
 
 
 def refreshGedragen(naamUser):
-    &#34;&#39;Deze functie zorgt ervoor dat er gedragen kleding word verwijderd zodra die buiten de range valt van hoe lang iemand zijn setjes niet achter elkaar wilt dragen (tussenWear).&#39;&#34;
+    &#34;&#34;&#34;Deze functie zorgt ervoor dat er gedragen kleding word verwijderd zodra die buiten de range valt van hoe lang iemand zijn setjes niet achter elkaar wilt dragen (tussenWear).&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as forRefresh:
         dataRefresh = json.load(forRefresh)
 
@@ -77,7 +77,7 @@ def refreshGedragen(naamUser):
 
 
 def gegWijzigen(naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUsername):
-    &#34;&#39;In deze functie worden de ingevulde veranderde persoonlijke gegevens in het json bestand gezet.&#39;&#34;
+    &#34;&#34;&#34;In deze functie worden de ingevulde veranderde persoonlijke gegevens in het json bestand gezet.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as vrWijzig:
         allWijzig = json.load(vrWijzig)
 
@@ -96,7 +96,7 @@ def gegWijzigen(naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUserna
     return wijzigUsername
 
 def deleteAccount(userName):
-    &#34;&#39;In deze functie word je account verwijderd uit de bestanden.&#39;&#34;
+    &#34;&#34;&#34;In deze functie word je account verwijderd uit de bestanden.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as ALLaccounts:
         deleteAccountData = json.load(ALLaccounts)
         deleteAccountData.pop(userName)
@@ -117,13 +117,13 @@ def deleteAccount(userName):
 <span>def <span class="ident">backupDump</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>'Deze functie gebruik ik om de recente gegevens steeds worden gekopieerd naar een backup 'server'.'</p></div>
+<div class="desc"><p>Deze functie gebruik ik om de recente gegevens steeds worden gekopieerd naar een backup 'server'.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def backupDump():
-    &#34;&#39;Deze functie gebruik ik om de recente gegevens steeds worden gekopieerd naar een backup &#39;server&#39;.&#39;&#34;
+    &#34;&#34;&#34;Deze functie gebruik ik om de recente gegevens steeds worden gekopieerd naar een backup &#39;server&#39;.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as forBackup:
         ForbackupDATA = json.load(forBackup)
 
@@ -136,13 +136,13 @@ def deleteAccount(userName):
 <span>def <span class="ident">checkIfExist</span></span>(<span>naamUser)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>'Deze functie gebruik ik om de controleren of een ingevulde username bestaat of niet.'</p></div>
+<div class="desc"><p>Deze functie gebruik ik om de controleren of een ingevulde username bestaat of niet.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def checkIfExist(naamUser):
-    &#34;&#39;Deze functie gebruik ik om de controleren of een ingevulde username bestaat of niet.&#39;&#34;
+    &#34;&#34;&#34;Deze functie gebruik ik om de controleren of een ingevulde username bestaat of niet.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as doc:
         allNames = json.load(doc)
 
@@ -156,13 +156,13 @@ def deleteAccount(userName):
 <span>def <span class="ident">configSignUp</span></span>(<span>naamUser, stad, land)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>'Hier zet ik de ingevulde gegevens van de signup in het json bestand.'</p></div>
+<div class="desc"><p>Hier zet ik de ingevulde gegevens van de signup in het json bestand.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def configSignUp(naamUser, stad, land):
-    &#34;&#39;Hier zet ik de ingevulde gegevens van de signup in het json bestand.&#39;&#34;
+    &#34;&#34;&#34;Hier zet ik de ingevulde gegevens van de signup in het json bestand.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as doc:
         allInf = json.load(doc)
         allInf[naamUser] = [
@@ -177,13 +177,13 @@ def deleteAccount(userName):
 <span>def <span class="ident">deleteAccount</span></span>(<span>userName)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>'In deze functie word je account verwijderd uit de bestanden.'</p></div>
+<div class="desc"><p>In deze functie word je account verwijderd uit de bestanden.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def deleteAccount(userName):
-    &#34;&#39;In deze functie word je account verwijderd uit de bestanden.&#39;&#34;
+    &#34;&#34;&#34;In deze functie word je account verwijderd uit de bestanden.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as ALLaccounts:
         deleteAccountData = json.load(ALLaccounts)
         deleteAccountData.pop(userName)
@@ -197,13 +197,13 @@ def deleteAccount(userName):
 <span>def <span class="ident">gegWijzigen</span></span>(<span>naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUsername)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>'In deze functie worden de ingevulde veranderde persoonlijke gegevens in het json bestand gezet.'</p></div>
+<div class="desc"><p>In deze functie worden de ingevulde veranderde persoonlijke gegevens in het json bestand gezet.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def gegWijzigen(naamUser, tussenWearWijzig, stadWijzig, landWijzig, wijzigUsername):
-    &#34;&#39;In deze functie worden de ingevulde veranderde persoonlijke gegevens in het json bestand gezet.&#39;&#34;
+    &#34;&#34;&#34;In deze functie worden de ingevulde veranderde persoonlijke gegevens in het json bestand gezet.&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as vrWijzig:
         allWijzig = json.load(vrWijzig)
 
@@ -226,13 +226,13 @@ def deleteAccount(userName):
 <span>def <span class="ident">refreshGedragen</span></span>(<span>naamUser)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>'Deze functie zorgt ervoor dat er gedragen kleding word verwijderd zodra die buiten de range valt van hoe lang iemand zijn setjes niet achter elkaar wilt dragen (tussenWear).'</p></div>
+<div class="desc"><p>Deze functie zorgt ervoor dat er gedragen kleding word verwijderd zodra die buiten de range valt van hoe lang iemand zijn setjes niet achter elkaar wilt dragen (tussenWear).</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def refreshGedragen(naamUser):
-    &#34;&#39;Deze functie zorgt ervoor dat er gedragen kleding word verwijderd zodra die buiten de range valt van hoe lang iemand zijn setjes niet achter elkaar wilt dragen (tussenWear).&#39;&#34;
+    &#34;&#34;&#34;Deze functie zorgt ervoor dat er gedragen kleding word verwijderd zodra die buiten de range valt van hoe lang iemand zijn setjes niet achter elkaar wilt dragen (tussenWear).&#34;&#34;&#34;
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as forRefresh:
         dataRefresh = json.load(forRefresh)
 
