@@ -1,4 +1,4 @@
-from Code.bayesian import *
+from Code.Bayesian import *
 from Code.KledingkastBekijken import *
 from Code.AddOrDelete import *
 

@@ -28,7 +28,7 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
     global AllClothes
     userName = naam
 
-    allClothingString = ''
+    allClothingString = ""
 
     for indexAll in range(2, len(allInfVariables[userName])):
         allClothingString += str(allInfVariables[userName][indexAll]) + '\n'

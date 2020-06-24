@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.1" />
+<title>Bayesian API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>Bayesian</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import json
+from Code.WeerAPI import *
+from tkinter.messagebox import showinfo
+from datetime import datetime
+import random
+from sys import exit
+from tkinter import *
+
+def SortedListSets(unsortedList, hitteNiveau, kortOfLangInf):
+    &#34;Dit is het laatste stadium waar de mogelijke setjes in de lijst word aangepast. Hier worden namelijk de setjes van best naar slecht nog eens gesorteerd door middel van een formule.&#34;
+    allValues = []
+    sortedList = []
+    for x in unsortedList:
+        kortLangSamenstelling = x[0][4] + &#34;-&#34; + x[1][4]
+        kansKortLang = kortOfLangInf[&#34;temp&#34;][hitteNiveau][kortLangSamenstelling][&#34;yes&#34;]
+        kansKortLang = kansKortLang.split(&#34;/&#34;)
+        kansKortLang = int(kansKortLang[0]) / int(kansKortLang[1])
+
+        kansValueTop = kortOfLangInf[&#34;tops&#34;][hitteNiveau][x[0][2]][&#34;yes&#34;]
+        kansValueTop = kansValueTop.split(&#34;/&#34;)
+        kansValueTop = int(kansValueTop[0]) / int(kansValueTop[1])
+
+        # bottom = &#34;&#34;.join(x[1][2])
+        kansValueBottom = kortOfLangInf[&#34;bottoms&#34;][hitteNiveau][x[1][2]][&#34;yes&#34;]
+        kansValueBottom = kansValueBottom.split(&#34;/&#34;)
+        kansValueBottom = int(kansValueBottom[0]) / int(kansValueBottom[1])
+
+        kansSetje = kansKortLang * kansValueTop * kansValueBottom
+        allValues.append(kansSetje)
+
+    while len(allValues) != 0:
+        for valueIndex in range(0, len(allValues)):
+            MinValue = min(allValues)
+            if allValues[valueIndex] == MinValue:
+                # print(&#34;ja&#34;)
+                # print(unsortedList)
+                # print(allValues)
+                sortedList.append(unsortedList[valueIndex])
+                allValues.remove(allValues[valueIndex])
+                unsortedList.remove(unsortedList[valueIndex])
+                break
+    return sortedList
+
+
+def WeatherForPickClothes(func, userName):
+    &#34;&#34;&#34;Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.
+    Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt van lange of korte mouwen en lange of korte broekpijpen.&#34;&#34;&#34;
+    global loopIndex
+    if func == &#39;dagelijks&#39;:
+        opportunity = &#39;dagelijks leven&#39;
+    elif func == &#39;sport&#39;:
+        opportunity = &#39;sport&#39;
+    elif func == &#39;feest&#39;:
+        opportunity = &#39;feestje&#39;
+
+    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as Data:
+        placeInfo = json.load(Data)
+
+    stad = placeInfo[userName][0][&#34;gegevens&#34;][0][&#34;locatie&#34;][&#34;stad&#34;]
+    land = placeInfo[userName][0][&#34;gegevens&#34;][0][&#34;locatie&#34;][&#34;land&#34;]
+    huidigeWeer = setValuesWeer(stad, land)
+    gevoelsTemp = huidigeWeer[0]
+    windSnelheid = huidigeWeer[2]
+    if windSnelheid &gt;= 5:
+        gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
+    if gevoelsTemp &lt; 12:
+        hitteNiveau = &#34;cold&#34;
+    elif gevoelsTemp &gt;= 12 and gevoelsTemp &lt; 23:
+        hitteNiveau = &#34;mild&#34;
+    else:
+        hitteNiveau = &#34;hot&#34;
+
+    with open(&#39;../jsonFiles/Datastructuur.json&#39;, &#39;r&#39;) as HeatlevelInf:
+        kortOfLangInf = json.load(HeatlevelInf)
+
+    FiguratieLangKort = kortOfLangInf[&#34;temp&#34;][hitteNiveau]
+    # print(hitteNiveau)
+
+    randomChoiceLijst = []
+    for x in FiguratieLangKort:
+        kans = FiguratieLangKort[x][&#34;yes&#34;]
+        kans = kans.split(&#34;/&#34;)[0]
+        for i in range(0, int(kans)):
+            randomChoiceLijst.append(x)
+
+    keuzeLangKort = random.choice(randomChoiceLijst)
+    # print(keuzeLangKort)
+    LengteMouwen = keuzeLangKort.split(&#34;-&#34;)[0]
+    LengtePijpen = keuzeLangKort.split(&#34;-&#34;)[1]
+    soortenTop = [&#34;shirt&#34;, &#34;hoodie&#34;, &#34;hemdje&#34;, &#34;trui&#34;, &#34;vest&#34;, &#34;crop top&#34;, &#34;blazer&#34;, &#34;jurk&#34;, &#34;jumpsuit&#34;, &#34;blousje&#34;]
+    soortenBottom = [&#34;jeans&#34;, &#34;legging&#34;, &#34;chino&#34;, &#34;joggingbroek&#34;, &#34;jeans met gaten&#34;, &#34;rokje&#34;, &#34;high waste&#34;, &#34;stoffen broek&#34;]
+    Tops = ChoiceTopBottom(userName, LengteMouwen, soortenTop, opportunity)
+    Bottoms = ChoiceTopBottom(userName, LengtePijpen, soortenBottom, opportunity)
+    if len(Tops) == 0 or len(Bottoms) == 0:
+        errorMessage()
+        exit(0)
+
+    # print(Tops, &#34;first&#34;)
+    # print(Bottoms, &#34;first&#34;)
+    funcTops = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Tops, &#34;tops&#34;)
+    Tops = funcTops[0]
+    voorkomendeCategorieTop = funcTops[1]
+    wearableTopBottomListTop = funcTops[2]
+    funcBottoms = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Bottoms, &#34;bottoms&#34;)
+    Bottoms = funcBottoms[0]
+    voorkomendeCategorieBottom = funcBottoms[1]
+    wearableTopBottomListBottom = funcBottoms[2]
+
+    if len(Tops) == 0 or len(Bottoms) == 0:
+        errorMessage()
+        exit(0)
+    # print(Tops, &#34;second&#34;)
+    # print(Bottoms, &#34;second&#34;)
+    unsortedSets = CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom)
+    return SortedListSets(unsortedSets, hitteNiveau, kortOfLangInf)
+
+
+def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid):
+    &#34;In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen.&#34;
+    mogelijkeTopBottom = []
+    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as Data:
+        clothesData = json.load(Data)
+
+    for x in range(2, len(clothesData[userName])):
+        # print(clothesData[userName][x], &#34;stuk&#34;)
+        # print(TopOfBroek, &#34;lijstttttt&#34;)
+        # print(clothesData[userName][x][&#34;langKort&#34;], &#34;database&#34;)
+        # print(langKort, &#34;langkort&#34;)
+        # print(&#39;\n&#39;)
+        if clothesData[userName][x][&#34;langKort&#34;] == langKort and clothesData[userName][x][&#34;categorie&#34;] in TopOfBroek and clothesData[userName][x][&#34;gelegenheid&#34;] == gelegenheid:
+            tempList = [clothesData[userName][x][&#34;naam&#34;], clothesData[userName][x][&#34;kleur&#34;],
+                        clothesData[userName][x][&#34;categorie&#34;], clothesData[userName][x][&#34;merk&#34;],
+                        clothesData[userName][x][&#34;langKort&#34;]]
+            mogelijkeTopBottom.append(tempList)
+    return mogelijkeTopBottom
+
+
+def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom):
+    &#34;hier houd ik alleen de kledingstukken over die bij die temperatuur ook gedragen worden.&#34;
+    FiguratieLangKort = kortOfLangInf[TopOrBottom][hitteNiveau]
+    # print(hitteNiveau)
+    # print(TopsBottoms, &#39;list&#39;)
+
+    wearableTopBottomList = []
+    voorkomendeCategorie = []
+    for x in FiguratieLangKort:
+        kans = FiguratieLangKort[x][&#34;yes&#34;]
+        kans = kans.split(&#34;/&#34;)[0]
+        for i in range(0, int(kans)):
+            wearableTopBottomList.append(x)
+    # print(wearableTopBottomList)
+    # print(TopsBottoms[0][2], &#34;juahhhhhhhhhh&#34;)
+    for kledingstuk in TopsBottoms:
+        if kledingstuk[2] not in wearableTopBottomList:
+            TopsBottoms.remove(kledingstuk)
+        else:
+            voorkomendeCategorie.append(kledingstuk[2])
+    # keuzeLangKort = random.choice(wearableTopBottomList)
+    # print(wearableTopBottomList, &#34;filters&#34;)
+    return TopsBottoms, voorkomendeCategorie, wearableTopBottomList
+
+def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
+    &#34;hier worden de kleurensetjes geprobeerd of ze kunnen of niet. Dit is een try except omdat ik niet elke kleur dubbel heb staan in de datastructuur omdat dat overbodig was.&#34;
+    try:
+        collorStatus = collorCombinationsInfo[&#34;collor&#34;][collorTop][collorBottom]
+    except:
+        collorStatus = collorCombinationsInfo[&#34;collor&#34;][collorBottom][collorTop]
+
+    return collorStatus
+
+def checkGedragen(userName, setje):
+    &#34;Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker).&#34;
+    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as Wear:
+        WearInf = json.load(Wear)
+
+    for x in WearInf[userName][1][&#34;gedragen&#34;]:
+        tempComparrisenList = []
+        tempComparrisenList.append(x[0])
+        tempComparrisenList.append(x[1])
+        if tempComparrisenList == setje:
+            return True
+    return False
+
+
+def errorMessage():
+    &#34;Hier word alleen de pop-up errormessage aangemaakt en het categorie keuzescherm gerefreshed.&#34;
+    bericht = &#34;Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.&#34;
+    showinfo(title=&#39;Clothing error&#39;, message=bericht)
+    rootGen.destroy()
+    setGenScreen()
+
+
+def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom):
+    &#34;Hier word de kleurenkeuze gecontroleerd en worden de kledingstukken op basis van kans een beetje gesorteerd van goed setje naar een minder goed setje.&#34;
+    if len(Tops) == 0 or len(Bottoms) == 0:
+        errorMessage()
+        exit(0)
+
+    mogelijkSetjes = []
+
+    while len(Tops) != 0 and len(Bottoms) != 0:
+        randTopCat = None
+        randBottomCat = None
+        while randTopCat not in voorkomendeCategorieTop:
+            randTopCat = random.choice(wearableTopBottomListTop)
+
+        while randBottomCat not in voorkomendeCategorieBottom:
+            randBottomCat = random.choice(wearableTopBottomListBottom)
+
+        wearableTopBottomListTop.remove(randTopCat)
+        wearableTopBottomListBottom.remove(randBottomCat)
+        for shirt in Tops:
+            # print(shirt, &#34;shirt&#34;)
+            if shirt[2] == randTopCat:
+                Tops.remove(shirt)
+                for bottom in Bottoms:
+                    if bottom[2] == randBottomCat:
+                        # print(bottom, &#34;bottom&#34;)
+                        Bottoms.remove(bottom)
+                        collorTop = shirt[1]
+                        collorBottom = bottom[1]
+                        with open(&#39;../jsonFiles/Datastructuur.json&#39;, &#39;r&#39;) as ColorCombInf:
+                            collorCombinationsInfo = json.load(ColorCombInf)
+                        try:
+                            collorStatus = getCollorStatus(collorCombinationsInfo, collorTop, collorBottom)
+                        except:
+                            if &#34;-&#34; in collorTop and &#34;-&#34; in collorBottom:
+                                collorTop = collorTop.split(&#34;-&#34;)
+                                collorBottom = collorBottom.split(&#34;-&#34;)
+
+                                splitStatusTop = []
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[0]))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[1]))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[0]))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[1]))
+                                collorStatus = random.choice(splitStatusTop)
+
+                            elif &#34;-&#34; in collorTop:
+                                collorTop = collorTop.split(&#34;-&#34;)
+                                splitStatusTop = []
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
+                                collorStatus = random.choice(splitStatusTop)
+
+                            elif &#34;-&#34; in collorBottom:
+                                collorBottom = collorBottom.split(&#34;-&#34;)
+                                splitStatusBottom = []
+                                splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[0]))
+                                splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[1]))
+                                collorStatus = random.choice(splitStatusBottom)
+
+                        if collorStatus == &#34;ja&#34;:
+                            tempList = []
+                            if shirt[2] == &#34;jumpsuit&#34; or shirt[2] == &#34;jurk&#34;:
+                                tempList.append(shirt)
+                            else:
+                                tempList.append(shirt)
+                                tempList.append(bottom)
+                            # print(tempList)
+
+                            statusGedragen = checkGedragen(userName, tempList)
+                            if statusGedragen == False:
+                                mogelijkSetjes.append(tempList)
+    # print(&#34;\n&#34;)
+    # for y in mogelijkSetjes:
+    #     print(y)
+    return mogelijkSetjes
+
+
+def frame(func, userName, setGenScreenfor, showMenu, rootGenfor):
+    &#34;Dit is het beginframe dat word aangeroepen vanuit de interface, vanuit hier komt de berekening terug om vervolgens het proces van setjes laten zien te beginnen.&#34;
+    global setGenScreen
+    global rootGen
+    global SetsList
+
+    setGenScreen = setGenScreenfor
+    rootGen = rootGenfor
+    loopIndex = -1
+    SetsList = WeatherForPickClothes(func, userName)
+    if len(SetsList) == 0:
+        errorMessage()
+
+    clothingloop(func, userName, loopIndex, showMenu)
+
+
+def clothingloop(func, userName, loopIndex, showMenu):
+    &#34;Deze functie word steeds aangeroepen zodra een gebruiker nee zegt op het voorgelegde kledingsetje.&#34;
+    loopIndex += 1
+    sideScreen(SetsList[loopIndex][0], SetsList[loopIndex][1], func, loopIndex, showMenu, userName)
+
+
+def sideScreen(top, bottom, func, loopindex, showMenu, userName):
+    &#34;Hier word het keuze scherm aangemaakt om je voorgelegde kledingsetje te laten zien.&#34;
+    if loopindex == 0:
+        rootGen.destroy()
+    global rootWear
+    global Globroot
+
+    rootWear = Tk()
+    rootWear.title(&#34;Wear clothes&#34;)
+    Globroot = rootWear
+
+    showMenu(rootWear)
+
+    GenTopLabel = Label(rootWear, text=f&#39;Top: {top}&#39;, background=&#34;gray&#34;)
+    GenTopLabel.grid(row=5)
+
+    GenBottomLabel = Label(rootWear, text=f&#39;Bottom: {bottom}&#39;, background=&#34;gray&#34;)
+    GenBottomLabel.grid(row=6)
+
+    genTitleLabel = Label(rootWear, text=&#39;Ga je dit setje dragen:&#39;, background=&#34;gray&#34;)
+    genTitleLabel.grid(row=9)
+
+    genYesButton = Button(rootWear, text=&#39;Ja&#39;,
+                          command=lambda: autoGen(&#34;ja&#34;, top, bottom, userName, loopindex, func, showMenu))
+    genYesButton.grid(row=11, sticky=W)
+
+    genNoButton = Button(rootWear, text=&#39;Nee&#39;,
+                         command=lambda: autoGen(&#34;nee&#34;, top, bottom, userName, loopindex, func, showMenu))
+    genNoButton.grid(row=11, sticky=E)
+
+    genBackButton = Button(rootWear, text=&#39;Back&#39;, command=lambda: backButton())
+    genBackButton.grid(row=12)
+
+    rootWear.mainloop()
+
+
+def autoGen(aantrekken, top, bottom, userName, loopIndex, func, showMenu):
+    &#34;Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand.&#34;
+    if aantrekken == &#34;ja&#34;:
+        rootWear.destroy()
+        with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as alldata:
+            allinformatie = json.load(alldata)
+        with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;w&#39;) as ALL:
+            today = datetime.today().strftime(&#34;%Y-%m-%d&#34;)
+            formatVoorAppend = [top, bottom, str(today)]
+            allinformatie[userName][1][&#34;gedragen&#34;].append(formatVoorAppend)
+            json.dump(allinformatie, ALL)
+            ALL.close()
+            backtoGenScreen()
+
+    else:
+        if loopIndex + 1 == len(SetsList):
+            bericht = &#34;Helaas hebben we geen setjes meer om te laten zien.&#34;
+            showinfo(title=&#39;Clothing error&#39;, message=bericht)
+            backButton()
+        else:
+            rootWear.destroy()
+            clothingloop(func, userName, loopIndex, showMenu)
+
+def backtoGenScreen():
+    &#34;Deze functie heb ik gebruikt om alleen terug te gaan naar het categorie keuze scherm&#34;
+    setGenScreen()
+
+def backButton():
+    &#34;Deze functie word gebruikt om het keuzescherm af te sluiten en terug te gaan naar het categorie keuze scherm.&#34;
+    rootWear.destroy()
+    setGenScreen()
+
+def getTimeDifference(x):
+    &#34;In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen).&#34;
+    date_format = &#34;%Y-%m-%d&#34;
+    today = datetime.today()
+
+    previousDay = datetime.strptime(x[2], date_format)
+
+    diff = abs((today - previousDay).days)
+    print(diff)
+    return diff
+
+# print(WeatherForPickClothes(&#34;dagelijks&#34;, &#34;admin&#34;))
+# print(getCommonClothingPieces())</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="Bayesian.ChoiceTopBottom"><code class="name flex">
+<span>def <span class="ident">ChoiceTopBottom</span></span>(<span>userName, langKort, TopOfBroek, gelegenheid)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid):
+    &#34;In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen.&#34;
+    mogelijkeTopBottom = []
+    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as Data:
+        clothesData = json.load(Data)
+
+    for x in range(2, len(clothesData[userName])):
+        # print(clothesData[userName][x], &#34;stuk&#34;)
+        # print(TopOfBroek, &#34;lijstttttt&#34;)
+        # print(clothesData[userName][x][&#34;langKort&#34;], &#34;database&#34;)
+        # print(langKort, &#34;langkort&#34;)
+        # print(&#39;\n&#39;)
+        if clothesData[userName][x][&#34;langKort&#34;] == langKort and clothesData[userName][x][&#34;categorie&#34;] in TopOfBroek and clothesData[userName][x][&#34;gelegenheid&#34;] == gelegenheid:
+            tempList = [clothesData[userName][x][&#34;naam&#34;], clothesData[userName][x][&#34;kleur&#34;],
+                        clothesData[userName][x][&#34;categorie&#34;], clothesData[userName][x][&#34;merk&#34;],
+                        clothesData[userName][x][&#34;langKort&#34;]]
+            mogelijkeTopBottom.append(tempList)
+    return mogelijkeTopBottom</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.CollorChoice"><code class="name flex">
+<span>def <span class="ident">CollorChoice</span></span>(<span>userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hier word de kleurenkeuze gecontroleerd en worden de kledingstukken op basis van kans een beetje gesorteerd van goed setje naar een minder goed setje.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom):
+    &#34;Hier word de kleurenkeuze gecontroleerd en worden de kledingstukken op basis van kans een beetje gesorteerd van goed setje naar een minder goed setje.&#34;
+    if len(Tops) == 0 or len(Bottoms) == 0:
+        errorMessage()
+        exit(0)
+
+    mogelijkSetjes = []
+
+    while len(Tops) != 0 and len(Bottoms) != 0:
+        randTopCat = None
+        randBottomCat = None
+        while randTopCat not in voorkomendeCategorieTop:
+            randTopCat = random.choice(wearableTopBottomListTop)
+
+        while randBottomCat not in voorkomendeCategorieBottom:
+            randBottomCat = random.choice(wearableTopBottomListBottom)
+
+        wearableTopBottomListTop.remove(randTopCat)
+        wearableTopBottomListBottom.remove(randBottomCat)
+        for shirt in Tops:
+            # print(shirt, &#34;shirt&#34;)
+            if shirt[2] == randTopCat:
+                Tops.remove(shirt)
+                for bottom in Bottoms:
+                    if bottom[2] == randBottomCat:
+                        # print(bottom, &#34;bottom&#34;)
+                        Bottoms.remove(bottom)
+                        collorTop = shirt[1]
+                        collorBottom = bottom[1]
+                        with open(&#39;../jsonFiles/Datastructuur.json&#39;, &#39;r&#39;) as ColorCombInf:
+                            collorCombinationsInfo = json.load(ColorCombInf)
+                        try:
+                            collorStatus = getCollorStatus(collorCombinationsInfo, collorTop, collorBottom)
+                        except:
+                            if &#34;-&#34; in collorTop and &#34;-&#34; in collorBottom:
+                                collorTop = collorTop.split(&#34;-&#34;)
+                                collorBottom = collorBottom.split(&#34;-&#34;)
+
+                                splitStatusTop = []
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[0]))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom[1]))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[0]))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[1], collorBottom[1]))
+                                collorStatus = random.choice(splitStatusTop)
+
+                            elif &#34;-&#34; in collorTop:
+                                collorTop = collorTop.split(&#34;-&#34;)
+                                splitStatusTop = []
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
+                                splitStatusTop.append(getCollorStatus(collorCombinationsInfo, collorTop[0], collorBottom))
+                                collorStatus = random.choice(splitStatusTop)
+
+                            elif &#34;-&#34; in collorBottom:
+                                collorBottom = collorBottom.split(&#34;-&#34;)
+                                splitStatusBottom = []
+                                splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[0]))
+                                splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[1]))
+                                collorStatus = random.choice(splitStatusBottom)
+
+                        if collorStatus == &#34;ja&#34;:
+                            tempList = []
+                            if shirt[2] == &#34;jumpsuit&#34; or shirt[2] == &#34;jurk&#34;:
+                                tempList.append(shirt)
+                            else:
+                                tempList.append(shirt)
+                                tempList.append(bottom)
+                            # print(tempList)
+
+                            statusGedragen = checkGedragen(userName, tempList)
+                            if statusGedragen == False:
+                                mogelijkSetjes.append(tempList)
+    # print(&#34;\n&#34;)
+    # for y in mogelijkSetjes:
+    #     print(y)
+    return mogelijkSetjes</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.SortedListSets"><code class="name flex">
+<span>def <span class="ident">SortedListSets</span></span>(<span>unsortedList, hitteNiveau, kortOfLangInf)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Dit is het laatste stadium waar de mogelijke setjes in de lijst word aangepast. Hier worden namelijk de setjes van best naar slecht nog eens gesorteerd door middel van een formule.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def SortedListSets(unsortedList, hitteNiveau, kortOfLangInf):
+    &#34;Dit is het laatste stadium waar de mogelijke setjes in de lijst word aangepast. Hier worden namelijk de setjes van best naar slecht nog eens gesorteerd door middel van een formule.&#34;
+    allValues = []
+    sortedList = []
+    for x in unsortedList:
+        kortLangSamenstelling = x[0][4] + &#34;-&#34; + x[1][4]
+        kansKortLang = kortOfLangInf[&#34;temp&#34;][hitteNiveau][kortLangSamenstelling][&#34;yes&#34;]
+        kansKortLang = kansKortLang.split(&#34;/&#34;)
+        kansKortLang = int(kansKortLang[0]) / int(kansKortLang[1])
+
+        kansValueTop = kortOfLangInf[&#34;tops&#34;][hitteNiveau][x[0][2]][&#34;yes&#34;]
+        kansValueTop = kansValueTop.split(&#34;/&#34;)
+        kansValueTop = int(kansValueTop[0]) / int(kansValueTop[1])
+
+        # bottom = &#34;&#34;.join(x[1][2])
+        kansValueBottom = kortOfLangInf[&#34;bottoms&#34;][hitteNiveau][x[1][2]][&#34;yes&#34;]
+        kansValueBottom = kansValueBottom.split(&#34;/&#34;)
+        kansValueBottom = int(kansValueBottom[0]) / int(kansValueBottom[1])
+
+        kansSetje = kansKortLang * kansValueTop * kansValueBottom
+        allValues.append(kansSetje)
+
+    while len(allValues) != 0:
+        for valueIndex in range(0, len(allValues)):
+            MinValue = min(allValues)
+            if allValues[valueIndex] == MinValue:
+                # print(&#34;ja&#34;)
+                # print(unsortedList)
+                # print(allValues)
+                sortedList.append(unsortedList[valueIndex])
+                allValues.remove(allValues[valueIndex])
+                unsortedList.remove(unsortedList[valueIndex])
+                break
+    return sortedList</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.WeatherForPickClothes"><code class="name flex">
+<span>def <span class="ident">WeatherForPickClothes</span></span>(<span>func, userName)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.
+Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt van lange of korte mouwen en lange of korte broekpijpen.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def WeatherForPickClothes(func, userName):
+    &#34;&#34;&#34;Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.
+    Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt van lange of korte mouwen en lange of korte broekpijpen.&#34;&#34;&#34;
+    global loopIndex
+    if func == &#39;dagelijks&#39;:
+        opportunity = &#39;dagelijks leven&#39;
+    elif func == &#39;sport&#39;:
+        opportunity = &#39;sport&#39;
+    elif func == &#39;feest&#39;:
+        opportunity = &#39;feestje&#39;
+
+    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as Data:
+        placeInfo = json.load(Data)
+
+    stad = placeInfo[userName][0][&#34;gegevens&#34;][0][&#34;locatie&#34;][&#34;stad&#34;]
+    land = placeInfo[userName][0][&#34;gegevens&#34;][0][&#34;locatie&#34;][&#34;land&#34;]
+    huidigeWeer = setValuesWeer(stad, land)
+    gevoelsTemp = huidigeWeer[0]
+    windSnelheid = huidigeWeer[2]
+    if windSnelheid &gt;= 5:
+        gevoelsTemp = 13.12 + 0.6215 * gevoelsTemp - 11.37 * windSnelheid ** 0.16 + 0.3965 * gevoelsTemp * windSnelheid ** 0.16
+    if gevoelsTemp &lt; 12:
+        hitteNiveau = &#34;cold&#34;
+    elif gevoelsTemp &gt;= 12 and gevoelsTemp &lt; 23:
+        hitteNiveau = &#34;mild&#34;
+    else:
+        hitteNiveau = &#34;hot&#34;
+
+    with open(&#39;../jsonFiles/Datastructuur.json&#39;, &#39;r&#39;) as HeatlevelInf:
+        kortOfLangInf = json.load(HeatlevelInf)
+
+    FiguratieLangKort = kortOfLangInf[&#34;temp&#34;][hitteNiveau]
+    # print(hitteNiveau)
+
+    randomChoiceLijst = []
+    for x in FiguratieLangKort:
+        kans = FiguratieLangKort[x][&#34;yes&#34;]
+        kans = kans.split(&#34;/&#34;)[0]
+        for i in range(0, int(kans)):
+            randomChoiceLijst.append(x)
+
+    keuzeLangKort = random.choice(randomChoiceLijst)
+    # print(keuzeLangKort)
+    LengteMouwen = keuzeLangKort.split(&#34;-&#34;)[0]
+    LengtePijpen = keuzeLangKort.split(&#34;-&#34;)[1]
+    soortenTop = [&#34;shirt&#34;, &#34;hoodie&#34;, &#34;hemdje&#34;, &#34;trui&#34;, &#34;vest&#34;, &#34;crop top&#34;, &#34;blazer&#34;, &#34;jurk&#34;, &#34;jumpsuit&#34;, &#34;blousje&#34;]
+    soortenBottom = [&#34;jeans&#34;, &#34;legging&#34;, &#34;chino&#34;, &#34;joggingbroek&#34;, &#34;jeans met gaten&#34;, &#34;rokje&#34;, &#34;high waste&#34;, &#34;stoffen broek&#34;]
+    Tops = ChoiceTopBottom(userName, LengteMouwen, soortenTop, opportunity)
+    Bottoms = ChoiceTopBottom(userName, LengtePijpen, soortenBottom, opportunity)
+    if len(Tops) == 0 or len(Bottoms) == 0:
+        errorMessage()
+        exit(0)
+
+    # print(Tops, &#34;first&#34;)
+    # print(Bottoms, &#34;first&#34;)
+    funcTops = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Tops, &#34;tops&#34;)
+    Tops = funcTops[0]
+    voorkomendeCategorieTop = funcTops[1]
+    wearableTopBottomListTop = funcTops[2]
+    funcBottoms = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Bottoms, &#34;bottoms&#34;)
+    Bottoms = funcBottoms[0]
+    voorkomendeCategorieBottom = funcBottoms[1]
+    wearableTopBottomListBottom = funcBottoms[2]
+
+    if len(Tops) == 0 or len(Bottoms) == 0:
+        errorMessage()
+        exit(0)
+    # print(Tops, &#34;second&#34;)
+    # print(Bottoms, &#34;second&#34;)
+    unsortedSets = CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom)
+    return SortedListSets(unsortedSets, hitteNiveau, kortOfLangInf)</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.autoGen"><code class="name flex">
+<span>def <span class="ident">autoGen</span></span>(<span>aantrekken, top, bottom, userName, loopIndex, func, showMenu)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def autoGen(aantrekken, top, bottom, userName, loopIndex, func, showMenu):
+    &#34;Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand.&#34;
+    if aantrekken == &#34;ja&#34;:
+        rootWear.destroy()
+        with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as alldata:
+            allinformatie = json.load(alldata)
+        with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;w&#39;) as ALL:
+            today = datetime.today().strftime(&#34;%Y-%m-%d&#34;)
+            formatVoorAppend = [top, bottom, str(today)]
+            allinformatie[userName][1][&#34;gedragen&#34;].append(formatVoorAppend)
+            json.dump(allinformatie, ALL)
+            ALL.close()
+            backtoGenScreen()
+
+    else:
+        if loopIndex + 1 == len(SetsList):
+            bericht = &#34;Helaas hebben we geen setjes meer om te laten zien.&#34;
+            showinfo(title=&#39;Clothing error&#39;, message=bericht)
+            backButton()
+        else:
+            rootWear.destroy()
+            clothingloop(func, userName, loopIndex, showMenu)</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.backButton"><code class="name flex">
+<span>def <span class="ident">backButton</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deze functie word gebruikt om het keuzescherm af te sluiten en terug te gaan naar het categorie keuze scherm.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def backButton():
+    &#34;Deze functie word gebruikt om het keuzescherm af te sluiten en terug te gaan naar het categorie keuze scherm.&#34;
+    rootWear.destroy()
+    setGenScreen()</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.backtoGenScreen"><code class="name flex">
+<span>def <span class="ident">backtoGenScreen</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deze functie heb ik gebruikt om alleen terug te gaan naar het categorie keuze scherm</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def backtoGenScreen():
+    &#34;Deze functie heb ik gebruikt om alleen terug te gaan naar het categorie keuze scherm&#34;
+    setGenScreen()</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.checkGedragen"><code class="name flex">
+<span>def <span class="ident">checkGedragen</span></span>(<span>userName, setje)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def checkGedragen(userName, setje):
+    &#34;Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker).&#34;
+    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as Wear:
+        WearInf = json.load(Wear)
+
+    for x in WearInf[userName][1][&#34;gedragen&#34;]:
+        tempComparrisenList = []
+        tempComparrisenList.append(x[0])
+        tempComparrisenList.append(x[1])
+        if tempComparrisenList == setje:
+            return True
+    return False</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.clothingloop"><code class="name flex">
+<span>def <span class="ident">clothingloop</span></span>(<span>func, userName, loopIndex, showMenu)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deze functie word steeds aangeroepen zodra een gebruiker nee zegt op het voorgelegde kledingsetje.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clothingloop(func, userName, loopIndex, showMenu):
+    &#34;Deze functie word steeds aangeroepen zodra een gebruiker nee zegt op het voorgelegde kledingsetje.&#34;
+    loopIndex += 1
+    sideScreen(SetsList[loopIndex][0], SetsList[loopIndex][1], func, loopIndex, showMenu, userName)</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.errorMessage"><code class="name flex">
+<span>def <span class="ident">errorMessage</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hier word alleen de pop-up errormessage aangemaakt en het categorie keuzescherm gerefreshed.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def errorMessage():
+    &#34;Hier word alleen de pop-up errormessage aangemaakt en het categorie keuzescherm gerefreshed.&#34;
+    bericht = &#34;Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken.&#34;
+    showinfo(title=&#39;Clothing error&#39;, message=bericht)
+    rootGen.destroy()
+    setGenScreen()</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.frame"><code class="name flex">
+<span>def <span class="ident">frame</span></span>(<span>func, userName, setGenScreenfor, showMenu, rootGenfor)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Dit is het beginframe dat word aangeroepen vanuit de interface, vanuit hier komt de berekening terug om vervolgens het proces van setjes laten zien te beginnen.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def frame(func, userName, setGenScreenfor, showMenu, rootGenfor):
+    &#34;Dit is het beginframe dat word aangeroepen vanuit de interface, vanuit hier komt de berekening terug om vervolgens het proces van setjes laten zien te beginnen.&#34;
+    global setGenScreen
+    global rootGen
+    global SetsList
+
+    setGenScreen = setGenScreenfor
+    rootGen = rootGenfor
+    loopIndex = -1
+    SetsList = WeatherForPickClothes(func, userName)
+    if len(SetsList) == 0:
+        errorMessage()
+
+    clothingloop(func, userName, loopIndex, showMenu)</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.getCollorStatus"><code class="name flex">
+<span>def <span class="ident">getCollorStatus</span></span>(<span>collorCombinationsInfo, collorTop, collorBottom)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>hier worden de kleurensetjes geprobeerd of ze kunnen of niet. Dit is een try except omdat ik niet elke kleur dubbel heb staan in de datastructuur omdat dat overbodig was.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
+    &#34;hier worden de kleurensetjes geprobeerd of ze kunnen of niet. Dit is een try except omdat ik niet elke kleur dubbel heb staan in de datastructuur omdat dat overbodig was.&#34;
+    try:
+        collorStatus = collorCombinationsInfo[&#34;collor&#34;][collorTop][collorBottom]
+    except:
+        collorStatus = collorCombinationsInfo[&#34;collor&#34;][collorBottom][collorTop]
+
+    return collorStatus</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.getCommonClothingPieces"><code class="name flex">
+<span>def <span class="ident">getCommonClothingPieces</span></span>(<span>kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>hier houd ik alleen de kledingstukken over die bij die temperatuur ook gedragen worden.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom):
+    &#34;hier houd ik alleen de kledingstukken over die bij die temperatuur ook gedragen worden.&#34;
+    FiguratieLangKort = kortOfLangInf[TopOrBottom][hitteNiveau]
+    # print(hitteNiveau)
+    # print(TopsBottoms, &#39;list&#39;)
+
+    wearableTopBottomList = []
+    voorkomendeCategorie = []
+    for x in FiguratieLangKort:
+        kans = FiguratieLangKort[x][&#34;yes&#34;]
+        kans = kans.split(&#34;/&#34;)[0]
+        for i in range(0, int(kans)):
+            wearableTopBottomList.append(x)
+    # print(wearableTopBottomList)
+    # print(TopsBottoms[0][2], &#34;juahhhhhhhhhh&#34;)
+    for kledingstuk in TopsBottoms:
+        if kledingstuk[2] not in wearableTopBottomList:
+            TopsBottoms.remove(kledingstuk)
+        else:
+            voorkomendeCategorie.append(kledingstuk[2])
+    # keuzeLangKort = random.choice(wearableTopBottomList)
+    # print(wearableTopBottomList, &#34;filters&#34;)
+    return TopsBottoms, voorkomendeCategorie, wearableTopBottomList</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.getTimeDifference"><code class="name flex">
+<span>def <span class="ident">getTimeDifference</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getTimeDifference(x):
+    &#34;In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen).&#34;
+    date_format = &#34;%Y-%m-%d&#34;
+    today = datetime.today()
+
+    previousDay = datetime.strptime(x[2], date_format)
+
+    diff = abs((today - previousDay).days)
+    print(diff)
+    return diff</code></pre>
+</details>
+</dd>
+<dt id="Bayesian.sideScreen"><code class="name flex">
+<span>def <span class="ident">sideScreen</span></span>(<span>top, bottom, func, loopindex, showMenu, userName)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hier word het keuze scherm aangemaakt om je voorgelegde kledingsetje te laten zien.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sideScreen(top, bottom, func, loopindex, showMenu, userName):
+    &#34;Hier word het keuze scherm aangemaakt om je voorgelegde kledingsetje te laten zien.&#34;
+    if loopindex == 0:
+        rootGen.destroy()
+    global rootWear
+    global Globroot
+
+    rootWear = Tk()
+    rootWear.title(&#34;Wear clothes&#34;)
+    Globroot = rootWear
+
+    showMenu(rootWear)
+
+    GenTopLabel = Label(rootWear, text=f&#39;Top: {top}&#39;, background=&#34;gray&#34;)
+    GenTopLabel.grid(row=5)
+
+    GenBottomLabel = Label(rootWear, text=f&#39;Bottom: {bottom}&#39;, background=&#34;gray&#34;)
+    GenBottomLabel.grid(row=6)
+
+    genTitleLabel = Label(rootWear, text=&#39;Ga je dit setje dragen:&#39;, background=&#34;gray&#34;)
+    genTitleLabel.grid(row=9)
+
+    genYesButton = Button(rootWear, text=&#39;Ja&#39;,
+                          command=lambda: autoGen(&#34;ja&#34;, top, bottom, userName, loopindex, func, showMenu))
+    genYesButton.grid(row=11, sticky=W)
+
+    genNoButton = Button(rootWear, text=&#39;Nee&#39;,
+                         command=lambda: autoGen(&#34;nee&#34;, top, bottom, userName, loopindex, func, showMenu))
+    genNoButton.grid(row=11, sticky=E)
+
+    genBackButton = Button(rootWear, text=&#39;Back&#39;, command=lambda: backButton())
+    genBackButton.grid(row=12)
+
+    rootWear.mainloop()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="Bayesian.ChoiceTopBottom" href="#Bayesian.ChoiceTopBottom">ChoiceTopBottom</a></code></li>
+<li><code><a title="Bayesian.CollorChoice" href="#Bayesian.CollorChoice">CollorChoice</a></code></li>
+<li><code><a title="Bayesian.SortedListSets" href="#Bayesian.SortedListSets">SortedListSets</a></code></li>
+<li><code><a title="Bayesian.WeatherForPickClothes" href="#Bayesian.WeatherForPickClothes">WeatherForPickClothes</a></code></li>
+<li><code><a title="Bayesian.autoGen" href="#Bayesian.autoGen">autoGen</a></code></li>
+<li><code><a title="Bayesian.backButton" href="#Bayesian.backButton">backButton</a></code></li>
+<li><code><a title="Bayesian.backtoGenScreen" href="#Bayesian.backtoGenScreen">backtoGenScreen</a></code></li>
+<li><code><a title="Bayesian.checkGedragen" href="#Bayesian.checkGedragen">checkGedragen</a></code></li>
+<li><code><a title="Bayesian.clothingloop" href="#Bayesian.clothingloop">clothingloop</a></code></li>
+<li><code><a title="Bayesian.errorMessage" href="#Bayesian.errorMessage">errorMessage</a></code></li>
+<li><code><a title="Bayesian.frame" href="#Bayesian.frame">frame</a></code></li>
+<li><code><a title="Bayesian.getCollorStatus" href="#Bayesian.getCollorStatus">getCollorStatus</a></code></li>
+<li><code><a title="Bayesian.getCommonClothingPieces" href="#Bayesian.getCommonClothingPieces">getCommonClothingPieces</a></code></li>
+<li><code><a title="Bayesian.getTimeDifference" href="#Bayesian.getTimeDifference">getTimeDifference</a></code></li>
+<li><code><a title="Bayesian.sideScreen" href="#Bayesian.sideScreen">sideScreen</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -7,6 +7,7 @@ from sys import exit
 from tkinter import *
 
 def SortedListSets(unsortedList, hitteNiveau, kortOfLangInf):
+    "Dit is het laatste stadium waar de mogelijke setjes in de lijst word aangepast. Hier worden namelijk de setjes van best naar slecht nog eens gesorteerd door middel van een formule."
     allValues = []
     sortedList = []
     for x in unsortedList:
@@ -41,8 +42,9 @@ def SortedListSets(unsortedList, hitteNiveau, kortOfLangInf):
     return sortedList
 
 
-def WeatherForPickClothes(func, userName, setGenScreen, rootGen):
-    "'Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.'"
+def WeatherForPickClothes(func, userName):
+    """Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.
+    Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt van lange of korte mouwen en lange of korte broekpijpen."""
     global loopIndex
     if func == 'dagelijks':
         opportunity = 'dagelijks leven'
@@ -90,7 +92,7 @@ def WeatherForPickClothes(func, userName, setGenScreen, rootGen):
     Tops = ChoiceTopBottom(userName, LengteMouwen, soortenTop, opportunity)
     Bottoms = ChoiceTopBottom(userName, LengtePijpen, soortenBottom, opportunity)
     if len(Tops) == 0 or len(Bottoms) == 0:
-        errorMessage(setGenScreen, rootGen)
+        errorMessage()
         exit(0)
 
     # print(Tops, "first")
@@ -105,15 +107,16 @@ def WeatherForPickClothes(func, userName, setGenScreen, rootGen):
     wearableTopBottomListBottom = funcBottoms[2]
 
     if len(Tops) == 0 or len(Bottoms) == 0:
-        errorMessage(setGenScreen, rootGen)
+        errorMessage()
         exit(0)
     # print(Tops, "second")
     # print(Bottoms, "second")
-    unsortedSets = CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom, setGenScreen, rootGen)
+    unsortedSets = CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom)
     return SortedListSets(unsortedSets, hitteNiveau, kortOfLangInf)
 
 
 def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid):
+    "In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen."
     mogelijkeTopBottom = []
     with open('../jsonFiles/Kledingkast.json', 'r+') as Data:
         clothesData = json.load(Data)
@@ -133,6 +136,7 @@ def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid):
 
 
 def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom):
+    "hier houd ik alleen de kledingstukken over die bij die temperatuur ook gedragen worden."
     FiguratieLangKort = kortOfLangInf[TopOrBottom][hitteNiveau]
     # print(hitteNiveau)
     # print(TopsBottoms, 'list')
@@ -156,6 +160,7 @@ def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom
     return TopsBottoms, voorkomendeCategorie, wearableTopBottomList
 
 def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
+    "hier worden de kleurensetjes geprobeerd of ze kunnen of niet. Dit is een try except omdat ik niet elke kleur dubbel heb staan in de datastructuur omdat dat overbodig was."
     try:
         collorStatus = collorCombinationsInfo["collor"][collorTop][collorBottom]
     except:
@@ -164,6 +169,7 @@ def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
     return collorStatus
 
 def checkGedragen(userName, setje):
+    "Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker)."
     with open('../jsonFiles/Kledingkast.json', 'r') as Wear:
         WearInf = json.load(Wear)
 
@@ -176,16 +182,18 @@ def checkGedragen(userName, setje):
     return False
 
 
-def errorMessage(setGenscreen, rootGen):
+def errorMessage():
+    "Hier word alleen de pop-up errormessage aangemaakt en het categorie keuzescherm gerefreshed."
     bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
     showinfo(title='Clothing error', message=bericht)
     rootGen.destroy()
-    setGenscreen()
+    setGenScreen()
 
 
-def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom, setGenscreen, rootGen):
+def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom):
+    "Hier word de kleurenkeuze gecontroleerd en worden de kledingstukken op basis van kans een beetje gesorteerd van goed setje naar een minder goed setje."
     if len(Tops) == 0 or len(Bottoms) == 0:
-        errorMessage(setGenscreen, rootGen)
+        errorMessage()
         exit(0)
 
     mogelijkSetjes = []
@@ -259,22 +267,30 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
     return mogelijkSetjes
 
 
-def frame(func, userName, setGenScreen, showMenu, rootGen):
+def frame(func, userName, setGenScreenfor, showMenu, rootGenfor):
+    "Dit is het beginframe dat word aangeroepen vanuit de interface, vanuit hier komt de berekening terug om vervolgens het proces van setjes laten zien te beginnen."
+    global setGenScreen
+    global rootGen
     global SetsList
+
+    setGenScreen = setGenScreenfor
+    rootGen = rootGenfor
     loopIndex = -1
-    SetsList = WeatherForPickClothes(func, userName, setGenScreen, rootGen)
+    SetsList = WeatherForPickClothes(func, userName)
     if len(SetsList) == 0:
-        errorMessage(setGenScreen, rootGen)
+        errorMessage()
 
-    clothingloop(func, userName, loopIndex, setGenScreen, showMenu, rootGen)
+    clothingloop(func, userName, loopIndex, showMenu)
 
 
-def clothingloop(func, userName, loopIndex, setGenScreen, showMenu, rootGen):
+def clothingloop(func, userName, loopIndex, showMenu):
+    "Deze functie word steeds aangeroepen zodra een gebruiker nee zegt op het voorgelegde kledingsetje."
     loopIndex += 1
-    sideScreen(SetsList[loopIndex][0], SetsList[loopIndex][1], func, loopIndex, setGenScreen, showMenu, userName, rootGen)
+    sideScreen(SetsList[loopIndex][0], SetsList[loopIndex][1], func, loopIndex, showMenu, userName)
 
 
-def sideScreen(top, bottom, func, loopindex, setGenScreen, showMenu, userName, rootGen):
+def sideScreen(top, bottom, func, loopindex, showMenu, userName):
+    "Hier word het keuze scherm aangemaakt om je voorgelegde kledingsetje te laten zien."
     if loopindex == 0:
         rootGen.destroy()
     global rootWear
@@ -296,21 +312,21 @@ def sideScreen(top, bottom, func, loopindex, setGenScreen, showMenu, userName, r
     genTitleLabel.grid(row=9)
 
     genYesButton = Button(rootWear, text='Ja',
-                          command=lambda: autoGen("ja", top, bottom, userName, loopindex, func, setGenScreen, showMenu, rootGen))
+                          command=lambda: autoGen("ja", top, bottom, userName, loopindex, func, showMenu))
     genYesButton.grid(row=11, sticky=W)
 
     genNoButton = Button(rootWear, text='Nee',
-                         command=lambda: autoGen("nee", top, bottom, userName, loopindex, func, setGenScreen, showMenu, rootGen))
+                         command=lambda: autoGen("nee", top, bottom, userName, loopindex, func, showMenu))
     genNoButton.grid(row=11, sticky=E)
 
-    genBackButton = Button(rootWear, text='Back', command=lambda: backButton(setGenScreen, rootWear))
+    genBackButton = Button(rootWear, text='Back', command=lambda: backButton())
     genBackButton.grid(row=12)
 
     rootWear.mainloop()
 
 
-def autoGen(aantrekken, top, bottom, userName, loopIndex, func, setGenScreen, showMenu, rootGen):
-    "'Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand.'"
+def autoGen(aantrekken, top, bottom, userName, loopIndex, func, showMenu):
+    "Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand."
     if aantrekken == "ja":
         rootWear.destroy()
         with open('../jsonFiles/Kledingkast.json', 'r') as alldata:
@@ -321,32 +337,35 @@ def autoGen(aantrekken, top, bottom, userName, loopIndex, func, setGenScreen, sh
             allinformatie[userName][1]["gedragen"].append(formatVoorAppend)
             json.dump(allinformatie, ALL)
             ALL.close()
-            backtoGenScreen(setGenScreen, rootGen)
+            backtoGenScreen()
 
     else:
         if loopIndex + 1 == len(SetsList):
             bericht = "Helaas hebben we geen setjes meer om te laten zien."
             showinfo(title='Clothing error', message=bericht)
-            backButton(setGenScreen, rootWear)
+            backButton()
         else:
             rootWear.destroy()
-            clothingloop(func, userName, loopIndex, setGenScreen, showMenu, rootGen)
+            clothingloop(func, userName, loopIndex, showMenu)
 
-def backtoGenScreen(setGenScreen, rootGen):
+def backtoGenScreen():
+    "Deze functie heb ik gebruikt om alleen terug te gaan naar het categorie keuze scherm"
     setGenScreen()
 
-def backButton(setGenScreen, rootWear):
+def backButton():
+    "Deze functie word gebruikt om het keuzescherm af te sluiten en terug te gaan naar het categorie keuze scherm."
     rootWear.destroy()
     setGenScreen()
 
 def getTimeDifference(x):
-    "'In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen).'"
+    "In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen)."
     date_format = "%Y-%m-%d"
     today = datetime.today()
 
     previousDay = datetime.strptime(x[2], date_format)
 
     diff = abs((today - previousDay).days)
+    print(diff)
     return diff
 
 # print(WeatherForPickClothes("dagelijks", "admin"))
