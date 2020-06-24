@@ -109,7 +109,7 @@ def showMenuLoginSignup(root):
 
     subMenu = Menu(menu)
     menu.add_cascade(label='file', menu=subMenu)
-    subMenu.add_command(label='exit', command=exit)
+    subMenu.add_command(label='exit', command=exitProg)
 
 
 def Login():
@@ -444,13 +444,14 @@ def setGenScreen():
     GenSpaceLabel = Label(rootGen, text='', background="gray")
     GenSpaceLabel.grid(row=1)
 
-    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:WeatherForPickClothes('dagelijks', rootGen, userName, Homescreen, showMenu, setGenScreen))
+
+    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:frame('dagelijks', userName, setGenScreen, showMenu, rootGen))
     genDagelijksButton.grid(row=2, sticky=W)
 
-    genSportutton = Button(rootGen, text='Sport', command=lambda:WeatherForPickClothes('sport', rootGen, userName, Homescreen, showMenu, setGenScreen))
+    genSportutton = Button(rootGen, text='Sport', command=lambda:frame('sport', userName, setGenScreen, showMenu, rootGen))
     genSportutton.grid(row=2, column=0)
 
-    genFeestButton = Button(rootGen, text='Feest', command=lambda:WeatherForPickClothes('feest', rootGen, userName, Homescreen, showMenu, setGenScreen))
+    genFeestButton = Button(rootGen, text='Feest', command=lambda:frame('feest', userName, setGenScreen, showMenu, rootGen))
     genFeestButton.grid(row=2, column=1)
 
     GenSpaceLabel = Label(rootGen, text='', background="gray")
@@ -480,7 +481,7 @@ def showMenu(root):
     subMenu.add_separator()
     subMenu.add_command(label='homescreen', command=toHub)
     subMenu.add_command(label='Log out', command=toLogIn)
-    subMenu.add_command(label='exit', command=exit)
+    subMenu.add_command(label='exit', command=exitProg)
 
 
 def toHub():
@@ -489,7 +490,7 @@ def toHub():
     Homescreen()
 
 
-def exit():
+def exitProg():
     "'deze functie zorgt ervoor dat je het programma  afsluit door het enige frame dat openstaat te destroyen.'"
     exit(0)
 
