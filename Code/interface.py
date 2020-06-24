@@ -15,7 +15,7 @@ import pathlib
 
 def Signup():  # This is the signup definition,
     "'In deze functie maak ik het signup frame aan, hier kun je jezelf aanmelden'"
-    rootA.destroy()
+    rootLogin.destroy()
     global rootSignUp
     global Globroot
 
@@ -28,12 +28,12 @@ def Signup():  # This is the signup definition,
     intruction = Label(rootSignUp, text='Sign aub\n', background="gray")
     intruction.grid(row=0, column=0)
 
-    nameL = Label(rootSignUp, text='Nieuwe naam: ', background="gray")
-    nameL.grid(row=1, column=0,
+    signUpEntryNameLabel = Label(rootSignUp, text='Nieuwe naam: ', background="gray")
+    signUpEntryNameLabel.grid(row=1, column=0,
                sticky=W)
 
-    nameE = Entry(rootSignUp)
-    nameE.grid(row=1, column=1)
+    signUpNameEntry = Entry(rootSignUp)
+    signUpNameEntry.grid(row=1, column=1)
 
     signUpStadField = Label(rootSignUp, text='Stad naam: ', background="gray")
     signUpStadField.grid(row=2, column=0,
@@ -50,7 +50,7 @@ def Signup():  # This is the signup definition,
     signUpLandEntry.grid(row=3, column=1)
 
     signupButton = Button(rootSignUp, text='Signup',
-                          command=lambda:toLogin(nameE.get(), signUpStadEntry.get(), signUpLandEntry.get()))
+                          command=lambda:toLogin(signUpNameEntry.get(), signUpStadEntry.get(), signUpLandEntry.get()))
     signupButton.grid(columnspan=2, sticky=W)
 
     backLogin = Button(rootSignUp, text='Login', fg='Blue',
@@ -59,12 +59,12 @@ def Signup():  # This is the signup definition,
 
     # intruction.pack(ipadx=10000)
     #
-    # nameL = Label(rootSignUp, text='Nieuwe naam: ', background="gray")
-    # nameL.pack(row=1, column=0,
+    # signUpEntryNameLabel = Label(rootSignUp, text='Nieuwe naam: ', background="gray")
+    # signUpEntryNameLabel.pack(row=1, column=0,
     #            sticky=W)
     #
-    # nameE = Entry(rootSignUp)
-    # nameE.pack(row=1, column=1)
+    # signUpNameEntry = Entry(rootSignUp)
+    # signUpNameEntry.pack(row=1, column=1)
     #
     # signUpStadField = Label(rootSignUp, text='Stad naam: ', background="gray")
     # signUpStadField.pack(row=2, column=0,
@@ -81,7 +81,7 @@ def Signup():  # This is the signup definition,
     # signUpLandEntry.pack(row=3, column=1)
     #
     # signupButton = Button(rootSignUp, text='Signup',
-    #                       command=lambda:toLogin(nameE.get(), signUpStadEntry.get(), signUpLandEntry.get()))
+    #                       command=lambda:toLogin(signUpNameEntry.get(), signUpStadEntry.get(), signUpLandEntry.get()))
     # signupButton.pack(columnspan=2, sticky=W)
     #
     # backLogin = Button(rootSignUp, text='Login', fg='Blue',
@@ -112,50 +112,50 @@ def showMenuLoginSignup(root):
 
 def Login():
     "'In deze functie kun je inloggen met je username'"
-    global rootA
+    global rootLogin
     global Globroot
 
-    rootA = Tk()
-    rootA.title('Login')
+    rootLogin = Tk()
+    rootLogin.title('Login')
 
-    Globroot = rootA
+    Globroot = rootLogin
 
-    showMenuLoginSignup(rootA)
+    showMenuLoginSignup(rootLogin)
 
-    intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 20))
-    intruction.grid(column=1)
+    LoginTitleLabel = Label(rootLogin, text='Log in\n', background="gray", font=("Helvetica", 20))
+    LoginTitleLabel.grid(column=1)
 
-    nameL = Label(rootA, text='Username: ', background="gray")
-    nameL.grid(row=1, sticky=W)
+    LoginEntryNameLabel = Label(rootLogin, text='Username: ', background="gray")
+    LoginEntryNameLabel.grid(row=1, sticky=W)
 
-    nameEL = Entry(rootA)
-    nameEL.grid(row=1, column=1)
+    LoginUserNameEntry = Entry(rootLogin)
+    LoginUserNameEntry.grid(row=1, column=1)
 
-    loginB = Button(rootA, text='Login',
-                    command=lambda:toHomeScreen(nameEL.get()))
+    loginB = Button(rootLogin, text='Login',
+                    command=lambda:toHomeScreen(LoginUserNameEntry.get()))
     loginB.grid(columnspan=2, sticky=W)
 
-    rmuser = Button(rootA, text='Sign in', fg='Blue',
+    rmuser = Button(rootLogin, text='Sign in', fg='Blue',
                     command=Signup)
     rmuser.grid(columnspan=2, sticky=W)
 
-    # intruction = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 50))
-    # intruction.pack()
+    # LoginTitleLabel = Label(rootA, text='Log in\n', background="gray", font=("Helvetica", 50))
+    # LoginTitleLabel.pack()
     #
-    # nameL = Label(rootA, text='Username: ', background="gray", font=("Helvetica", 20))
-    # nameL.pack()
+    # LoginEntryNameLabel = Label(rootA, text='Username: ', background="gray", font=("Helvetica", 20))
+    # LoginEntryNameLabel.pack()
     #
-    # nameEL = Entry(rootA)
-    # nameEL.pack()
+    # LoginUserNameEntry = Entry(rootA)
+    # LoginUserNameEntry.pack()
     #
     # loginB = Button(rootA, text='Login',
-    #                 command=lambda:toHomeScreen(nameEL.get()))
+    #                 command=lambda:toHomeScreen(LoginUserNameEntry.get()))
     # loginB.pack(side=BOTTOM)
     #
     # rmuser = Button(rootA, text='Sign in', fg='Blue',
     #                 command=Signup)
     # rmuser.pack()
-    rootA.mainloop()
+    rootLogin.mainloop()
 
 try:
     def Homescreen():
@@ -507,7 +507,7 @@ def toHomeScreen(name):
     if checkIfExist(name) == True:
         global userName
         userName = name
-        rootA.destroy()
+        rootLogin.destroy()
         Homescreen()
     else:
         bericht = 'Username not existend, try it it again!'
