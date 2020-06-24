@@ -62,7 +62,7 @@ def showMenuLoginSignup(root):
     """Dit is een aparte functie om het dropdown menu voor de signup en de login te maken"""
     # root.geometry('1920x1080')
     root.configure(background='gray')
-    root.iconphoto(False, PhotoImage(file="../pictures/kledingkastIcon.png"))
+    root.iconphoto(False, PhotoImage(file="../overige_bestanden/kledingkastIcon.png"))
 
     menu = Menu(root)
     root.config(menu=menu)
@@ -416,7 +416,7 @@ def showMenu(root):
 
     # root.geometry('1920x1080')
     root.configure(background='gray')
-    root.iconphoto(False, PhotoImage(file="../pictures/kledingkastIcon.png"))
+    root.iconphoto(False, PhotoImage(file="../overige_bestanden/kledingkastIcon.png"))
 
     toDestroyRoot = root
     menu = Menu(root)
