@@ -33,7 +33,7 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
     for indexAll in range(2, len(allInfVariables[userName])):
         allClothingString += str(allInfVariables[userName][indexAll]) + '\n'
 
-    AllClothes = Label(rootChoose, text=f'{allClothingString}: ', background="gray")
+    AllClothes = Label(rootChoose, text=f'{allClothingString}: ', background="#c6def1")
     AllClothes.grid(row=2, column=0)
 
     return allClothingString

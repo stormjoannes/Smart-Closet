@@ -14,40 +14,65 @@ def Signup():  # This is the signup definition,
     rootSignUp = Tk()
     rootSignUp.title('Signup')
     Globroot = rootSignUp
+    rootSignUp.geometry("300x175")
 
     showMenuLoginSignup(rootSignUp)
 
-    intruction = Label(rootSignUp, text='Sign aub\n', background="#c6def1")
-    intruction.grid(row=0, column=0)
+    # intruction = Label(rootSignUp, text='Sign aub\n', background="#c6def1")
+    # intruction.grid(row=0, column=0)
+    #
+    # signUpEntryNameLabel = Label(rootSignUp, text='Nieuwe naam: ', background="#c6def1")
+    # signUpEntryNameLabel.grid(row=1, column=0, sticky=W)
+    #
+    # signUpNameEntry = Entry(rootSignUp)
+    # signUpNameEntry.grid(row=1, column=1)
+    #
+    # signUpStadField = Label(rootSignUp, text='Stad naam: ', background="#c6def1")
+    # signUpStadField.grid(row=2, column=0, sticky=W)
+    #
+    # signUpStadEntry = Entry(rootSignUp)
+    # signUpStadEntry.grid(row=2, column=1)
+    #
+    # signUpLandField = Label(rootSignUp, text='De afkorting van je land: ', background="#c6def1")
+    # signUpLandField.grid(row=3, column=0, sticky=W)
+    #
+    # signUpLandEntry = Entry(rootSignUp)
+    # signUpLandEntry.grid(row=3, column=1)
+    #
+    # signupButton = Button(rootSignUp, text='Signup',
+    #                       command=lambda:toLogin(signUpNameEntry.get(), signUpStadEntry.get(), signUpLandEntry.get()))
+    # signupButton.grid(columnspan=2, sticky=W)
+    #
+    # backLogin = Button(rootSignUp, text='Login', fg='Blue',
+    #                    command=toLogIn)
+    # backLogin.grid(columnspan=2, sticky=W)
 
-    signUpEntryNameLabel = Label(rootSignUp, text='Nieuwe naam: ', background="#c6def1")
-    signUpEntryNameLabel.grid(row=1, column=0,
-               sticky=W)
+    intruction = Label(rootSignUp, text='Sign aub\n', background="#c6def1", font=("Helvetica", 15))
+    intruction.place(x=100, y=0)
+
+    signUpEntryNameLabel = Label(rootSignUp, text='Nieuwe naam: ', background="#c6def1", font=("Helvetica", 10))
+    signUpEntryNameLabel.place(x=5, y=30)
 
     signUpNameEntry = Entry(rootSignUp)
-    signUpNameEntry.grid(row=1, column=1)
+    signUpNameEntry.place(x=155, y=30)
 
-    signUpStadField = Label(rootSignUp, text='Stad naam: ', background="#c6def1")
-    signUpStadField.grid(row=2, column=0,
-               sticky=W)
+    signUpStadField = Label(rootSignUp, text='Stad naam: ', background="#c6def1", font=("Helvetica", 10))
+    signUpStadField.place(x=5, y=60)
 
     signUpStadEntry = Entry(rootSignUp)
-    signUpStadEntry.grid(row=2, column=1)
+    signUpStadEntry.place(x=155, y=60)
 
-    signUpLandField = Label(rootSignUp, text='De afkorting van je land: ', background="#c6def1")
-    signUpLandField.grid(row=3, column=0,
-               sticky=W)
+    signUpLandField = Label(rootSignUp, text='De afkorting van je land: ', background="#c6def1", font=("Helvetica", 10))
+    signUpLandField.place(x=5, y=90)
 
     signUpLandEntry = Entry(rootSignUp)
-    signUpLandEntry.grid(row=3, column=1)
+    signUpLandEntry.place(x=155, y=90)
 
-    signupButton = Button(rootSignUp, text='Signup',
-                          command=lambda:toLogin(signUpNameEntry.get(), signUpStadEntry.get(), signUpLandEntry.get()))
-    signupButton.grid(columnspan=2, sticky=W)
+    signupButton = Button(rootSignUp, text='Signup', fg='Blue', command=lambda:toLogin(signUpNameEntry.get(), signUpStadEntry.get(), signUpLandEntry.get()), width="12", height="1")
+    signupButton.place(x=172, y=120)
 
-    backLogin = Button(rootSignUp, text='Login', fg='Blue',
-                       command=toLogIn)
-    backLogin.grid(columnspan=2, sticky=W)
+    backLogin = Button(rootSignUp, text='Login',width="12", height="1", command=toLogIn)
+    backLogin.place(x=5, y=120)
 
     rootSignUp.mainloop()
 
@@ -63,7 +88,6 @@ def showMenuLoginSignup(root):
     # root.geometry('1920x1080')
     root.configure(background="#c6def1")
     root.iconbitmap('../overige_bestanden/kledingkastIco.ico')
-    root.geometry("225x200")
 
     menu = Menu(root)
     root.config(menu=menu)
@@ -81,6 +105,7 @@ def Login():
 
     rootLogin = Tk()
     rootLogin.title('Login')
+    rootLogin.geometry("225x175")
 
 
     Globroot = rootLogin
@@ -88,21 +113,19 @@ def Login():
     showMenuLoginSignup(rootLogin)
 
     LoginTitleLabel = Label(rootLogin, text='Log in\n', background="#c6def1", font=("Helvetica", 20))
-    LoginTitleLabel.grid(column=1)
+    LoginTitleLabel.place(x=75, y=0)
 
     LoginEntryNameLabel = Label(rootLogin, text='Username: ', background="#c6def1")
-    LoginEntryNameLabel.grid(row=1, sticky=W)
+    LoginEntryNameLabel.place(x=2, y=58)
 
     LoginUserNameEntry = Entry(rootLogin)
-    LoginUserNameEntry.grid(row=1, column=1)
+    LoginUserNameEntry.place(x=70, y=60)
 
-    loginB = Button(rootLogin, text='Login',
-                    command=lambda:toHomeScreen(LoginUserNameEntry.get()))
-    loginB.grid(columnspan=2, sticky=W)
+    loginB = Button(rootLogin, text='Login', fg='Blue', command=lambda:toHomeScreen(LoginUserNameEntry.get()), width="7", height="2")
+    loginB.place(x=70, y=100)
 
-    rmuser = Button(rootLogin, text='Sign in', fg='Blue',
-                    command=Signup)
-    rmuser.grid(columnspan=2, sticky=W)
+    rmuser = Button(rootLogin, text='Sign in', command=Signup, width="7", height="2")
+    rmuser.place(x=140, y=100)
 
     rootLogin.mainloop()
 
@@ -115,25 +138,26 @@ try:
         rootHm = Tk()
         rootHm.title('Home')
         Globroot = rootHm
+        rootHm.geometry("400x250")
 
         backupDump()
         showMenu(rootHm)
         refreshGedragen(userName)
 
-        homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ', background="#c6def1")
-        homescreenLabelTitle.grid(row=1, sticky=W)
+        homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ', background="#c6def1", font=("Helvetica", 12))
+        homescreenLabelTitle.place(x=0, y=0)
 
-        homescreenAddButton= Button(rootHm, text='voeg kleding toe ', command=AddScreen)
-        homescreenAddButton.grid(row=2)
+        homescreenAddButton= Button(rootHm, text='voeg kleding toe ', command=AddScreen, width=20, height="2")
+        homescreenAddButton.place(x=125, y=25)
 
-        homescreenDeleteButton = Button(rootHm, text='Verwijder kleding ', command=DeleteScreen)
-        homescreenDeleteButton.grid(row=3)
+        homescreenDeleteButton = Button(rootHm, text='Verwijder kleding ', command=DeleteScreen, width=20, height="2")
+        homescreenDeleteButton.place(x=125, y=70)
 
-        homescreenSettingsButton = Button(rootHm, text='Kleding uitkiezen', command=UitkiezenScreen)
-        homescreenSettingsButton.grid(row=4)
+        homescreenSettingsButton = Button(rootHm, text='Kleding uitkiezen', command=UitkiezenScreen, width=30, height="2")
+        homescreenSettingsButton.place(x=90, y=115)
 
-        homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatisch genereren van je kleding setje ', command=toGenScreen)
-        homescreenAutomaticGenButton.grid(row=5)
+        homescreenAutomaticGenButton = Button(rootHm, fg='blue', text='Automatisch genereren van je kleding setje ', command=toGenScreen, width=40, height="2")
+        homescreenAutomaticGenButton.place(x=50, y=160)
 
         rootHm.mainloop()
 except:
@@ -391,30 +415,24 @@ def setGenScreen():
     rootGen = Tk()
     rootGen.title('Generator')
     Globroot = rootGen
+    rootGen.geometry("450x175")
 
     showMenu(rootGen)
 
-    GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ', background="#c6def1")
-    GenTitleLabel.grid(row=0)
+    GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ', background="#c6def1", font=("Helvetica", 10))
+    GenTitleLabel.place(x=0, y=0)
 
-    GenSpaceLabel = Label(rootGen, text='', background="#c6def1")
-    GenSpaceLabel.grid(row=1)
+    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:frame('dagelijks', userName, setGenScreen, showMenu, rootGen), width=13, height="2")
+    genDagelijksButton.place(x=5, y=30)
 
+    genSportutton = Button(rootGen, text='Sport', command=lambda:frame('sport', userName, setGenScreen, showMenu, rootGen), width=13, height="2")
+    genSportutton.place(x=150, y=30)
 
-    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:frame('dagelijks', userName, setGenScreen, showMenu, rootGen))
-    genDagelijksButton.grid(row=2, sticky=W)
+    genFeestButton = Button(rootGen, text='Feest', command=lambda:frame('feest', userName, setGenScreen, showMenu, rootGen), width=13, height="2")
+    genFeestButton.place(x=300, y=30)
 
-    genSportutton = Button(rootGen, text='Sport', command=lambda:frame('sport', userName, setGenScreen, showMenu, rootGen))
-    genSportutton.grid(row=2, column=0)
-
-    genFeestButton = Button(rootGen, text='Feest', command=lambda:frame('feest', userName, setGenScreen, showMenu, rootGen))
-    genFeestButton.grid(row=2, column=1)
-
-    GenSpaceLabel = Label(rootGen, text='', background="#c6def1")
-    GenSpaceLabel.grid(row=3)
-
-    genBackButton = Button(rootGen, text='Back', command=toHub)
-    genBackButton.grid(row=5, sticky=W)
+    genBackButton = Button(rootGen, text='Back', command=toHub, width=7, height="2")
+    genBackButton.place(x=5, y=110)
 
     rootGen.mainloop()
 
@@ -423,7 +441,6 @@ def showMenu(root):
     """Deze functie word in bijna alle frames aangeroepen om zo het drop down menu overal het zelfde weer te geven."""
     global toDestroyRoot
 
-    # root.geometry('1920x1080')
     root.configure(background='#c6def1')
     root.iconbitmap('../overige_bestanden/kledingkastIco.ico')
 
