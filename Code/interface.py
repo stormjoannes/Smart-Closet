@@ -17,24 +17,24 @@ def Signup():  # This is the signup definition,
 
     showMenuLoginSignup(rootSignUp)
 
-    intruction = Label(rootSignUp, text='Sign aub\n', background="gray")
+    intruction = Label(rootSignUp, text='Sign aub\n', background="#c6def1")
     intruction.grid(row=0, column=0)
 
-    signUpEntryNameLabel = Label(rootSignUp, text='Nieuwe naam: ', background="gray")
+    signUpEntryNameLabel = Label(rootSignUp, text='Nieuwe naam: ', background="#c6def1")
     signUpEntryNameLabel.grid(row=1, column=0,
                sticky=W)
 
     signUpNameEntry = Entry(rootSignUp)
     signUpNameEntry.grid(row=1, column=1)
 
-    signUpStadField = Label(rootSignUp, text='Stad naam: ', background="gray")
+    signUpStadField = Label(rootSignUp, text='Stad naam: ', background="#c6def1")
     signUpStadField.grid(row=2, column=0,
                sticky=W)
 
     signUpStadEntry = Entry(rootSignUp)
     signUpStadEntry.grid(row=2, column=1)
 
-    signUpLandField = Label(rootSignUp, text='De afkorting van je land: ', background="gray")
+    signUpLandField = Label(rootSignUp, text='De afkorting van je land: ', background="#c6def1")
     signUpLandField.grid(row=3, column=0,
                sticky=W)
 
@@ -61,15 +61,17 @@ def toLogIn():
 def showMenuLoginSignup(root):
     """Dit is een aparte functie om het dropdown menu voor de signup en de login te maken"""
     # root.geometry('1920x1080')
-    root.configure(background='gray')
-    root.iconphoto(False, PhotoImage(file="../overige_bestanden/kledingkastIcon.png"))
+    root.configure(background="#c6def1")
+    root.iconbitmap('../overige_bestanden/kledingkastIco.ico')
+    root.geometry("225x200")
 
     menu = Menu(root)
     root.config(menu=menu)
 
     subMenu = Menu(menu)
-    menu.add_cascade(label='file', menu=subMenu)
-    subMenu.add_command(label='exit', command=exitProg)
+    subMenu.config(fg="#555b6e")
+    menu.add_cascade(label='Settings', menu=subMenu)
+    subMenu.add_command(label='Exit', command=exitProg)
 
 
 def Login():
@@ -80,14 +82,15 @@ def Login():
     rootLogin = Tk()
     rootLogin.title('Login')
 
+
     Globroot = rootLogin
 
     showMenuLoginSignup(rootLogin)
 
-    LoginTitleLabel = Label(rootLogin, text='Log in\n', background="gray", font=("Helvetica", 20))
+    LoginTitleLabel = Label(rootLogin, text='Log in\n', background="#c6def1", font=("Helvetica", 20))
     LoginTitleLabel.grid(column=1)
 
-    LoginEntryNameLabel = Label(rootLogin, text='Username: ', background="gray")
+    LoginEntryNameLabel = Label(rootLogin, text='Username: ', background="#c6def1")
     LoginEntryNameLabel.grid(row=1, sticky=W)
 
     LoginUserNameEntry = Entry(rootLogin)
@@ -117,7 +120,7 @@ try:
         showMenu(rootHm)
         refreshGedragen(userName)
 
-        homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ', background="gray")
+        homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ', background="#c6def1")
         homescreenLabelTitle.grid(row=1, sticky=W)
 
         homescreenAddButton= Button(rootHm, text='voeg kleding toe ', command=AddScreen)
@@ -148,6 +151,7 @@ def AddScreen():
     rootAdd = Tk()
     rootAdd.title('ADD')
     Globroot = rootAdd
+    rootAdd.geometry('400x225')
 
     showMenu(rootAdd)
     inputParametersClothing(rootAdd)
@@ -167,40 +171,40 @@ def inputParametersClothing(root):
     global screenBrandEntry
     global screenCategoryEntry
 
-    screenTitle = Label(root, text='Vul de parameters van je kledingstuk in: ', background="gray")
+    screenTitle = Label(root, text='Vul de parameters van je kledingstuk in: ', background="#c6def1")
     screenTitle.grid(row=0, sticky=W)
 
-    screenNameLabel = Label(root, text='Naam: ', background="gray")
+    screenNameLabel = Label(root, text='Naam: ', background="#c6def1")
     screenNameLabel.grid(row=1, column=0,  sticky=W)
 
     screenNameEntry = Entry(root)
     screenNameEntry.grid(row=1, column=1)
 
-    screenLongShortLabel = Label(root, text='lange/korte broekspijpen/mouwen: ', background="gray")
+    screenLongShortLabel = Label(root, text='lange/korte broekspijpen/mouwen: ', background="#c6def1")
     screenLongShortLabel.grid(row=2, column=0,  sticky=W)
 
     screenLongShortEntry = Entry(root)
     screenLongShortEntry.grid(row=2, column=1)
 
-    screenOpportunityLabel = Label(root, text='Gelegenheid(ddagelijks leven, sport of feestje): ', background="gray")
+    screenOpportunityLabel = Label(root, text='Gelegenheid(ddagelijks leven, sport of feestje): ', background="#c6def1")
     screenOpportunityLabel.grid(row=3, column=0,  sticky=W)
 
     screenOpportunityEntry = Entry(root)
     screenOpportunityEntry.grid(row=3, column=1)
 
-    screenColorLabel = Label(root, text='Kleur: ', background="gray")
+    screenColorLabel = Label(root, text='Kleur: ', background="#c6def1")
     screenColorLabel.grid(row=4, column=0,  sticky=W)
 
     screenColorEntry = Entry(root)
     screenColorEntry.grid(row=4, column=1)
 
-    screenBrandLabel = Label(root, text='Merk: ', background="gray")
+    screenBrandLabel = Label(root, text='Merk: ', background="#c6def1")
     screenBrandLabel.grid(row=5, column=0,  sticky=W)
 
     screenBrandEntry = Entry(root)
     screenBrandEntry.grid(row=5, column=1)
 
-    screenCategoryLabel = Label(root, text='Categorie: ', background="gray")
+    screenCategoryLabel = Label(root, text='Categorie: ', background="#c6def1")
     screenCategoryLabel.grid(row=6, column=0,  sticky=W)
 
     screenCategoryEntry = Entry(root)
@@ -223,6 +227,7 @@ def DeleteScreen():
         rootDelete = Tk()
         rootDelete.title('DELETE')
         Globroot = rootDelete
+        rootDelete.geometry('400x225')
 
         showMenu(rootDelete)
 
@@ -258,14 +263,14 @@ def changePersonalData():
     with open('../jsonFiles/Kledingkast.json', 'r+') as docPersonalData:
         personalData = json.load(docPersonalData)
 
-    personaldataUserNameLabel = Label(rootCPD, text='Username: ', background="gray")
+    personaldataUserNameLabel = Label(rootCPD, text='Username: ', background="#c6def1")
     personaldataUserNameLabel.grid(row=0, column=0,  sticky=W)
 
     personaldataUserNameEntry = Entry(rootCPD)
     personaldataUserNameEntry.insert(0, userName)
     personaldataUserNameEntry.grid(row=0, column=1)
 
-    personaldataBetweenWearLabel = Label(rootCPD, text='Tijd tussen het dragen van kleding: ', background="gray")
+    personaldataBetweenWearLabel = Label(rootCPD, text='Tijd tussen het dragen van kleding: ', background="#c6def1")
     personaldataBetweenWearLabel.grid(row=1, column=0,  sticky=W)
 
     personaldataBetweenWearEntry = Entry(rootCPD)
@@ -273,7 +278,7 @@ def changePersonalData():
     personaldataBetweenWearEntry.grid(row=1, column=1)
 
 
-    personaldataCityLabel = Label(rootCPD, text='Stad: ', background="gray")
+    personaldataCityLabel = Label(rootCPD, text='Stad: ', background="#c6def1")
     personaldataCityLabel.grid(row=2, column=0,  sticky=W)
 
     personaldataCityEntry = Entry(rootCPD)
@@ -281,7 +286,7 @@ def changePersonalData():
     personaldataCityEntry.grid(row=2, column=1)
 
 
-    personaldataLandLabel = Label(rootCPD, text='Afkorting van Land: ', background="gray")
+    personaldataLandLabel = Label(rootCPD, text='Afkorting van Land: ', background="#c6def1")
     personaldataLandLabel.grid(row=3, column=0,  sticky=W)
 
     personaldataLandEntry = Entry(rootCPD)
@@ -300,16 +305,20 @@ def deleteAccountCheck():
     rootDeleteAccount = Tk()
     rootDeleteAccount.title('Account delete')
 
-    delAccountTitle = Label(rootDeleteAccount, text='Weet je zeker dat je je account wilt verwijderen: ', background="gray")
+    delAccountTitle = Label(rootDeleteAccount, text='Weet je zeker dat je je account wilt verwijderen: ', background="#c6def1")
     delAccountTitle.grid(row=1, column=0,  sticky=W)
 
-    delAccountYesButton = Button(rootDeleteAccount, text='Ja', command=lambda:deleteAccount(Login, userName, Globroot, rootDeleteAccount))
-    delAccountYesButton.grid(row=3, sticky=W)
+    delAccountYesButton = Button(rootDeleteAccount, text='Ja', fg='RED', command=lambda:deleteAccount(Login, userName, Globroot, rootDeleteAccount))
+    delAccountYesButton.grid(row=3, sticky=W, ipadx=51)
 
-    delAccountNeeButton = Button(rootDeleteAccount, text='Nee', command=toHub)
-    delAccountNeeButton.grid(row=3, sticky=E)
+    delAccountNeeButton = Button(rootDeleteAccount, text='Nee', fg='BLUE', command=DeleteRoot)
+    delAccountNeeButton.grid(row=3, sticky=E, ipadx=51)
 
     rootDeleteAccount.mainloop()
+
+def DeleteRoot():
+    """Deze functie gebruik ik om een huidige root alleen te destroyen"""
+    rootDeleteAccount.destroy()
 
 
 def toDeleteAccount(Login, userName, Globroot, rootDeleteAccount):
@@ -338,17 +347,17 @@ def UitkiezenScreen():
 
         showMenu(rootChoose)
 
-        chooseTitleLabel = Label(rootChoose, text='Al je kleren: ', background="gray")
+        chooseTitleLabel = Label(rootChoose, text='Al je kleren: ', background="#c6def1")
         chooseTitleLabel.grid(row=2)
 
-        chooseEmptySpaceLabel = Label(rootChoose, text='', background="gray")
+        chooseEmptySpaceLabel = Label(rootChoose, text='', background="#c6def1")
         chooseEmptySpaceLabel.grid(row=3)
 
         allClothes(rootChoose, userName)
 
         possibleFilters = getAllPossibleFilters(userName)
 
-        chooseFilterLabel = Label(rootChoose, text='Filter: ', background="gray")
+        chooseFilterLabel = Label(rootChoose, text='Filter: ', background="#c6def1")
         chooseFilterLabel.grid(row=0, sticky=W)
 
         chooseFilterCombobox = ttk.Combobox(rootChoose, value=possibleFilters)
@@ -385,10 +394,10 @@ def setGenScreen():
 
     showMenu(rootGen)
 
-    GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ', background="gray")
+    GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ', background="#c6def1")
     GenTitleLabel.grid(row=0)
 
-    GenSpaceLabel = Label(rootGen, text='', background="gray")
+    GenSpaceLabel = Label(rootGen, text='', background="#c6def1")
     GenSpaceLabel.grid(row=1)
 
 
@@ -401,7 +410,7 @@ def setGenScreen():
     genFeestButton = Button(rootGen, text='Feest', command=lambda:frame('feest', userName, setGenScreen, showMenu, rootGen))
     genFeestButton.grid(row=2, column=1)
 
-    GenSpaceLabel = Label(rootGen, text='', background="gray")
+    GenSpaceLabel = Label(rootGen, text='', background="#c6def1")
     GenSpaceLabel.grid(row=3)
 
     genBackButton = Button(rootGen, text='Back', command=toHub)
@@ -415,21 +424,23 @@ def showMenu(root):
     global toDestroyRoot
 
     # root.geometry('1920x1080')
-    root.configure(background='gray')
-    root.iconphoto(False, PhotoImage(file="../overige_bestanden/kledingkastIcon.png"))
+    root.configure(background='#c6def1')
+    root.iconbitmap('../overige_bestanden/kledingkastIco.ico')
+
 
     toDestroyRoot = root
     menu = Menu(root)
     root.config(menu=menu)
 
     subMenu = Menu(menu)
-    menu.add_cascade(label='settings', menu=subMenu)
-    subMenu.add_command(label='personal data', command=changePersonalData)
-    subMenu.add_command(label='delete account', command=deleteAccountCheck)
+    subMenu.config(fg="#555b6e")
+    menu.add_cascade(label='Settings', menu=subMenu)
+    subMenu.add_command(label='Personal data', command=changePersonalData)
+    subMenu.add_command(label='Delete account', command=deleteAccountCheck)
     subMenu.add_separator()
-    subMenu.add_command(label='homescreen', command=toHub)
+    subMenu.add_command(label='Homescreen', command=toHub)
     subMenu.add_command(label='Log out', command=toLogIn)
-    subMenu.add_command(label='exit', command=exitProg)
+    subMenu.add_command(label='Exit', command=exitProg)
 
 
 def toHub():
