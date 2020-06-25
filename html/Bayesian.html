@@ -56,11 +56,8 @@ def SortedListSets(unsortedList, hitteNiveau, kortOfLangInf):
 
     while len(allValues) != 0:
         for valueIndex in range(0, len(allValues)):
-            MinValue = min(allValues)
-            if allValues[valueIndex] == MinValue:
-                # print(&#34;ja&#34;)
-                # print(unsortedList)
-                # print(allValues)
+            MaxValue = max(allValues)
+            if allValues[valueIndex] == MaxValue:
                 sortedList.append(unsortedList[valueIndex])
                 allValues.remove(allValues[valueIndex])
                 unsortedList.remove(unsortedList[valueIndex])
@@ -100,7 +97,6 @@ def WeatherForPickClothes(func, userName):
         kortOfLangInf = json.load(HeatlevelInf)
 
     FiguratieLangKort = kortOfLangInf[&#34;temp&#34;][hitteNiveau]
-    # print(hitteNiveau)
 
     randomChoiceLijst = []
     for x in FiguratieLangKort:
@@ -110,7 +106,6 @@ def WeatherForPickClothes(func, userName):
             randomChoiceLijst.append(x)
 
     keuzeLangKort = random.choice(randomChoiceLijst)
-    # print(keuzeLangKort)
     LengteMouwen = keuzeLangKort.split(&#34;-&#34;)[0]
     LengtePijpen = keuzeLangKort.split(&#34;-&#34;)[1]
     soortenTop = [&#34;shirt&#34;, &#34;hoodie&#34;, &#34;hemdje&#34;, &#34;trui&#34;, &#34;vest&#34;, &#34;crop top&#34;, &#34;blazer&#34;, &#34;jurk&#34;, &#34;jumpsuit&#34;, &#34;blousje&#34;]
@@ -121,8 +116,6 @@ def WeatherForPickClothes(func, userName):
         errorMessage()
         exit(0)
 
-    # print(Tops, &#34;first&#34;)
-    # print(Bottoms, &#34;first&#34;)
     funcTops = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Tops, &#34;tops&#34;)
     Tops = funcTops[0]
     voorkomendeCategorieTop = funcTops[1]
@@ -135,24 +128,17 @@ def WeatherForPickClothes(func, userName):
     if len(Tops) == 0 or len(Bottoms) == 0:
         errorMessage()
         exit(0)
-    # print(Tops, &#34;second&#34;)
-    # print(Bottoms, &#34;second&#34;)
     unsortedSets = CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom)
     return SortedListSets(unsortedSets, hitteNiveau, kortOfLangInf)
 
 
-def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid):
+def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid, path=&#39;../jsonFiles/Kledingkast.json&#39;):
     &#34;In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen.&#34;
     mogelijkeTopBottom = []
-    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as Data:
+    with open(path, &#39;r+&#39;) as Data:
         clothesData = json.load(Data)
 
     for x in range(2, len(clothesData[userName])):
-        # print(clothesData[userName][x], &#34;stuk&#34;)
-        # print(TopOfBroek, &#34;lijstttttt&#34;)
-        # print(clothesData[userName][x][&#34;langKort&#34;], &#34;database&#34;)
-        # print(langKort, &#34;langkort&#34;)
-        # print(&#39;\n&#39;)
         if clothesData[userName][x][&#34;langKort&#34;] == langKort and clothesData[userName][x][&#34;categorie&#34;] in TopOfBroek and clothesData[userName][x][&#34;gelegenheid&#34;] == gelegenheid:
             tempList = [clothesData[userName][x][&#34;naam&#34;], clothesData[userName][x][&#34;kleur&#34;],
                         clothesData[userName][x][&#34;categorie&#34;], clothesData[userName][x][&#34;merk&#34;],
@@ -164,8 +150,6 @@ def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid):
 def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom):
     &#34;hier houd ik alleen de kledingstukken over die bij die temperatuur ook gedragen worden.&#34;
     FiguratieLangKort = kortOfLangInf[TopOrBottom][hitteNiveau]
-    # print(hitteNiveau)
-    # print(TopsBottoms, &#39;list&#39;)
 
     wearableTopBottomList = []
     voorkomendeCategorie = []
@@ -174,15 +158,11 @@ def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom
         kans = kans.split(&#34;/&#34;)[0]
         for i in range(0, int(kans)):
             wearableTopBottomList.append(x)
-    # print(wearableTopBottomList)
-    # print(TopsBottoms[0][2], &#34;juahhhhhhhhhh&#34;)
     for kledingstuk in TopsBottoms:
         if kledingstuk[2] not in wearableTopBottomList:
             TopsBottoms.remove(kledingstuk)
         else:
             voorkomendeCategorie.append(kledingstuk[2])
-    # keuzeLangKort = random.choice(wearableTopBottomList)
-    # print(wearableTopBottomList, &#34;filters&#34;)
     return TopsBottoms, voorkomendeCategorie, wearableTopBottomList
 
 def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
@@ -194,9 +174,9 @@ def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
 
     return collorStatus
 
-def checkGedragen(userName, setje):
+def checkGedragen(userName, setje, path = &#39;../jsonFiles/Kledingkast.json&#39;):
     &#34;Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker).&#34;
-    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as Wear:
+    with open(path, &#39;r&#39;) as Wear:
         WearInf = json.load(Wear)
 
     for x in WearInf[userName][1][&#34;gedragen&#34;]:
@@ -236,12 +216,10 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
         wearableTopBottomListTop.remove(randTopCat)
         wearableTopBottomListBottom.remove(randBottomCat)
         for shirt in Tops:
-            # print(shirt, &#34;shirt&#34;)
             if shirt[2] == randTopCat:
                 Tops.remove(shirt)
                 for bottom in Bottoms:
                     if bottom[2] == randBottomCat:
-                        # print(bottom, &#34;bottom&#34;)
                         Bottoms.remove(bottom)
                         collorTop = shirt[1]
                         collorBottom = bottom[1]
@@ -282,14 +260,11 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
                             else:
                                 tempList.append(shirt)
                                 tempList.append(bottom)
-                            # print(tempList)
 
                             statusGedragen = checkGedragen(userName, tempList)
                             if statusGedragen == False:
                                 mogelijkSetjes.append(tempList)
-    # print(&#34;\n&#34;)
-    # for y in mogelijkSetjes:
-    #     print(y)
+
     return mogelijkSetjes
 
 
@@ -328,13 +303,13 @@ def sideScreen(top, bottom, func, loopindex, showMenu, userName):
 
     showMenu(rootWear)
 
-    GenTopLabel = Label(rootWear, text=f&#39;Top: {top}&#39;, background=&#34;gray&#34;)
+    GenTopLabel = Label(rootWear, text=f&#39;Top: {top}&#39;, background=&#34;#c6def1&#34;)
     GenTopLabel.grid(row=5)
 
-    GenBottomLabel = Label(rootWear, text=f&#39;Bottom: {bottom}&#39;, background=&#34;gray&#34;)
+    GenBottomLabel = Label(rootWear, text=f&#39;Bottom: {bottom}&#39;, background=&#34;#c6def1&#34;)
     GenBottomLabel.grid(row=6)
 
-    genTitleLabel = Label(rootWear, text=&#39;Ga je dit setje dragen:&#39;, background=&#34;gray&#34;)
+    genTitleLabel = Label(rootWear, text=&#39;Ga je dit setje dragen:&#39;, background=&#34;#c6def1&#34;)
     genTitleLabel.grid(row=9)
 
     genYesButton = Button(rootWear, text=&#39;Ja&#39;,
@@ -391,11 +366,7 @@ def getTimeDifference(x):
     previousDay = datetime.strptime(x[2], date_format)
 
     diff = abs((today - previousDay).days)
-    print(diff)
-    return diff
-
-# print(WeatherForPickClothes(&#34;dagelijks&#34;, &#34;admin&#34;))
-# print(getCommonClothingPieces())</code></pre>
+    return diff</code></pre>
 </details>
 </section>
 <section>
@@ -406,7 +377,7 @@ def getTimeDifference(x):
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="Bayesian.ChoiceTopBottom"><code class="name flex">
-<span>def <span class="ident">ChoiceTopBottom</span></span>(<span>userName, langKort, TopOfBroek, gelegenheid)</span>
+<span>def <span class="ident">ChoiceTopBottom</span></span>(<span>userName, langKort, TopOfBroek, gelegenheid, path='../jsonFiles/Kledingkast.json')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen.</p></div>
@@ -414,18 +385,13 @@ def getTimeDifference(x):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid):
+<pre><code class="python">def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid, path=&#39;../jsonFiles/Kledingkast.json&#39;):
     &#34;In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen.&#34;
     mogelijkeTopBottom = []
-    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r+&#39;) as Data:
+    with open(path, &#39;r+&#39;) as Data:
         clothesData = json.load(Data)
 
     for x in range(2, len(clothesData[userName])):
-        # print(clothesData[userName][x], &#34;stuk&#34;)
-        # print(TopOfBroek, &#34;lijstttttt&#34;)
-        # print(clothesData[userName][x][&#34;langKort&#34;], &#34;database&#34;)
-        # print(langKort, &#34;langkort&#34;)
-        # print(&#39;\n&#39;)
         if clothesData[userName][x][&#34;langKort&#34;] == langKort and clothesData[userName][x][&#34;categorie&#34;] in TopOfBroek and clothesData[userName][x][&#34;gelegenheid&#34;] == gelegenheid:
             tempList = [clothesData[userName][x][&#34;naam&#34;], clothesData[userName][x][&#34;kleur&#34;],
                         clothesData[userName][x][&#34;categorie&#34;], clothesData[userName][x][&#34;merk&#34;],
@@ -463,12 +429,10 @@ def getTimeDifference(x):
         wearableTopBottomListTop.remove(randTopCat)
         wearableTopBottomListBottom.remove(randBottomCat)
         for shirt in Tops:
-            # print(shirt, &#34;shirt&#34;)
             if shirt[2] == randTopCat:
                 Tops.remove(shirt)
                 for bottom in Bottoms:
                     if bottom[2] == randBottomCat:
-                        # print(bottom, &#34;bottom&#34;)
                         Bottoms.remove(bottom)
                         collorTop = shirt[1]
                         collorBottom = bottom[1]
@@ -509,14 +473,11 @@ def getTimeDifference(x):
                             else:
                                 tempList.append(shirt)
                                 tempList.append(bottom)
-                            # print(tempList)
 
                             statusGedragen = checkGedragen(userName, tempList)
                             if statusGedragen == False:
                                 mogelijkSetjes.append(tempList)
-    # print(&#34;\n&#34;)
-    # for y in mogelijkSetjes:
-    #     print(y)
+
     return mogelijkSetjes</code></pre>
 </details>
 </dd>
@@ -553,11 +514,8 @@ def getTimeDifference(x):
 
     while len(allValues) != 0:
         for valueIndex in range(0, len(allValues)):
-            MinValue = min(allValues)
-            if allValues[valueIndex] == MinValue:
-                # print(&#34;ja&#34;)
-                # print(unsortedList)
-                # print(allValues)
+            MaxValue = max(allValues)
+            if allValues[valueIndex] == MaxValue:
                 sortedList.append(unsortedList[valueIndex])
                 allValues.remove(allValues[valueIndex])
                 unsortedList.remove(unsortedList[valueIndex])
@@ -607,7 +565,6 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
         kortOfLangInf = json.load(HeatlevelInf)
 
     FiguratieLangKort = kortOfLangInf[&#34;temp&#34;][hitteNiveau]
-    # print(hitteNiveau)
 
     randomChoiceLijst = []
     for x in FiguratieLangKort:
@@ -617,7 +574,6 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
             randomChoiceLijst.append(x)
 
     keuzeLangKort = random.choice(randomChoiceLijst)
-    # print(keuzeLangKort)
     LengteMouwen = keuzeLangKort.split(&#34;-&#34;)[0]
     LengtePijpen = keuzeLangKort.split(&#34;-&#34;)[1]
     soortenTop = [&#34;shirt&#34;, &#34;hoodie&#34;, &#34;hemdje&#34;, &#34;trui&#34;, &#34;vest&#34;, &#34;crop top&#34;, &#34;blazer&#34;, &#34;jurk&#34;, &#34;jumpsuit&#34;, &#34;blousje&#34;]
@@ -628,8 +584,6 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
         errorMessage()
         exit(0)
 
-    # print(Tops, &#34;first&#34;)
-    # print(Bottoms, &#34;first&#34;)
     funcTops = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Tops, &#34;tops&#34;)
     Tops = funcTops[0]
     voorkomendeCategorieTop = funcTops[1]
@@ -642,8 +596,6 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
     if len(Tops) == 0 or len(Bottoms) == 0:
         errorMessage()
         exit(0)
-    # print(Tops, &#34;second&#34;)
-    # print(Bottoms, &#34;second&#34;)
     unsortedSets = CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom)
     return SortedListSets(unsortedSets, hitteNiveau, kortOfLangInf)</code></pre>
 </details>
@@ -711,7 +663,7 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
 </details>
 </dd>
 <dt id="Bayesian.checkGedragen"><code class="name flex">
-<span>def <span class="ident">checkGedragen</span></span>(<span>userName, setje)</span>
+<span>def <span class="ident">checkGedragen</span></span>(<span>userName, setje, path='../jsonFiles/Kledingkast.json')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker).</p></div>
@@ -719,9 +671,9 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def checkGedragen(userName, setje):
+<pre><code class="python">def checkGedragen(userName, setje, path = &#39;../jsonFiles/Kledingkast.json&#39;):
     &#34;Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker).&#34;
-    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as Wear:
+    with open(path, &#39;r&#39;) as Wear:
         WearInf = json.load(Wear)
 
     for x in WearInf[userName][1][&#34;gedragen&#34;]:
@@ -821,8 +773,6 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
 <pre><code class="python">def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom):
     &#34;hier houd ik alleen de kledingstukken over die bij die temperatuur ook gedragen worden.&#34;
     FiguratieLangKort = kortOfLangInf[TopOrBottom][hitteNiveau]
-    # print(hitteNiveau)
-    # print(TopsBottoms, &#39;list&#39;)
 
     wearableTopBottomList = []
     voorkomendeCategorie = []
@@ -831,15 +781,11 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
         kans = kans.split(&#34;/&#34;)[0]
         for i in range(0, int(kans)):
             wearableTopBottomList.append(x)
-    # print(wearableTopBottomList)
-    # print(TopsBottoms[0][2], &#34;juahhhhhhhhhh&#34;)
     for kledingstuk in TopsBottoms:
         if kledingstuk[2] not in wearableTopBottomList:
             TopsBottoms.remove(kledingstuk)
         else:
             voorkomendeCategorie.append(kledingstuk[2])
-    # keuzeLangKort = random.choice(wearableTopBottomList)
-    # print(wearableTopBottomList, &#34;filters&#34;)
     return TopsBottoms, voorkomendeCategorie, wearableTopBottomList</code></pre>
 </details>
 </dd>
@@ -860,7 +806,6 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
     previousDay = datetime.strptime(x[2], date_format)
 
     diff = abs((today - previousDay).days)
-    print(diff)
     return diff</code></pre>
 </details>
 </dd>
@@ -886,13 +831,13 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
 
     showMenu(rootWear)
 
-    GenTopLabel = Label(rootWear, text=f&#39;Top: {top}&#39;, background=&#34;gray&#34;)
+    GenTopLabel = Label(rootWear, text=f&#39;Top: {top}&#39;, background=&#34;#c6def1&#34;)
     GenTopLabel.grid(row=5)
 
-    GenBottomLabel = Label(rootWear, text=f&#39;Bottom: {bottom}&#39;, background=&#34;gray&#34;)
+    GenBottomLabel = Label(rootWear, text=f&#39;Bottom: {bottom}&#39;, background=&#34;#c6def1&#34;)
     GenBottomLabel.grid(row=6)
 
-    genTitleLabel = Label(rootWear, text=&#39;Ga je dit setje dragen:&#39;, background=&#34;gray&#34;)
+    genTitleLabel = Label(rootWear, text=&#39;Ga je dit setje dragen:&#39;, background=&#34;#c6def1&#34;)
     genTitleLabel.grid(row=9)
 
     genYesButton = Button(rootWear, text=&#39;Ja&#39;,

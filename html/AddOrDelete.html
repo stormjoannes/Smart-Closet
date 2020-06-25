@@ -27,9 +27,9 @@
 <pre><code class="python">import json
 from tkinter.messagebox import showinfo
 
-def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd):
+def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd, path=&#39;../jsonFiles/Kledingkast.json&#39;):
     &#34;&#34;&#34;Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).&#34;&#34;&#34;
-    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as allKleding:
+    with open(path, &#39;r&#39;) as allKleding:
         data = json.load(allKleding)
 
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;w&#39;) as ALL:
@@ -73,7 +73,7 @@ def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, co
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="AddOrDelete.addClothes"><code class="name flex">
-<span>def <span class="ident">addClothes</span></span>(<span>personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd)</span>
+<span>def <span class="ident">addClothes</span></span>(<span>personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd, path='../jsonFiles/Kledingkast.json')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).</p></div>
@@ -81,9 +81,9 @@ def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, co
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd):
+<pre><code class="python">def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd, path=&#39;../jsonFiles/Kledingkast.json&#39;):
     &#34;&#34;&#34;Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).&#34;&#34;&#34;
-    with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;r&#39;) as allKleding:
+    with open(path, &#39;r&#39;) as allKleding:
         data = json.load(allKleding)
 
     with open(&#39;../jsonFiles/Kledingkast.json&#39;, &#39;w&#39;) as ALL:

@@ -63,7 +63,7 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
 
     if len(allFilteredClothingString) > 0:
         AllClothes.destroy()
-        AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ', background="gray")
+        AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ', background="#c6def1")
         AllClothesDetailFiltered.grid(row=indexAllFiltered, column=0)
     else:
         bericht = "Helaas zijn er 0 resultaten met deze filter"
@@ -76,7 +76,7 @@ def forDetailFilter(Combobox, rootChoose):
     global chooseDetailFilterEntry
     global chooseFilterButton
 
-    chooseFilterLabel = Label(rootChoose, text=f'Op welke {Combobox} wil je filteren: ', background="gray")
+    chooseFilterLabel = Label(rootChoose, text=f'Op welke {Combobox} wil je filteren: ', background="#c6def1")
     chooseFilterLabel.grid(row=1, sticky=W)
 
     chooseDetailFilterEntry = Entry(rootChoose)

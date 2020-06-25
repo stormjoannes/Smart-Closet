@@ -1,9 +1,9 @@
 import json
 from tkinter.messagebox import showinfo
 
-def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd):
+def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd, path='../jsonFiles/Kledingkast.json'):
     """Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast)."""
-    with open('../jsonFiles/Kledingkast.json', 'r') as allKleding:
+    with open(path, 'r') as allKleding:
         data = json.load(allKleding)
 
     with open('../jsonFiles/Kledingkast.json', 'w') as ALL:

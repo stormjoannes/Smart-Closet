@@ -89,7 +89,7 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
 
     if len(allFilteredClothingString) &gt; 0:
         AllClothes.destroy()
-        AllClothesDetailFiltered = Label(rootChoose, text=f&#39;{allFilteredClothingString}: &#39;, background=&#34;gray&#34;)
+        AllClothesDetailFiltered = Label(rootChoose, text=f&#39;{allFilteredClothingString}: &#39;, background=&#34;#c6def1&#34;)
         AllClothesDetailFiltered.grid(row=indexAllFiltered, column=0)
     else:
         bericht = &#34;Helaas zijn er 0 resultaten met deze filter&#34;
@@ -102,7 +102,7 @@ def forDetailFilter(Combobox, rootChoose):
     global chooseDetailFilterEntry
     global chooseFilterButton
 
-    chooseFilterLabel = Label(rootChoose, text=f&#39;Op welke {Combobox} wil je filteren: &#39;, background=&#34;gray&#34;)
+    chooseFilterLabel = Label(rootChoose, text=f&#39;Op welke {Combobox} wil je filteren: &#39;, background=&#34;#c6def1&#34;)
     chooseFilterLabel.grid(row=1, sticky=W)
 
     chooseDetailFilterEntry = Entry(rootChoose)
@@ -165,7 +165,7 @@ def forDetailFilter(Combobox, rootChoose):
     global chooseDetailFilterEntry
     global chooseFilterButton
 
-    chooseFilterLabel = Label(rootChoose, text=f&#39;Op welke {Combobox} wil je filteren: &#39;, background=&#34;gray&#34;)
+    chooseFilterLabel = Label(rootChoose, text=f&#39;Op welke {Combobox} wil je filteren: &#39;, background=&#34;#c6def1&#34;)
     chooseFilterLabel.grid(row=1, sticky=W)
 
     chooseDetailFilterEntry = Entry(rootChoose)
@@ -218,7 +218,7 @@ def forDetailFilter(Combobox, rootChoose):
 
     if len(allFilteredClothingString) &gt; 0:
         AllClothes.destroy()
-        AllClothesDetailFiltered = Label(rootChoose, text=f&#39;{allFilteredClothingString}: &#39;, background=&#34;gray&#34;)
+        AllClothesDetailFiltered = Label(rootChoose, text=f&#39;{allFilteredClothingString}: &#39;, background=&#34;#c6def1&#34;)
         AllClothesDetailFiltered.grid(row=indexAllFiltered, column=0)
     else:
         bericht = &#34;Helaas zijn er 0 resultaten met deze filter&#34;
