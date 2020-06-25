@@ -371,9 +371,6 @@ def UitkiezenScreen():
 
         showMenu(rootChoose)
 
-        chooseTitleLabel = Label(rootChoose, text='Al je kleren: ', background="#c6def1")
-        chooseTitleLabel.grid(row=2)
-
         chooseEmptySpaceLabel = Label(rootChoose, text='', background="#c6def1")
         chooseEmptySpaceLabel.grid(row=3)
 

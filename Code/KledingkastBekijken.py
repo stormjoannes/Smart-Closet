@@ -31,7 +31,18 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
     allClothingString = ""
 
     for indexAll in range(2, len(allInfVariables[userName])):
-        allClothingString += str(allInfVariables[userName][indexAll]) + '\n'
+        soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
+        soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
+
+        if allInfVariables[userName][indexAll]['categorie'] in soortenTop:
+            leesbareTop = f"Een {allInfVariables[userName][indexAll]['kleur']} {allInfVariables[userName][indexAll]['categorie']} met {allInfVariables[userName][indexAll]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAll]['merk']}"
+            allClothingString += leesbareTop + '\n'
+
+        elif allInfVariables[userName][indexAll] in soortenBottom:
+            leesbareBottom = f"een {allInfVariables[userName][indexAll]['kleur']} {allInfVariables[userName][indexAll]['categorie']} met {allInfVariables[userName][indexAll]['langKort']} broeks pijpen van het merk: {allInfVariables[userName][indexAll]['merk']}"
+            allClothingString += leesbareBottom + '\n'
+        else:
+            continue
 
     AllClothes = Label(rootChoose, text=f'{allClothingString}: ', background="#c6def1")
     AllClothes.grid(row=2, column=0)
@@ -59,7 +70,18 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
     allFilteredClothingString = ''
     for indexAllFiltered in range(2, len(allInfVariables[userName])):
         if detailFilter in allInfVariables[userName][indexAllFiltered][watBekijken]:
-            allFilteredClothingString += str(allInfVariables[userName][indexAllFiltered]) + '\n'
+            soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
+            soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
+
+            if allInfVariables[userName][indexAllFiltered]['categorie'] in soortenTop:
+                leesbareTop = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']} {allInfVariables[userName][indexAllFiltered]['categorie']} met {allInfVariables[userName][indexAllFiltered]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAllFiltered]['merk']}"
+                allFilteredClothingString += leesbareTop + '\n'
+
+            elif allInfVariables[userName][indexAllFiltered]['categorie'] in soortenBottom:
+                leesbareBottom = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']} {allInfVariables[userName][indexAllFiltered]['categorie']} met {allInfVariables[userName][indexAllFiltered]['langKort']} broeks pijpen van het merk: {allInfVariables[userName][indexAllFiltered]['merk']}"
+                allFilteredClothingString += leesbareBottom + '\n'
+            else:
+                continue
 
     if len(allFilteredClothingString) > 0:
         AllClothes.destroy()
@@ -76,7 +98,7 @@ def forDetailFilter(Combobox, rootChoose):
     global chooseDetailFilterEntry
     global chooseFilterButton
 
-    chooseFilterLabel = Label(rootChoose, text=f'Op welke {Combobox} wil je filteren: ', background="#c6def1")
+    chooseFilterLabel = Label(rootChoose, text=f'Welke {Combobox}: ', background="#c6def1")
     chooseFilterLabel.grid(row=1, sticky=W)
 
     chooseDetailFilterEntry = Entry(rootChoose)

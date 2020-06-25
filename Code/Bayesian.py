@@ -277,10 +277,13 @@ def sideScreen(top, bottom, func, loopindex, showMenu, userName):
 
     showMenu(rootWear)
 
-    GenTopLabel = Label(rootWear, text=f'Top: {top}', background="#c6def1")
+    leesbareTop = f"Een {top[1]} {top[2]} met {top[4]}e mouwen van het merk: {top[3]}"
+    leesbareBottom = f"een {bottom[1]} {bottom[2]} met {bottom[4]} broeks pijpen van het merk: {bottom[3]}"
+
+    GenTopLabel = Label(rootWear, text=f'{leesbareTop}', background="#c6def1")
     GenTopLabel.grid(row=5)
 
-    GenBottomLabel = Label(rootWear, text=f'Bottom: {bottom}', background="#c6def1")
+    GenBottomLabel = Label(rootWear, text=f'en een {leesbareBottom}.', background="#c6def1")
     GenBottomLabel.grid(row=6)
 
     genTitleLabel = Label(rootWear, text='Ga je dit setje dragen:', background="#c6def1")
