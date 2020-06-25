@@ -35,11 +35,11 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
         soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
 
         if allInfVariables[userName][indexAll]['categorie'] in soortenTop:
-            leesbareTop = f"Een {allInfVariables[userName][indexAll]['kleur']} {allInfVariables[userName][indexAll]['categorie']} met {allInfVariables[userName][indexAll]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAll]['merk']}"
+            leesbareTop = f"Een {allInfVariables[userName][indexAll]['kleur']}e {allInfVariables[userName][indexAll]['categorie']} met {allInfVariables[userName][indexAll]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAll]['merk']}"
             allClothingString += leesbareTop + '\n'
 
         elif allInfVariables[userName][indexAll] in soortenBottom:
-            leesbareBottom = f"een {allInfVariables[userName][indexAll]['kleur']} {allInfVariables[userName][indexAll]['categorie']} met {allInfVariables[userName][indexAll]['langKort']} broeks pijpen van het merk: {allInfVariables[userName][indexAll]['merk']}"
+            leesbareBottom = f"een {allInfVariables[userName][indexAll]['kleur']}e {allInfVariables[userName][indexAll]['categorie']} met {allInfVariables[userName][indexAll]['langKort']} broeks pijpen van het merk: {allInfVariables[userName][indexAll]['merk']}"
             allClothingString += leesbareBottom + '\n'
         else:
             continue
@@ -50,9 +50,10 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
     return allClothingString
 
 
-def toDeleteFilter(rootChoose):
+def toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton):
     "'Deze functie verwijdert de huidige filter als je die hebt toegepast.'"
     try:
+        chooseDeleteFilterButton.destroy()
         AllClothesDetailFiltered.destroy()
         chooseFilterLabel.destroy()
         chooseDetailFilterEntry.destroy()
@@ -74,11 +75,11 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
             soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
 
             if allInfVariables[userName][indexAllFiltered]['categorie'] in soortenTop:
-                leesbareTop = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']} {allInfVariables[userName][indexAllFiltered]['categorie']} met {allInfVariables[userName][indexAllFiltered]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAllFiltered]['merk']}"
+                leesbareTop = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']}e {allInfVariables[userName][indexAllFiltered]['categorie']} met {allInfVariables[userName][indexAllFiltered]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAllFiltered]['merk']}"
                 allFilteredClothingString += leesbareTop + '\n'
 
             elif allInfVariables[userName][indexAllFiltered]['categorie'] in soortenBottom:
-                leesbareBottom = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']} {allInfVariables[userName][indexAllFiltered]['categorie']} met {allInfVariables[userName][indexAllFiltered]['langKort']} broeks pijpen van het merk: {allInfVariables[userName][indexAllFiltered]['merk']}"
+                leesbareBottom = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']}e {allInfVariables[userName][indexAllFiltered]['categorie']} met {allInfVariables[userName][indexAllFiltered]['langKort']} broeks pijpen van het merk: {allInfVariables[userName][indexAllFiltered]['merk']}"
                 allFilteredClothingString += leesbareBottom + '\n'
             else:
                 continue
@@ -94,9 +95,7 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
 
 def forDetailFilter(Combobox, rootChoose):
     "'Deze functie zorgt ervoor dat er een nieuwe regel met entry in je beeld komt zodra je de categorie filter hebt gekozen..'"
-    global chooseFilterLabel
     global chooseDetailFilterEntry
-    global chooseFilterButton
 
     chooseFilterLabel = Label(rootChoose, text=f'Welke {Combobox}: ', background="#c6def1")
     chooseFilterLabel.grid(row=1, sticky=W)
@@ -106,3 +105,6 @@ def forDetailFilter(Combobox, rootChoose):
 
     chooseFilterButton = Button(rootChoose, text='SUBMIT', command=lambda:getDetailFilters(Combobox, chooseDetailFilterEntry.get(), rootChoose))
     chooseFilterButton.grid(row=1, column=1)
+
+    chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=lambda: toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton))
+    chooseDeleteFilterButton.grid(row=100, sticky=E)

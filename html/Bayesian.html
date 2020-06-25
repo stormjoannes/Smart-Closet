@@ -303,10 +303,13 @@ def sideScreen(top, bottom, func, loopindex, showMenu, userName):
 
     showMenu(rootWear)
 
-    GenTopLabel = Label(rootWear, text=f&#39;Top: {top}&#39;, background=&#34;#c6def1&#34;)
+    leesbareTop = f&#34;Een {top[1]} {top[2]} met {top[4]}e mouwen van het merk: {top[3]}&#34;
+    leesbareBottom = f&#34;een{bottom[1]} {bottom[2]} met {bottom[4]} broeks pijpen van het merk: {bottom[3]}&#34;
+
+    GenTopLabel = Label(rootWear, text=f&#39;{leesbareTop}&#39;, background=&#34;#c6def1&#34;)
     GenTopLabel.grid(row=5)
 
-    GenBottomLabel = Label(rootWear, text=f&#39;Bottom: {bottom}&#39;, background=&#34;#c6def1&#34;)
+    GenBottomLabel = Label(rootWear, text=f&#39;en {leesbareBottom}.&#39;, background=&#34;#c6def1&#34;)
     GenBottomLabel.grid(row=6)
 
     genTitleLabel = Label(rootWear, text=&#39;Ga je dit setje dragen:&#39;, background=&#34;#c6def1&#34;)
@@ -831,10 +834,13 @@ Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt 
 
     showMenu(rootWear)
 
-    GenTopLabel = Label(rootWear, text=f&#39;Top: {top}&#39;, background=&#34;#c6def1&#34;)
+    leesbareTop = f&#34;Een {top[1]} {top[2]} met {top[4]}e mouwen van het merk: {top[3]}&#34;
+    leesbareBottom = f&#34;een{bottom[1]} {bottom[2]} met {bottom[4]} broeks pijpen van het merk: {bottom[3]}&#34;
+
+    GenTopLabel = Label(rootWear, text=f&#39;{leesbareTop}&#39;, background=&#34;#c6def1&#34;)
     GenTopLabel.grid(row=5)
 
-    GenBottomLabel = Label(rootWear, text=f&#39;Bottom: {bottom}&#39;, background=&#34;#c6def1&#34;)
+    GenBottomLabel = Label(rootWear, text=f&#39;en {leesbareBottom}.&#39;, background=&#34;#c6def1&#34;)
     GenBottomLabel.grid(row=6)
 
     genTitleLabel = Label(rootWear, text=&#39;Ga je dit setje dragen:&#39;, background=&#34;#c6def1&#34;)

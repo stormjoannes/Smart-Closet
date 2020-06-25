@@ -210,7 +210,7 @@ def inputParametersClothing(root):
     screenLongShortEntry = Entry(root)
     screenLongShortEntry.grid(row=2, column=1)
 
-    screenOpportunityLabel = Label(root, text='Gelegenheid(ddagelijks leven, sport of feestje): ', background="#c6def1")
+    screenOpportunityLabel = Label(root, text='Gelegenheid(dagelijks leven, sport of feestje): ', background="#c6def1")
     screenOpportunityLabel.grid(row=3, column=0,  sticky=W)
 
     screenOpportunityEntry = Entry(root)
@@ -388,8 +388,7 @@ def UitkiezenScreen():
         chooseFilterButton = Button(rootChoose, text='SUBMIT', command=lambda:forDetailFilter(chooseFilterCombobox.get(), rootChoose))
         chooseFilterButton.grid(row=0, column=1)
 
-        chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=lambda:toDeleteFilter(rootChoose))
-        chooseDeleteFilterButton.grid(row=100, sticky=E)
+
 
         chooseBackButton = Button(rootChoose, text='Back', command=toHub)
         chooseBackButton.grid(row=100, sticky=W)

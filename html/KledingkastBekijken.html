@@ -57,17 +57,29 @@ def allClothes(rootChoose, naam, path=&#39;../jsonFiles/Kledingkast.json&#39;):
     allClothingString = &#34;&#34;
 
     for indexAll in range(2, len(allInfVariables[userName])):
-        allClothingString += str(allInfVariables[userName][indexAll]) + &#39;\n&#39;
+        soortenTop = [&#34;shirt&#34;, &#34;hoodie&#34;, &#34;hemdje&#34;, &#34;trui&#34;, &#34;vest&#34;, &#34;crop top&#34;, &#34;blazer&#34;, &#34;jurk&#34;, &#34;jumpsuit&#34;, &#34;blousje&#34;]
+        soortenBottom = [&#34;jeans&#34;, &#34;legging&#34;, &#34;chino&#34;, &#34;joggingbroek&#34;, &#34;jeans met gaten&#34;, &#34;rokje&#34;, &#34;high waste&#34;, &#34;stoffen broek&#34;]
 
-    AllClothes = Label(rootChoose, text=f&#39;{allClothingString}: &#39;, background=&#34;gray&#34;)
+        if allInfVariables[userName][indexAll][&#39;categorie&#39;] in soortenTop:
+            leesbareTop = f&#34;Een {allInfVariables[userName][indexAll][&#39;kleur&#39;]}e {allInfVariables[userName][indexAll][&#39;categorie&#39;]} met {allInfVariables[userName][indexAll][&#39;langKort&#39;]}e mouwen van het merk: {allInfVariables[userName][indexAll][&#39;merk&#39;]}&#34;
+            allClothingString += leesbareTop + &#39;\n&#39;
+
+        elif allInfVariables[userName][indexAll] in soortenBottom:
+            leesbareBottom = f&#34;een {allInfVariables[userName][indexAll][&#39;kleur&#39;]}e {allInfVariables[userName][indexAll][&#39;categorie&#39;]} met {allInfVariables[userName][indexAll][&#39;langKort&#39;]} broeks pijpen van het merk: {allInfVariables[userName][indexAll][&#39;merk&#39;]}&#34;
+            allClothingString += leesbareBottom + &#39;\n&#39;
+        else:
+            continue
+
+    AllClothes = Label(rootChoose, text=f&#39;{allClothingString}: &#39;, background=&#34;#c6def1&#34;)
     AllClothes.grid(row=2, column=0)
 
     return allClothingString
 
 
-def toDeleteFilter(rootChoose):
+def toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton):
     &#34;&#39;Deze functie verwijdert de huidige filter als je die hebt toegepast.&#39;&#34;
     try:
+        chooseDeleteFilterButton.destroy()
         AllClothesDetailFiltered.destroy()
         chooseFilterLabel.destroy()
         chooseDetailFilterEntry.destroy()
@@ -85,7 +97,18 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
     allFilteredClothingString = &#39;&#39;
     for indexAllFiltered in range(2, len(allInfVariables[userName])):
         if detailFilter in allInfVariables[userName][indexAllFiltered][watBekijken]:
-            allFilteredClothingString += str(allInfVariables[userName][indexAllFiltered]) + &#39;\n&#39;
+            soortenTop = [&#34;shirt&#34;, &#34;hoodie&#34;, &#34;hemdje&#34;, &#34;trui&#34;, &#34;vest&#34;, &#34;crop top&#34;, &#34;blazer&#34;, &#34;jurk&#34;, &#34;jumpsuit&#34;, &#34;blousje&#34;]
+            soortenBottom = [&#34;jeans&#34;, &#34;legging&#34;, &#34;chino&#34;, &#34;joggingbroek&#34;, &#34;jeans met gaten&#34;, &#34;rokje&#34;, &#34;high waste&#34;, &#34;stoffen broek&#34;]
+
+            if allInfVariables[userName][indexAllFiltered][&#39;categorie&#39;] in soortenTop:
+                leesbareTop = f&#34;Een {allInfVariables[userName][indexAllFiltered][&#39;kleur&#39;]}e {allInfVariables[userName][indexAllFiltered][&#39;categorie&#39;]} met {allInfVariables[userName][indexAllFiltered][&#39;langKort&#39;]}e mouwen van het merk: {allInfVariables[userName][indexAllFiltered][&#39;merk&#39;]}&#34;
+                allFilteredClothingString += leesbareTop + &#39;\n&#39;
+
+            elif allInfVariables[userName][indexAllFiltered][&#39;categorie&#39;] in soortenBottom:
+                leesbareBottom = f&#34;Een {allInfVariables[userName][indexAllFiltered][&#39;kleur&#39;]}e {allInfVariables[userName][indexAllFiltered][&#39;categorie&#39;]} met {allInfVariables[userName][indexAllFiltered][&#39;langKort&#39;]} broeks pijpen van het merk: {allInfVariables[userName][indexAllFiltered][&#39;merk&#39;]}&#34;
+                allFilteredClothingString += leesbareBottom + &#39;\n&#39;
+            else:
+                continue
 
     if len(allFilteredClothingString) &gt; 0:
         AllClothes.destroy()
@@ -98,18 +121,19 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
 
 def forDetailFilter(Combobox, rootChoose):
     &#34;&#39;Deze functie zorgt ervoor dat er een nieuwe regel met entry in je beeld komt zodra je de categorie filter hebt gekozen..&#39;&#34;
-    global chooseFilterLabel
     global chooseDetailFilterEntry
-    global chooseFilterButton
 
-    chooseFilterLabel = Label(rootChoose, text=f&#39;Op welke {Combobox} wil je filteren: &#39;, background=&#34;#c6def1&#34;)
+    chooseFilterLabel = Label(rootChoose, text=f&#39;Welke {Combobox}: &#39;, background=&#34;#c6def1&#34;)
     chooseFilterLabel.grid(row=1, sticky=W)
 
     chooseDetailFilterEntry = Entry(rootChoose)
     chooseDetailFilterEntry.grid(row=1, column=0)
 
     chooseFilterButton = Button(rootChoose, text=&#39;SUBMIT&#39;, command=lambda:getDetailFilters(Combobox, chooseDetailFilterEntry.get(), rootChoose))
-    chooseFilterButton.grid(row=1, column=1)</code></pre>
+    chooseFilterButton.grid(row=1, column=1)
+
+    chooseDeleteFilterButton = Button(rootChoose, text=&#39;Delete Filter&#39;, command=lambda: toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton))
+    chooseDeleteFilterButton.grid(row=100, sticky=E)</code></pre>
 </details>
 </section>
 <section>
@@ -142,9 +166,20 @@ def forDetailFilter(Combobox, rootChoose):
     allClothingString = &#34;&#34;
 
     for indexAll in range(2, len(allInfVariables[userName])):
-        allClothingString += str(allInfVariables[userName][indexAll]) + &#39;\n&#39;
+        soortenTop = [&#34;shirt&#34;, &#34;hoodie&#34;, &#34;hemdje&#34;, &#34;trui&#34;, &#34;vest&#34;, &#34;crop top&#34;, &#34;blazer&#34;, &#34;jurk&#34;, &#34;jumpsuit&#34;, &#34;blousje&#34;]
+        soortenBottom = [&#34;jeans&#34;, &#34;legging&#34;, &#34;chino&#34;, &#34;joggingbroek&#34;, &#34;jeans met gaten&#34;, &#34;rokje&#34;, &#34;high waste&#34;, &#34;stoffen broek&#34;]
 
-    AllClothes = Label(rootChoose, text=f&#39;{allClothingString}: &#39;, background=&#34;gray&#34;)
+        if allInfVariables[userName][indexAll][&#39;categorie&#39;] in soortenTop:
+            leesbareTop = f&#34;Een {allInfVariables[userName][indexAll][&#39;kleur&#39;]}e {allInfVariables[userName][indexAll][&#39;categorie&#39;]} met {allInfVariables[userName][indexAll][&#39;langKort&#39;]}e mouwen van het merk: {allInfVariables[userName][indexAll][&#39;merk&#39;]}&#34;
+            allClothingString += leesbareTop + &#39;\n&#39;
+
+        elif allInfVariables[userName][indexAll] in soortenBottom:
+            leesbareBottom = f&#34;een {allInfVariables[userName][indexAll][&#39;kleur&#39;]}e {allInfVariables[userName][indexAll][&#39;categorie&#39;]} met {allInfVariables[userName][indexAll][&#39;langKort&#39;]} broeks pijpen van het merk: {allInfVariables[userName][indexAll][&#39;merk&#39;]}&#34;
+            allClothingString += leesbareBottom + &#39;\n&#39;
+        else:
+            continue
+
+    AllClothes = Label(rootChoose, text=f&#39;{allClothingString}: &#39;, background=&#34;#c6def1&#34;)
     AllClothes.grid(row=2, column=0)
 
     return allClothingString</code></pre>
@@ -161,18 +196,19 @@ def forDetailFilter(Combobox, rootChoose):
 </summary>
 <pre><code class="python">def forDetailFilter(Combobox, rootChoose):
     &#34;&#39;Deze functie zorgt ervoor dat er een nieuwe regel met entry in je beeld komt zodra je de categorie filter hebt gekozen..&#39;&#34;
-    global chooseFilterLabel
     global chooseDetailFilterEntry
-    global chooseFilterButton
 
-    chooseFilterLabel = Label(rootChoose, text=f&#39;Op welke {Combobox} wil je filteren: &#39;, background=&#34;#c6def1&#34;)
+    chooseFilterLabel = Label(rootChoose, text=f&#39;Welke {Combobox}: &#39;, background=&#34;#c6def1&#34;)
     chooseFilterLabel.grid(row=1, sticky=W)
 
     chooseDetailFilterEntry = Entry(rootChoose)
     chooseDetailFilterEntry.grid(row=1, column=0)
 
     chooseFilterButton = Button(rootChoose, text=&#39;SUBMIT&#39;, command=lambda:getDetailFilters(Combobox, chooseDetailFilterEntry.get(), rootChoose))
-    chooseFilterButton.grid(row=1, column=1)</code></pre>
+    chooseFilterButton.grid(row=1, column=1)
+
+    chooseDeleteFilterButton = Button(rootChoose, text=&#39;Delete Filter&#39;, command=lambda: toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton))
+    chooseDeleteFilterButton.grid(row=100, sticky=E)</code></pre>
 </details>
 </dd>
 <dt id="KledingkastBekijken.getAllPossibleFilters"><code class="name flex">
@@ -214,7 +250,18 @@ def forDetailFilter(Combobox, rootChoose):
     allFilteredClothingString = &#39;&#39;
     for indexAllFiltered in range(2, len(allInfVariables[userName])):
         if detailFilter in allInfVariables[userName][indexAllFiltered][watBekijken]:
-            allFilteredClothingString += str(allInfVariables[userName][indexAllFiltered]) + &#39;\n&#39;
+            soortenTop = [&#34;shirt&#34;, &#34;hoodie&#34;, &#34;hemdje&#34;, &#34;trui&#34;, &#34;vest&#34;, &#34;crop top&#34;, &#34;blazer&#34;, &#34;jurk&#34;, &#34;jumpsuit&#34;, &#34;blousje&#34;]
+            soortenBottom = [&#34;jeans&#34;, &#34;legging&#34;, &#34;chino&#34;, &#34;joggingbroek&#34;, &#34;jeans met gaten&#34;, &#34;rokje&#34;, &#34;high waste&#34;, &#34;stoffen broek&#34;]
+
+            if allInfVariables[userName][indexAllFiltered][&#39;categorie&#39;] in soortenTop:
+                leesbareTop = f&#34;Een {allInfVariables[userName][indexAllFiltered][&#39;kleur&#39;]}e {allInfVariables[userName][indexAllFiltered][&#39;categorie&#39;]} met {allInfVariables[userName][indexAllFiltered][&#39;langKort&#39;]}e mouwen van het merk: {allInfVariables[userName][indexAllFiltered][&#39;merk&#39;]}&#34;
+                allFilteredClothingString += leesbareTop + &#39;\n&#39;
+
+            elif allInfVariables[userName][indexAllFiltered][&#39;categorie&#39;] in soortenBottom:
+                leesbareBottom = f&#34;Een {allInfVariables[userName][indexAllFiltered][&#39;kleur&#39;]}e {allInfVariables[userName][indexAllFiltered][&#39;categorie&#39;]} met {allInfVariables[userName][indexAllFiltered][&#39;langKort&#39;]} broeks pijpen van het merk: {allInfVariables[userName][indexAllFiltered][&#39;merk&#39;]}&#34;
+                allFilteredClothingString += leesbareBottom + &#39;\n&#39;
+            else:
+                continue
 
     if len(allFilteredClothingString) &gt; 0:
         AllClothes.destroy()
@@ -226,7 +273,7 @@ def forDetailFilter(Combobox, rootChoose):
 </details>
 </dd>
 <dt id="KledingkastBekijken.toDeleteFilter"><code class="name flex">
-<span>def <span class="ident">toDeleteFilter</span></span>(<span>rootChoose)</span>
+<span>def <span class="ident">toDeleteFilter</span></span>(<span>rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>'Deze functie verwijdert de huidige filter als je die hebt toegepast.'</p></div>
@@ -234,9 +281,10 @@ def forDetailFilter(Combobox, rootChoose):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def toDeleteFilter(rootChoose):
+<pre><code class="python">def toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton):
     &#34;&#39;Deze functie verwijdert de huidige filter als je die hebt toegepast.&#39;&#34;
     try:
+        chooseDeleteFilterButton.destroy()
         AllClothesDetailFiltered.destroy()
         chooseFilterLabel.destroy()
         chooseDetailFilterEntry.destroy()
