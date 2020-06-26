@@ -33,6 +33,7 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
         soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
         soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
 
+        #Format voor makkelijk leesbaar kledingstuk.
         if allInfVariables[userName][indexAll]['categorie'] in soortenTop:
             leesbareTop = f"Een {allInfVariables[userName][indexAll]['kleur']}e {allInfVariables[userName][indexAll]['categorie']} met {allInfVariables[userName][indexAll]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAll]['merk']}"
             allClothingString += leesbareTop + '\n'
@@ -52,6 +53,7 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
 def toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton):
     """Deze functie verwijdert de huidige filter als je die hebt toegepast."""
     try:
+        #verwijder gefilterde kleding en delete filter button.
         chooseDeleteFilterButton.destroy()
         AllClothesDetailFiltered.destroy()
         chooseFilterLabel.destroy()
@@ -73,6 +75,7 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
             soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
             soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
 
+            # Format voor makkelijk leesbaar kledingstuk.
             if allInfVariables[userName][indexAllFiltered]['categorie'] in soortenTop:
                 leesbareTop = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']}e {allInfVariables[userName][indexAllFiltered]['categorie']} met {allInfVariables[userName][indexAllFiltered]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAllFiltered]['merk']}"
                 allFilteredClothingString += leesbareTop + '\n'
@@ -83,6 +86,7 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
             else:
                 continue
 
+    #error voor als er geen kleren zijn bij de gekozen filter.
     if len(allFilteredClothingString) > 0:
         AllClothes.destroy()
         AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ', background="#c6def1")
