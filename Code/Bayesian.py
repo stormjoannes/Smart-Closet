@@ -7,7 +7,7 @@ from sys import exit
 from tkinter import *
 
 def SortedListSets(unsortedList, hitteNiveau, kortOfLangInf):
-    "Dit is het laatste stadium waar de mogelijke setjes in de lijst word aangepast. Hier worden namelijk de setjes van best naar slecht nog eens gesorteerd door middel van een formule."
+    """Dit is het laatste stadium waar de mogelijke setjes in de lijst word aangepast. Hier worden namelijk de setjes van best naar slecht nog eens gesorteerd door middel van een formule."""
     allValues = []
     sortedList = []
     for x in unsortedList:
@@ -107,7 +107,7 @@ def WeatherForPickClothes(func, userName):
 
 
 def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid, path='../jsonFiles/Kledingkast.json'):
-    "In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen."
+    """In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen."""
     mogelijkeTopBottom = []
     with open(path, 'r+') as Data:
         clothesData = json.load(Data)
@@ -140,7 +140,7 @@ def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom
     return TopsBottoms, voorkomendeCategorie, wearableTopBottomList
 
 def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
-    "hier worden de kleurensetjes geprobeerd of ze kunnen of niet. Dit is een try except omdat ik niet elke kleur dubbel heb staan in de datastructuur omdat dat overbodig was."
+    """hier worden de kleurensetjes geprobeerd of ze kunnen of niet. Dit is een try except omdat ik niet elke kleur dubbel heb staan in de datastructuur omdat dat overbodig was."""
     try:
         collorStatus = collorCombinationsInfo["collor"][collorTop][collorBottom]
     except:
@@ -149,7 +149,7 @@ def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
     return collorStatus
 
 def checkGedragen(userName, setje, path = '../jsonFiles/Kledingkast.json'):
-    "Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker)."
+    """Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker)."""
     with open(path, 'r') as Wear:
         WearInf = json.load(Wear)
 
@@ -163,7 +163,7 @@ def checkGedragen(userName, setje, path = '../jsonFiles/Kledingkast.json'):
 
 
 def errorMessage():
-    "Hier word alleen de pop-up errormessage aangemaakt en het categorie keuzescherm gerefreshed."
+    """Hier word alleen de pop-up errormessage aangemaakt en het categorie keuzescherm gerefreshed."""
     bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
     showinfo(title='Clothing error', message=bericht)
     rootGen.destroy()
@@ -171,7 +171,7 @@ def errorMessage():
 
 
 def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom):
-    "Hier word de kleurenkeuze gecontroleerd en worden de kledingstukken op basis van kans een beetje gesorteerd van goed setje naar een minder goed setje."
+    """Hier word de kleurenkeuze gecontroleerd en worden de kledingstukken op basis van kans een beetje gesorteerd van goed setje naar een minder goed setje."""
     if len(Tops) == 0 or len(Bottoms) == 0:
         errorMessage()
         exit(0)
@@ -243,7 +243,7 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
 
 
 def frame(func, userName, setGenScreenfor, showMenu, rootGenfor):
-    "Dit is het beginframe dat word aangeroepen vanuit de interface, vanuit hier komt de berekening terug om vervolgens het proces van setjes laten zien te beginnen."
+    """Dit is het beginframe dat word aangeroepen vanuit de interface, vanuit hier komt de berekening terug om vervolgens het proces van setjes laten zien te beginnen."""
     global setGenScreen
     global rootGen
     global SetsList
@@ -259,13 +259,13 @@ def frame(func, userName, setGenScreenfor, showMenu, rootGenfor):
 
 
 def clothingloop(func, userName, loopIndex, showMenu):
-    "Deze functie word steeds aangeroepen zodra een gebruiker nee zegt op het voorgelegde kledingsetje."
+    """Deze functie word steeds aangeroepen zodra een gebruiker nee zegt op het voorgelegde kledingsetje."""
     loopIndex += 1
     sideScreen(SetsList[loopIndex][0], SetsList[loopIndex][1], func, loopIndex, showMenu, userName)
 
 
 def sideScreen(top, bottom, func, loopindex, showMenu, userName):
-    "Hier word het keuze scherm aangemaakt om je voorgelegde kledingsetje te laten zien."
+    """Hier word het keuze scherm aangemaakt om je voorgelegde kledingsetje te laten zien."""
     if loopindex == 0:
         rootGen.destroy()
     global rootWear
@@ -304,7 +304,7 @@ def sideScreen(top, bottom, func, loopindex, showMenu, userName):
 
 
 def autoGen(aantrekken, top, bottom, userName, loopIndex, func, showMenu):
-    "Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand."
+    """Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand."""
     if aantrekken == "ja":
         rootWear.destroy()
         with open('../jsonFiles/Kledingkast.json', 'r') as alldata:
@@ -327,16 +327,16 @@ def autoGen(aantrekken, top, bottom, userName, loopIndex, func, showMenu):
             clothingloop(func, userName, loopIndex, showMenu)
 
 def backtoGenScreen():
-    "Deze functie heb ik gebruikt om alleen terug te gaan naar het categorie keuze scherm"
+    """Deze functie heb ik gebruikt om alleen terug te gaan naar het categorie keuze scherm"""
     setGenScreen()
 
 def backButton():
-    "Deze functie word gebruikt om het keuzescherm af te sluiten en terug te gaan naar het categorie keuze scherm."
+    """Deze functie word gebruikt om het keuzescherm af te sluiten en terug te gaan naar het categorie keuze scherm."""
     rootWear.destroy()
     setGenScreen()
 
 def getTimeDifference(x):
-    "In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen)."
+    """In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen)."""
     date_format = "%Y-%m-%d"
     today = datetime.today()
 

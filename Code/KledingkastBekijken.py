@@ -4,7 +4,7 @@ from tkinter.messagebox import showinfo
 
 
 def getAllPossibleFilters(naamUser):
-    "'Deze functie pakt alle mogelijke categorieën waar je op kunt filterren, bijvoorbeeld: merk en kleur'"
+    """Deze functie pakt alle mogelijke categorieën waar je op kunt filterren, bijvoorbeeld: merk en kleur"""
     with open('../jsonFiles/Kledingkast.json', 'r') as allVariables:
         allInfVariables = json.load(allVariables)
 
@@ -18,7 +18,7 @@ def getAllPossibleFilters(naamUser):
 
 
 def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
-    "'Deze functie zorgt dat als je op kleding uitkiezen klikt je gelijk al je kleding onder elkaar ziet staan.'"
+    """Deze functie zorgt dat als je op kleding uitkiezen klikt je gelijk al je kleding onder elkaar ziet staan."""
 
     global allInfVariables
 
@@ -51,7 +51,7 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
 
 
 def toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton):
-    "'Deze functie verwijdert de huidige filter als je die hebt toegepast.'"
+    """Deze functie verwijdert de huidige filter als je die hebt toegepast."""
     try:
         chooseDeleteFilterButton.destroy()
         AllClothesDetailFiltered.destroy()
@@ -65,7 +65,7 @@ def toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDele
 
 
 def getDetailFilters(watBekijken, detailFilter, rootChoose):
-    "'Deze functie past de hele filter toe, bijvoorbeeld: op kleur met de naam oranje of op merk met de naam abercrombie.'"
+    """Deze functie past de hele filter toe, bijvoorbeeld: op kleur met de naam oranje of op merk met de naam abercrombie."""
     global AllClothesDetailFiltered
 
     allFilteredClothingString = ''
@@ -94,7 +94,7 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
 
 
 def forDetailFilter(Combobox, rootChoose):
-    "'Deze functie zorgt ervoor dat er een nieuwe regel met entry in je beeld komt zodra je de categorie filter hebt gekozen..'"
+    """Deze functie zorgt ervoor dat er een nieuwe regel met entry in je beeld komt zodra je de categorie filter hebt gekozen."""
     global chooseDetailFilterEntry
 
     chooseFilterLabel = Label(rootChoose, text=f'Welke {Combobox}: ', background="#c6def1")
