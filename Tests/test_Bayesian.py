@@ -33,8 +33,6 @@ def test_Collor_Choice():
 
     addClothes(userName, "korte test jeans", "kort", "dagelijks leven", "zwart", "zara", "jeans")
     addClothes(userName, "kort test shirt", "kort", "dagelijks leven", "wit", "h&m", "shirt")
-    soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
-    soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
 
     uitkomst = CollorChoice(userName, [['kort test shirt', 'wit', 'shirt', 'h&m', 'kort']], [['kort test jeans', 'zwart', 'jeans', 'zara', 'kort']], ['shirt'], ['shirt'], ['jeans'], ['jeans'])
     expectedValue = [[['kort test shirt', 'wit', 'shirt', 'h&m', 'kort'], ['kort test jeans', 'zwart', 'jeans', 'zara', 'kort']]]
