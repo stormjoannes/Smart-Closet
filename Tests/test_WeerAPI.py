@@ -1,4 +1,3 @@
-from cffi.setuptools_ext import execfile
 from Code.WeerAPI import *
 import pytest
 

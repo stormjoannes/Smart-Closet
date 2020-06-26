@@ -2,12 +2,14 @@ import json
 from tkinter.messagebox import showinfo
 
 def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, brandAdd, categoryAdd, path='../jsonFiles/Kledingkast.json'):
-    """Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast)."""
+    """
+    Hier word het kledingstuk dat je hebt ingevuld toegevoegd aan de bestanden(je virtuele kledingkast).
+    """
     with open(path, 'r') as allKleding:
         data = json.load(allKleding)
 
     with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
-        #format van de data om het in het json bestand te zetten.
+        # Format van de data om het in het json bestand te zetten.
         nieuweData = {"naam": nameAdd,
                       "langKort": longShortAdd,
                       "gelegenheid": opportunityAdd,
@@ -20,15 +22,23 @@ def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, bran
         ALL.close()
 
 def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, colorDelete, brandDelete, categoryDelete):
-    """Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast)."""
+    """
+    Hier word het uitgekozen kledingstuk verwijderd uit de bestanden(je virtuele kledingkast).
+    """
+
     with open('../jsonFiles/Kledingkast.json', 'r') as allKleding:
         dataDelete = json.load(allKleding)
 
     with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
         checkIfDone = False
         for i in range(2, len(dataDelete[personName])):
-            #check of het ingevoerde kledingstk wel bestaat.
-            if dataDelete[personName][i]['naam'] == nameDelete and dataDelete[personName][i]['langKort'] == longShortDelete and dataDelete[personName][i]['gelegenheid'] == opportunityDelete and dataDelete[personName][i]['kleur'] == colorDelete and dataDelete[personName][i]['merk'] == brandDelete and dataDelete[personName][i]['categorie'] == categoryDelete:
+            # Check of het ingevoerde kledingstk wel bestaat.
+            if dataDelete[personName][i]['naam'] == nameDelete and dataDelete[personName][i]['langKort'] == longShortDelete \
+                    and dataDelete[personName][i]['gelegenheid'] == opportunityDelete \
+                    and dataDelete[personName][i]['kleur'] == colorDelete \
+                    and dataDelete[personName][i]['merk'] == brandDelete \
+                    and dataDelete[personName][i]['categorie'] == categoryDelete:
+
                 dataDelete[personName].remove(dataDelete[personName][i])
                 checkIfDone = True
                 break

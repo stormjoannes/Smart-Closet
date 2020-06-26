@@ -7,7 +7,11 @@ from sys import exit
 from tkinter import *
 
 def SortedListSets(unsortedList, hitteNiveau, kortOfLangInf):
-    """Dit is het laatste stadium waar de mogelijke setjes in de lijst word aangepast. Hier worden namelijk de setjes van best naar slecht nog eens gesorteerd door middel van een formule."""
+    """
+    Dit is het laatste stadium waar de mogelijke setjes in de lijst word aangepast.
+    Hier worden namelijk de setjes van best naar slecht nog eens gesorteerd door middel van een formule.
+    """
+
     allValues = []
     sortedList = []
     for x in unsortedList:
@@ -40,14 +44,18 @@ def SortedListSets(unsortedList, hitteNiveau, kortOfLangInf):
 
 
 def WeatherForPickClothes(opportunity, userName):
-    """Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.
-    Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt van lange of korte mouwen en lange of korte broekpijpen."""
+    """
+    Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur
+    is door middel van een berekening van de windsnelheid en de temperatuur. Ook bepaal ik hier door middel van een
+    kansberekening wat de configuratie wordt van lange of korte mouwen en lange of korte broekpijpen.
+    """
+
     global loopIndex
 
     with open('../jsonFiles/Kledingkast.json', 'r+') as Data:
         placeInfo = json.load(Data)
 
-    #Hier ga ik door middel van een formule de gevoelstemperatuur berekenen en op basis daarvan kijk ik in welke range de gevoelstemperatuur valt.
+    # Hier ga ik door middel van een formule de gevoelstemperatuur berekenen en op basis daarvan kijk ik in welke range de gevoelstemperatuur valt.
     stad = placeInfo[userName][0]["gegevens"][0]["locatie"]["stad"]
     land = placeInfo[userName][0]["gegevens"][0]["locatie"]["land"]
     huidigeWeer = setValuesWeer(stad, land)
@@ -68,7 +76,7 @@ def WeatherForPickClothes(opportunity, userName):
 
     FiguratieLangKort = kortOfLangInf["temp"][hitteNiveau]
 
-    #Hier kies ik door middel van een kansberekening wat de configuratie van de lengte van de mouwen en broeks pijpen word.
+    # Hier kies ik door middel van een kansberekening wat de configuratie van de lengte van de mouwen en broeks pijpen word.
     randomChoiceLijst = []
     for x in FiguratieLangKort:
         kans = FiguratieLangKort[x]["yes"]
@@ -79,18 +87,18 @@ def WeatherForPickClothes(opportunity, userName):
     LengteMouwen = keuzeLangKort.split("-")[0]
     LengtePijpen = keuzeLangKort.split("-")[1]
 
-    #Hier zet ik alle soorten categorieën die kunnen voorkomen.
+    # Hier zet ik alle soorten categorieën die kunnen voorkomen.
     soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
     soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
 
-    #Hier kijk ik of er uberhaupt genoeg tops of bottoms in de digitale kledingkast staan om een setje uit te kiezen.
+    # Hier kijk ik of er uberhaupt genoeg tops of bottoms in de digitale kledingkast staan om een setje uit te kiezen.
     Tops = ChoiceTopBottom(userName, LengteMouwen, soortenTop, opportunity)
     Bottoms = ChoiceTopBottom(userName, LengtePijpen, soortenBottom, opportunity)
     if len(Tops) == 0 or len(Bottoms) == 0:
         errorMessage()
         exit(0)
 
-    #Hier roep ik alle functies aan met de waardes die ik onder andere weer van functies krijg.
+    # Hier roep ik alle functies aan met de waardes die ik onder andere weer van functies krijg.
     funcTops = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Tops, "tops")
     Tops = funcTops[0]
     voorkomendeCategorieTop = funcTops[1]
@@ -108,14 +116,18 @@ def WeatherForPickClothes(opportunity, userName):
 
 
 def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid, path='../jsonFiles/Kledingkast.json'):
-    """In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen."""
+    """
+    In deze functie kies ik als eerst de mogelijke setjes uit door middel van of bijvoorbeeld het shirt
+    lange of korte mouwen heeft, bij een broek geld dit voor de broeks pijpen.
+    """
     mogelijkeTopBottom = []
     with open(path, 'r+') as Data:
         clothesData = json.load(Data)
 
-    #De kledingstukken die kloppen met de gegevens treshholds worden gereturned als mogelijkeTops of Bottoms.
+    # De kledingstukken die kloppen met de gegevens treshholds worden gereturned als mogelijkeTops of Bottoms.
     for x in range(2, len(clothesData[userName])):
-        if clothesData[userName][x]["langKort"] == langKort and clothesData[userName][x]["categorie"] in TopOfBroek and clothesData[userName][x]["gelegenheid"] == gelegenheid:
+        if clothesData[userName][x]["langKort"] == langKort and clothesData[userName][x]["categorie"] in TopOfBroek and \
+                                                                clothesData[userName][x]["gelegenheid"] == gelegenheid:
             tempList = [clothesData[userName][x]["naam"], clothesData[userName][x]["kleur"],
                         clothesData[userName][x]["categorie"], clothesData[userName][x]["merk"],
                         clothesData[userName][x]["langKort"]]
@@ -124,10 +136,13 @@ def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid, path='../jsonFi
 
 
 def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom):
-    "hier houd ik alleen de kledingstukken over die bij die temperatuur ook gedragen worden."
+    """
+    Hier houd ik alleen de kledingstukken over die bij die temperatuur ook gedragen worden.
+    """
+
     FiguratieLangKort = kortOfLangInf[TopOrBottom][hitteNiveau]
 
-    #Hier kijk ik wat de kans is dat een kleding categorie bij een temperatuur gedragen word.
+    # Hier kijk ik wat de kans is dat een kleding categorie bij een temperatuur gedragen word.
     wearableTopBottomList = []
     voorkomendeCategorie = []
     for x in FiguratieLangKort:
@@ -136,7 +151,7 @@ def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom
         for i in range(0, int(kans)):
             wearableTopBottomList.append(x)
 
-    #Hier verwijder ik een kledingstuk dat geen kans heeft om gedragen te worden.
+    # Hier verwijder ik een kledingstuk dat geen kans heeft om gedragen te worden.
     for kledingstuk in TopsBottoms:
         if kledingstuk[2] not in wearableTopBottomList:
             TopsBottoms.remove(kledingstuk)
@@ -145,7 +160,11 @@ def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom
     return TopsBottoms, voorkomendeCategorie, wearableTopBottomList
 
 def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
-    """hier worden de kleurensetjes geprobeerd of ze kunnen of niet. Dit is een try except omdat ik niet elke kleur dubbel heb staan in de datastructuur omdat dat overbodig was."""
+    """
+    Hier worden de kleurensetjes geprobeerd of ze kunnen of niet. Dit is een try except
+    omdat ik niet elke kleur dubbel heb staan in de datastructuur omdat dat overbodig was.
+    """
+
     try:
         collorStatus = collorCombinationsInfo["collor"][collorTop][collorBottom]
     except:
@@ -154,12 +173,16 @@ def getCollorStatus(collorCombinationsInfo, collorTop, collorBottom):
     return collorStatus
 
 def checkGedragen(userName, setje, path = '../jsonFiles/Kledingkast.json'):
-    """Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker)."""
+    """
+    Hier word er gekeken of het automatisch uitgekozen setje al eens in gedragen in de periode dat je
+    setje niet achter elkaar mag dragen(deze word gekozen door de gebruiker).
+    """
+
     with open(path, 'r') as Wear:
         WearInf = json.load(Wear)
 
     for x in WearInf[userName][1]["gedragen"]:
-        #in deze list formatteer ik het gedragen setje vanuit de database om hem te vergelijken.
+        # In deze list formatteer ik het gedragen setje vanuit de database om hem te vergelijken.
         tempComparrisenList = []
         tempComparrisenList.append(x[0])
         tempComparrisenList.append(x[1])
@@ -169,7 +192,10 @@ def checkGedragen(userName, setje, path = '../jsonFiles/Kledingkast.json'):
 
 
 def errorMessage():
-    """Hier word alleen de pop-up errormessage aangemaakt en het categorie keuzescherm gerefreshed."""
+    """
+    Hier word alleen de pop-up errormessage aangemaakt en het categorie keuzescherm gerefreshed.
+    """
+
     bericht = "Helaas hebben we met deze beperkte kleding hoeveelheid geen setje kunnen vinden om aan te trekken."
     showinfo(title='Clothing error', message=bericht)
     rootGen.destroy()
@@ -177,7 +203,10 @@ def errorMessage():
 
 
 def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBottomListTop, voorkomendeCategorieBottom, wearableTopBottomListBottom):
-    """Hier word de kleurenkeuze gecontroleerd en worden de kledingstukken op basis van kans een beetje gesorteerd van goed setje naar een minder goed setje."""
+    """
+    Hier word de kleurenkeuze gecontroleerd en worden de kledingstukken op basis van kans een beetje gesorteerd van goed setje naar een minder goed setje.
+    """
+
     if len(Tops) == 0 or len(Bottoms) == 0:
         errorMessage()
         exit(0)
@@ -187,7 +216,7 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
     while len(Tops) != 0 and len(Bottoms) != 0:
         randTopCat = None
         randBottomCat = None
-        #Hier kies ik een random categorie die mogelijk zijn bij het weer
+        # Hier kies ik een random categorie die mogelijk zijn bij het weer
         while randTopCat not in voorkomendeCategorieTop:
             randTopCat = random.choice(wearableTopBottomListTop)
 
@@ -197,7 +226,7 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
         wearableTopBottomListTop.remove(randTopCat)
         wearableTopBottomListBottom.remove(randBottomCat)
         for shirt in Tops:
-            #shirt[2] is de categorie van het schirt
+            # shirt[2] is de categorie van het schirt
             if shirt[2] == randTopCat:
                 Tops.remove(shirt)
                 for bottom in Bottoms:
@@ -210,7 +239,7 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
                         try:
                             collorStatus = getCollorStatus(collorCombinationsInfo, collorTop, collorBottom)
                         except:
-                            #Kledingstukken die 2 kleuren hebben worden met de goede kansen alsnog verwerkt.
+                            # Kledingstukken die 2 kleuren hebben worden met de goede kansen alsnog verwerkt.
                             if "-" in collorTop and "-" in collorBottom:
                                 collorTop = collorTop.split("-")
                                 collorBottom = collorBottom.split("-")
@@ -236,10 +265,10 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
                                 splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[1]))
                                 collorStatus = random.choice(splitStatusBottom)
 
-                        #Als de kleurencombinatie mogelijk is word het setje doorgelaten.
+                        # Als de kleurencombinatie mogelijk is word het setje doorgelaten.
                         if collorStatus == "ja":
                             tempList = []
-                            #Zolang het geen jumpsuit of jurk is word ook de bottom meegerekend in het setje.
+                            # Zolang het geen jumpsuit of jurk is word ook de bottom meegerekend in het setje.
                             if shirt[2] == "jumpsuit" or shirt[2] == "jurk":
                                 tempList.append(shirt)
                             else:
@@ -254,7 +283,11 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
 
 
 def frame(func, userName, setGenScreenfor, showMenu, rootGenfor):
-    """Dit is het beginframe dat word aangeroepen vanuit de interface, vanuit hier komt de berekening terug om vervolgens het proces van setjes laten zien te beginnen."""
+    """
+    Dit is het beginframe dat word aangeroepen vanuit de interface, vanuit hier komt de berekening
+    terug om vervolgens het proces van setjes laten zien te beginnen.
+    """
+
     global setGenScreen
     global rootGen
     global SetsList
@@ -263,7 +296,7 @@ def frame(func, userName, setGenScreenfor, showMenu, rootGenfor):
     rootGen = rootGenfor
     loopIndex = -1
     SetsList = WeatherForPickClothes(func, userName)
-    #setslist is de helemaal gesorteerde list van mogelijke kledingstukken van best naar worst.
+    # Setslist is de helemaal gesorteerde list van mogelijke kledingstukken van best naar worst.
     if len(SetsList) == 0:
         errorMessage()
 
@@ -271,13 +304,19 @@ def frame(func, userName, setGenScreenfor, showMenu, rootGenfor):
 
 
 def clothingloop(func, userName, loopIndex, showMenu):
-    """Deze functie word steeds aangeroepen zodra een gebruiker nee zegt op het voorgelegde kledingsetje."""
+    """
+    Deze functie word steeds aangeroepen zodra een gebruiker nee zegt op het voorgelegde kledingsetje.
+    """
+
     loopIndex += 1
     sideScreen(SetsList[loopIndex][0], SetsList[loopIndex][1], func, loopIndex, showMenu, userName)
 
 
 def sideScreen(top, bottom, func, loopindex, showMenu, userName):
-    """Hier word het keuze scherm aangemaakt om je voorgelegde kledingsetje te laten zien."""
+    """
+    Hier word het keuze scherm aangemaakt om je voorgelegde kledingsetje te laten zien.
+    """
+
     if loopindex == 0:
         rootGen.destroy()
     global rootWear
@@ -289,7 +328,7 @@ def sideScreen(top, bottom, func, loopindex, showMenu, userName):
 
     showMenu(rootWear)
 
-    #Hier formatteer ik een goed leesbare zin van het kledingstuk
+    # Hier formatteer ik een goed leesbare zin van het kledingstuk.
     leesbareTop = f"Een {top[1]} {top[2]} met {top[4]}e mouwen van het merk: {top[3]}"
     leesbareBottom = f"een{bottom[1]} {bottom[2]} met {bottom[4]} broeks pijpen van het merk: {bottom[3]}"
 
@@ -317,13 +356,17 @@ def sideScreen(top, bottom, func, loopindex, showMenu, userName):
 
 
 def autoGen(aantrekken, top, bottom, userName, loopIndex, func, showMenu):
-    """Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te doen dat dat word geregistreerd in het json bestand."""
+    """
+    Hier zorg ik er voor dat als iemand besluit het voorgelegde kleding setje aan te
+    doen dat dat word geregistreerd in het json bestand.
+    """
+
     if aantrekken == "ja":
         rootWear.destroy()
         with open('../jsonFiles/Kledingkast.json', 'r') as alldata:
             allinformatie = json.load(alldata)
         with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
-            #De datum word meegegeven wanner het gedragen is.
+            # De datum word meegegeven wanner het gedragen is.
             today = datetime.today().strftime("%Y-%m-%d")
             formatVoorAppend = [top, bottom, str(today)]
             allinformatie[userName][1]["gedragen"].append(formatVoorAppend)
@@ -341,16 +384,25 @@ def autoGen(aantrekken, top, bottom, userName, loopIndex, func, showMenu):
             clothingloop(func, userName, loopIndex, showMenu)
 
 def backtoGenScreen():
-    """Deze functie heb ik gebruikt om alleen terug te gaan naar het categorie keuze scherm"""
+    """
+    Deze functie heb ik gebruikt om alleen terug te gaan naar het categorie keuze scherm.
+    """
+
     setGenScreen()
 
 def backButton():
-    """Deze functie word gebruikt om het keuzescherm af te sluiten en terug te gaan naar het categorie keuze scherm."""
+    """
+    Deze functie word gebruikt om het keuzescherm af te sluiten en terug te gaan naar het categorie keuze scherm.
+    """
+
     rootWear.destroy()
     setGenScreen()
 
 def getTimeDifference(x, today = datetime.today()):
-    """In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen)."""
+    """
+    In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen).
+    """
+
     date_format = "%Y-%m-%d"
 
     previousDay = datetime.strptime(x[2], date_format)

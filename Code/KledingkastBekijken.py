@@ -4,7 +4,10 @@ from tkinter.messagebox import showinfo
 
 
 def getAllPossibleFilters(naamUser):
-    """Deze functie pakt alle mogelijke categorieën waar je op kunt filterren, bijvoorbeeld: merk en kleur"""
+    """
+    Deze functie pakt alle mogelijke categorieën waar je op kunt filterren, bijvoorbeeld: merk en kleur.
+    """
+
     with open('../jsonFiles/Kledingkast.json', 'r') as allVariables:
         allInfVariables = json.load(allVariables)
 
@@ -18,7 +21,10 @@ def getAllPossibleFilters(naamUser):
 
 
 def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
-    """Deze functie zorgt dat als je op kleding uitkiezen klikt je gelijk al je kleding onder elkaar ziet staan."""
+    """
+    Deze functie zorgt dat als je op kleding uitkiezen klikt je gelijk al je kleding onder elkaar ziet staan.
+    """
+
     global allInfVariables
 
     with open(path, 'r') as allVariables:
@@ -33,13 +39,19 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
         soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
         soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
 
-        #Format voor makkelijk leesbaar kledingstuk.
+        # Format voor makkelijk leesbaar kledingstuk.
         if allInfVariables[userName][indexAll]['categorie'] in soortenTop:
-            leesbareTop = f"Een {allInfVariables[userName][indexAll]['kleur']}e {allInfVariables[userName][indexAll]['categorie']} met {allInfVariables[userName][indexAll]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAll]['merk']}"
+            leesbareTop = f"Een {allInfVariables[userName][indexAll]['kleur']}e " \
+                          f"{allInfVariables[userName][indexAll]['categorie']} met " \
+                          f"{allInfVariables[userName][indexAll]['langKort']}e mouwen van het merk: " \
+                          f"{allInfVariables[userName][indexAll]['merk']}"
             allClothingString += leesbareTop + '\n'
 
         elif allInfVariables[userName][indexAll] in soortenBottom:
-            leesbareBottom = f"een {allInfVariables[userName][indexAll]['kleur']}e {allInfVariables[userName][indexAll]['categorie']} met {allInfVariables[userName][indexAll]['langKort']} broeks pijpen van het merk: {allInfVariables[userName][indexAll]['merk']}"
+            leesbareBottom = f"een {allInfVariables[userName][indexAll]['kleur']}e " \
+                             f"{allInfVariables[userName][indexAll]['categorie']} met " \
+                             f"{allInfVariables[userName][indexAll]['langKort']} broeks pijpen van het merk: " \
+                             f"{allInfVariables[userName][indexAll]['merk']}"
             allClothingString += leesbareBottom + '\n'
         else:
             continue
@@ -51,9 +63,12 @@ def allClothes(rootChoose, naam, path='../jsonFiles/Kledingkast.json'):
 
 
 def toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton):
-    """Deze functie verwijdert de huidige filter als je die hebt toegepast."""
+    """
+    Deze functie verwijdert de huidige filter als je die hebt toegepast.
+    """
+
     try:
-        #verwijder gefilterde kleding en delete filter button.
+        # verwijder gefilterde kleding en delete filter button.
         chooseDeleteFilterButton.destroy()
         AllClothesDetailFiltered.destroy()
         chooseFilterLabel.destroy()
@@ -66,7 +81,10 @@ def toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDele
 
 
 def getDetailFilters(watBekijken, detailFilter, rootChoose):
-    """Deze functie past de hele filter toe, bijvoorbeeld: op kleur met de naam oranje of op merk met de naam abercrombie."""
+    """
+    Deze functie past de hele filter toe, bijvoorbeeld: op kleur met de naam oranje of op merk met de naam abercrombie.
+    """
+
     global AllClothesDetailFiltered
 
     allFilteredClothingString = ''
@@ -77,16 +95,22 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
 
             # Format voor makkelijk leesbaar kledingstuk.
             if allInfVariables[userName][indexAllFiltered]['categorie'] in soortenTop:
-                leesbareTop = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']}e {allInfVariables[userName][indexAllFiltered]['categorie']} met {allInfVariables[userName][indexAllFiltered]['langKort']}e mouwen van het merk: {allInfVariables[userName][indexAllFiltered]['merk']}"
+                leesbareTop = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']}e " \
+                              f"{allInfVariables[userName][indexAllFiltered]['categorie']} met " \
+                              f"{allInfVariables[userName][indexAllFiltered]['langKort']}e mouwen van het merk: " \
+                              f"{allInfVariables[userName][indexAllFiltered]['merk']}"
                 allFilteredClothingString += leesbareTop + '\n'
 
             elif allInfVariables[userName][indexAllFiltered]['categorie'] in soortenBottom:
-                leesbareBottom = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']}e {allInfVariables[userName][indexAllFiltered]['categorie']} met {allInfVariables[userName][indexAllFiltered]['langKort']} broeks pijpen van het merk: {allInfVariables[userName][indexAllFiltered]['merk']}"
+                leesbareBottom = f"Een {allInfVariables[userName][indexAllFiltered]['kleur']}e " \
+                                 f"{allInfVariables[userName][indexAllFiltered]['categorie']} met " \
+                                 f"{allInfVariables[userName][indexAllFiltered]['langKort']} broeks pijpen van het merk: " \
+                                 f"{allInfVariables[userName][indexAllFiltered]['merk']}"
                 allFilteredClothingString += leesbareBottom + '\n'
             else:
                 continue
 
-    #error voor als er geen kleren zijn bij de gekozen filter.
+    # Error voor als er geen kleren zijn bij de gekozen filter.
     if len(allFilteredClothingString) > 0:
         AllClothes.destroy()
         AllClothesDetailFiltered = Label(rootChoose, text=f'{allFilteredClothingString}: ', background="#c6def1")
@@ -97,7 +121,10 @@ def getDetailFilters(watBekijken, detailFilter, rootChoose):
 
 
 def forDetailFilter(Combobox, rootChoose):
-    """Deze functie zorgt ervoor dat er een nieuwe regel met entry in je beeld komt zodra je de categorie filter hebt gekozen."""
+    """
+    Deze functie zorgt ervoor dat er een nieuwe regel met entry in je beeld komt zodra je de categorie filter hebt gekozen.
+    """
+
     global chooseDetailFilterEntry
 
     chooseFilterLabel = Label(rootChoose, text=f'Welke {Combobox}: ', background="#c6def1")
@@ -106,8 +133,10 @@ def forDetailFilter(Combobox, rootChoose):
     chooseDetailFilterEntry = Entry(rootChoose)
     chooseDetailFilterEntry.grid(row=1, column=0)
 
-    chooseFilterButton = Button(rootChoose, text='SUBMIT', command=lambda:getDetailFilters(Combobox, chooseDetailFilterEntry.get(), rootChoose))
+    chooseFilterButton = Button(rootChoose, text='SUBMIT',
+                                command=lambda:getDetailFilters(Combobox, chooseDetailFilterEntry.get(), rootChoose))
     chooseFilterButton.grid(row=1, column=1)
 
-    chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=lambda: toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton))
+    chooseDeleteFilterButton = Button(rootChoose, text='Delete Filter', command=lambda:
+    toDeleteFilter(rootChoose, chooseFilterLabel, chooseFilterButton, chooseDeleteFilterButton))
     chooseDeleteFilterButton.grid(row=100, sticky=E)
