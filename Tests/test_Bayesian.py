@@ -1,5 +1,3 @@
-from time import strptime
-
 from Code.Functions import *
 import pytest
 
@@ -8,7 +6,6 @@ def test_Choice_Top_Bottom():
     stad = "utrecht"
     land = "nl"
     configSignUp(userName, stad, land)
-    # addClothes(userName, "korte test jeans", "kort", "dagelijks leven", "zwart", "zara", "jeans")
     addClothes(userName, "kort test shirt", "kort", "dagelijks leven", "wit", "h&m", "shirt")
     soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
 
@@ -30,7 +27,8 @@ def test_Collor_Choice():
     addClothes(userName, "korte test jeans", "kort", "dagelijks leven", "zwart", "zara", "jeans")
     addClothes(userName, "kort test shirt", "kort", "dagelijks leven", "wit", "h&m", "shirt")
 
-    uitkomst = CollorChoice(userName, [['kort test shirt', 'wit', 'shirt', 'h&m', 'kort']], [['kort test jeans', 'zwart', 'jeans', 'zara', 'kort']], ['shirt'], ['shirt'], ['jeans'], ['jeans'])
+    uitkomst = CollorChoice(userName, [['kort test shirt', 'wit', 'shirt', 'h&m', 'kort']], [['kort test jeans', 'zwart', 'jeans', 'zara', 'kort']],
+                            ['shirt'], ['shirt'], ['jeans'], ['jeans'])
     expectedValue = [[['kort test shirt', 'wit', 'shirt', 'h&m', 'kort'], ['kort test jeans', 'zwart', 'jeans', 'zara', 'kort']]]
 
     deleteAccount(userName)
@@ -48,7 +46,8 @@ def test_Sorted_List_Sets():
 
     uitkomstList = SortedListSets(unsortedList, hitteNiveau, kortOfLangInf)
 
-    expectedList = [[['kort test shirt', 'wit', 'shirt', 'h&m', 'kort'], ['kort test jeans', 'zwart', 'jeans', 'zara', 'kort']], [['lang test shirt', 'wit', 'shirt', 'h&m', 'lang'], ['lang test jeans', 'zwart', 'jeans', 'zara', 'lang']]]
+    expectedList = [[['kort test shirt', 'wit', 'shirt', 'h&m', 'kort'], ['kort test jeans', 'zwart', 'jeans', 'zara', 'kort']],
+                    [['lang test shirt', 'wit', 'shirt', 'h&m', 'lang'], ['lang test jeans', 'zwart', 'jeans', 'zara', 'lang']]]
 
     assert expectedList == uitkomstList
 
@@ -73,7 +72,8 @@ def test_get_Common_Clothing_Pieces():
     with open('../jsonFiles/Datastructuur.json', 'r') as HeatlevelInf:
         kortOfLangInf = json.load(HeatlevelInf)
 
-    AllBottoms =  [['zwarte jeans', 'zwart', 'jeans', 'scotch en soda', 'lang'], ['blauwe jeans', 'blauw', 'jeans', 'h&m', 'kort'], ['witte jeans', 'wit', 'jeans', 'scotch en soda', 'lang']]
+    AllBottoms = [['zwarte jeans', 'zwart', 'jeans', 'scotch en soda', 'lang'], ['blauwe jeans', 'blauw', 'jeans', 'h&m', 'kort'],
+                  ['witte jeans', 'wit', 'jeans', 'scotch en soda', 'lang']]
     voorkomendeCategorie = ["jeans", "jeans", "jeans"]
     wearableTopBottomList = ['jeans', 'jeans', 'jeans', 'jeans', 'legging', 'jeans met gaten', 'rokje', 'high waste', 'stoffen broek']
     uitkomst = getCommonClothingPieces(kortOfLangInf, "hot", AllBottoms, "bottoms")

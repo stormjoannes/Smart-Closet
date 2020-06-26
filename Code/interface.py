@@ -157,7 +157,8 @@ def AddScreen():
 
 
 def inputParametersClothing(root):
-    """Deze functie zorgt voor de input van de paramaters van de kleding. deze worden gebruikt om kleren te verwijderen en toe te voegen"""
+    """Deze functie zorgt voor de input van de paramaters van de kleding.
+    deze worden gebruikt om kleren te verwijderen en toe te voegen"""
     global screenNameEntry
     global screenLongShortEntry
     global screenOpportunityEntry
@@ -237,7 +238,8 @@ def DeleteScreen():
 
 
 def DeleteOrAdd(userName, name, LongShort, opportunity, color, brand, category, switch):
-    """Hier word er gekeken of ik een kledingstuk wil toevoegen of verwijderen. Zo word de juiste functie aangeroepen."""
+    """Hier word er gekeken of ik een kledingstuk wil toevoegen of verwijderen.
+    Zo word de juiste functie aangeroepen."""
     if switch == "add":
         addClothes(userName, name, LongShort, opportunity, color, brand, category)
     else:

@@ -18,11 +18,11 @@ def test_add_clothes():
 
     for i in range(2, len(data[userName])):
         if data[userName][i]["naam"] == naam and data[userName][i]["langKort"] == langKort and data[userName][i]["gelegenheid"] == gelegenheid and data[userName][i]["kleur"] == kleur and data[userName][i]["merk"] == merk and data[userName][i]["categorie"] == categorie:
-            x = data[userName][i]
+            uitkomst = data[userName][i]
 
-    uitkomst = [naam, langKort, gelegenheid, kleur, merk, categorie]
+    expectedVal = {'naam': naam, 'langKort': langKort, 'gelegenheid': gelegenheid, 'kleur': kleur, 'merk': merk, 'categorie': categorie}
 
-    assert x == uitkomst
+    assert expectedVal == uitkomst
 
 def test_delete_clothes():
     userName = "admin"
