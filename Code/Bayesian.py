@@ -39,20 +39,15 @@ def SortedListSets(unsortedList, hitteNiveau, kortOfLangInf):
     return sortedList
 
 
-def WeatherForPickClothes(func, userName):
+def WeatherForPickClothes(opportunity, userName):
     """Hier kijk ik welke gelegenheid de persoon heeft uitgekozen en wat de de gevoelstemperatuur is door middel van een berekening van de windsnelheid en de temperatuur.
     Ook bepaal ik hier door middel van een kansberekening wat de configuratie wordt van lange of korte mouwen en lange of korte broekpijpen."""
     global loopIndex
-    if func == 'dagelijks':
-        opportunity = 'dagelijks leven'
-    elif func == 'sport':
-        opportunity = 'sport'
-    elif func == 'feest':
-        opportunity = 'feestje'
 
     with open('../jsonFiles/Kledingkast.json', 'r+') as Data:
         placeInfo = json.load(Data)
 
+    #Hier ga ik door middel van een formule de gevoelstemperatuur berekenen en op basis daarvan kijk ik in welke range de gevoelstemperatuur valt.
     stad = placeInfo[userName][0]["gegevens"][0]["locatie"]["stad"]
     land = placeInfo[userName][0]["gegevens"][0]["locatie"]["land"]
     huidigeWeer = setValuesWeer(stad, land)
@@ -67,29 +62,35 @@ def WeatherForPickClothes(func, userName):
     else:
         hitteNiveau = "hot"
 
+
     with open('../jsonFiles/Datastructuur.json', 'r') as HeatlevelInf:
         kortOfLangInf = json.load(HeatlevelInf)
 
     FiguratieLangKort = kortOfLangInf["temp"][hitteNiveau]
 
+    #Hier kies ik door middel van een kansberekening wat de configuratie van de lengte van de mouwen en broeks pijpen word.
     randomChoiceLijst = []
     for x in FiguratieLangKort:
         kans = FiguratieLangKort[x]["yes"]
         kans = kans.split("/")[0]
         for i in range(0, int(kans)):
             randomChoiceLijst.append(x)
-
     keuzeLangKort = random.choice(randomChoiceLijst)
     LengteMouwen = keuzeLangKort.split("-")[0]
     LengtePijpen = keuzeLangKort.split("-")[1]
+
+    #Hier zet ik alle soorten categorieën die kunnen voorkomen.
     soortenTop = ["shirt", "hoodie", "hemdje", "trui", "vest", "crop top", "blazer", "jurk", "jumpsuit", "blousje"]
     soortenBottom = ["jeans", "legging", "chino", "joggingbroek", "jeans met gaten", "rokje", "high waste", "stoffen broek"]
+
+    #Hier kijk ik of er uberhaupt genoeg tops of bottoms in de digitale kledingkast staan om een setje uit te kiezen.
     Tops = ChoiceTopBottom(userName, LengteMouwen, soortenTop, opportunity)
     Bottoms = ChoiceTopBottom(userName, LengtePijpen, soortenBottom, opportunity)
     if len(Tops) == 0 or len(Bottoms) == 0:
         errorMessage()
         exit(0)
 
+    #Hier roep ik alle functies aan met de waardes die ik onder andere weer van functies krijg.
     funcTops = getCommonClothingPieces(kortOfLangInf, hitteNiveau, Tops, "tops")
     Tops = funcTops[0]
     voorkomendeCategorieTop = funcTops[1]
@@ -112,6 +113,7 @@ def ChoiceTopBottom(userName, langKort, TopOfBroek, gelegenheid, path='../jsonFi
     with open(path, 'r+') as Data:
         clothesData = json.load(Data)
 
+    #De kledingstukken die kloppen met de gegevens treshholds worden gereturned als mogelijkeTops of Bottoms.
     for x in range(2, len(clothesData[userName])):
         if clothesData[userName][x]["langKort"] == langKort and clothesData[userName][x]["categorie"] in TopOfBroek and clothesData[userName][x]["gelegenheid"] == gelegenheid:
             tempList = [clothesData[userName][x]["naam"], clothesData[userName][x]["kleur"],
@@ -125,6 +127,7 @@ def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom
     "hier houd ik alleen de kledingstukken over die bij die temperatuur ook gedragen worden."
     FiguratieLangKort = kortOfLangInf[TopOrBottom][hitteNiveau]
 
+    #Hier kijk ik wat de kans is dat een kleding categorie bij een temperatuur gedragen word.
     wearableTopBottomList = []
     voorkomendeCategorie = []
     for x in FiguratieLangKort:
@@ -132,6 +135,8 @@ def getCommonClothingPieces(kortOfLangInf, hitteNiveau, TopsBottoms, TopOrBottom
         kans = kans.split("/")[0]
         for i in range(0, int(kans)):
             wearableTopBottomList.append(x)
+
+    #Hier verwijder ik een kledingstuk dat geen kans heeft om gedragen te worden.
     for kledingstuk in TopsBottoms:
         if kledingstuk[2] not in wearableTopBottomList:
             TopsBottoms.remove(kledingstuk)
@@ -154,6 +159,7 @@ def checkGedragen(userName, setje, path = '../jsonFiles/Kledingkast.json'):
         WearInf = json.load(Wear)
 
     for x in WearInf[userName][1]["gedragen"]:
+        #in deze list formatteer ik het gedragen setje vanuit de database om hem te vergelijken.
         tempComparrisenList = []
         tempComparrisenList.append(x[0])
         tempComparrisenList.append(x[1])
@@ -181,6 +187,7 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
     while len(Tops) != 0 and len(Bottoms) != 0:
         randTopCat = None
         randBottomCat = None
+        #Hier kies ik een random categorie die mogelijk zijn bij het weer
         while randTopCat not in voorkomendeCategorieTop:
             randTopCat = random.choice(wearableTopBottomListTop)
 
@@ -190,6 +197,7 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
         wearableTopBottomListTop.remove(randTopCat)
         wearableTopBottomListBottom.remove(randBottomCat)
         for shirt in Tops:
+            #shirt[2] is de categorie van het schirt
             if shirt[2] == randTopCat:
                 Tops.remove(shirt)
                 for bottom in Bottoms:
@@ -202,6 +210,7 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
                         try:
                             collorStatus = getCollorStatus(collorCombinationsInfo, collorTop, collorBottom)
                         except:
+                            #Kledingstukken die 2 kleuren hebben worden met de goede kansen alsnog verwerkt.
                             if "-" in collorTop and "-" in collorBottom:
                                 collorTop = collorTop.split("-")
                                 collorBottom = collorBottom.split("-")
@@ -227,8 +236,10 @@ def CollorChoice(userName, Tops, Bottoms, voorkomendeCategorieTop, wearableTopBo
                                 splitStatusBottom.append(getCollorStatus(collorCombinationsInfo, collorTop, collorBottom[1]))
                                 collorStatus = random.choice(splitStatusBottom)
 
+                        #Als de kleurencombinatie mogelijk is word het setje doorgelaten.
                         if collorStatus == "ja":
                             tempList = []
+                            #Zolang het geen jumpsuit of jurk is word ook de bottom meegerekend in het setje.
                             if shirt[2] == "jumpsuit" or shirt[2] == "jurk":
                                 tempList.append(shirt)
                             else:
@@ -252,6 +263,7 @@ def frame(func, userName, setGenScreenfor, showMenu, rootGenfor):
     rootGen = rootGenfor
     loopIndex = -1
     SetsList = WeatherForPickClothes(func, userName)
+    #setslist is de helemaal gesorteerde list van mogelijke kledingstukken van best naar worst.
     if len(SetsList) == 0:
         errorMessage()
 
@@ -277,6 +289,7 @@ def sideScreen(top, bottom, func, loopindex, showMenu, userName):
 
     showMenu(rootWear)
 
+    #Hier formatteer ik een goed leesbare zin van het kledingstuk
     leesbareTop = f"Een {top[1]} {top[2]} met {top[4]}e mouwen van het merk: {top[3]}"
     leesbareBottom = f"een{bottom[1]} {bottom[2]} met {bottom[4]} broeks pijpen van het merk: {bottom[3]}"
 
@@ -310,6 +323,7 @@ def autoGen(aantrekken, top, bottom, userName, loopIndex, func, showMenu):
         with open('../jsonFiles/Kledingkast.json', 'r') as alldata:
             allinformatie = json.load(alldata)
         with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
+            #De datum word meegegeven wanner het gedragen is.
             today = datetime.today().strftime("%Y-%m-%d")
             formatVoorAppend = [top, bottom, str(today)]
             allinformatie[userName][1]["gedragen"].append(formatVoorAppend)

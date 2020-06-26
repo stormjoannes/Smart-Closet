@@ -387,13 +387,13 @@ def setGenScreen():
     GenTitleLabel = Label(rootGen, text='Voor welke gelegenheid wil je een kledingstuk uitkiezen: ', background="#c6def1", font=("Helvetica", 10))
     GenTitleLabel.place(x=0, y=0)
 
-    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:frame('dagelijks', userName, setGenScreen, showMenu, rootGen), width=13, height="2")
+    genDagelijksButton = Button(rootGen, text='Dagelijks leven', command=lambda:frame('dagelijks leven', userName, setGenScreen, showMenu, rootGen), width=13, height="2")
     genDagelijksButton.place(x=5, y=30)
 
     genSportutton = Button(rootGen, text='Sport', command=lambda:frame('sport', userName, setGenScreen, showMenu, rootGen), width=13, height="2")
     genSportutton.place(x=150, y=30)
 
-    genFeestButton = Button(rootGen, text='Feest', command=lambda:frame('feest', userName, setGenScreen, showMenu, rootGen), width=13, height="2")
+    genFeestButton = Button(rootGen, text='Feest', command=lambda:frame('feestje', userName, setGenScreen, showMenu, rootGen), width=13, height="2")
     genFeestButton.place(x=300, y=30)
 
     genBackButton = Button(rootGen, text='Back', command=toHub, width=7, height="2")
