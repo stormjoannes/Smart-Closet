@@ -1,10 +1,6 @@
 from time import strptime
-from Code.AddOrDelete import *
 
-from Code.Bayesian import *
 from Code.Functions import *
-from datetime import datetime
-from tkinter import *
 import pytest
 
 def test_Choice_Top_Bottom():
@@ -74,11 +70,20 @@ def test_get_Collor_Status():
     assert expectedValue == getCollorStatus(collorCombinationsInfo, "wit", "blauw")
 
 def test_get_Common_Clothing_Pieces():
-    pass
+    with open('../jsonFiles/Datastructuur.json', 'r') as HeatlevelInf:
+        kortOfLangInf = json.load(HeatlevelInf)
 
-# def test_get_Time_Difference():
-#     pass
-#     firstTime = "2020-06-22"
-#     timeDifference = getTimeDifference(firstTime)
-#
-#     assert "2" == "2"
+    AllBottoms =  [['zwarte jeans', 'zwart', 'jeans', 'scotch en soda', 'lang'], ['blauwe jeans', 'blauw', 'jeans', 'h&m', 'kort'], ['witte jeans', 'wit', 'jeans', 'scotch en soda', 'lang']]
+    voorkomendeCategorie = ["jeans", "jeans", "jeans"]
+    wearableTopBottomList = ['jeans', 'jeans', 'jeans', 'jeans', 'legging', 'jeans met gaten', 'rokje', 'high waste', 'stoffen broek']
+    uitkomst = getCommonClothingPieces(kortOfLangInf, "hot", AllBottoms, "bottoms")
+
+    assert 3 == len(uitkomst[0]) and voorkomendeCategorie == uitkomst[1] and wearableTopBottomList == uitkomst[2]
+
+def test_get_Time_Difference():
+    firstTime = [[], [], "2020-06-22"]
+    date_formatToday = "%Y-%m-%d"
+    today = datetime.strptime("2020-06-25", date_formatToday)
+    timeDifference = getTimeDifference(firstTime, today)
+
+    assert "3" == str(timeDifference)

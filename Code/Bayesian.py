@@ -335,10 +335,9 @@ def backButton():
     rootWear.destroy()
     setGenScreen()
 
-def getTimeDifference(x):
+def getTimeDifference(x, today = datetime.today()):
     """In deze functie zoek ik naar het verschil in tijd tussen de meegegeven datum en de datum van nu(tijd in dagen)."""
     date_format = "%Y-%m-%d"
-    today = datetime.today()
 
     previousDay = datetime.strptime(x[2], date_format)
 

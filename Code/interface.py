@@ -1,11 +1,10 @@
 import json
 from sys import exit
-
 from Code.Functions import *
 from tkinter import ttk
 import pathlib
 
-def Signup():  # This is the signup definition,
+def Signup():
     """In deze functie maak ik het signup frame aan, hier kun je jezelf aanmelden"""
     rootLogin.destroy()
     global rootSignUp
@@ -17,35 +16,6 @@ def Signup():  # This is the signup definition,
     rootSignUp.geometry("300x175")
 
     showMenuLoginSignup(rootSignUp)
-
-    # intruction = Label(rootSignUp, text='Sign aub\n', background="#c6def1")
-    # intruction.grid(row=0, column=0)
-    #
-    # signUpEntryNameLabel = Label(rootSignUp, text='Nieuwe naam: ', background="#c6def1")
-    # signUpEntryNameLabel.grid(row=1, column=0, sticky=W)
-    #
-    # signUpNameEntry = Entry(rootSignUp)
-    # signUpNameEntry.grid(row=1, column=1)
-    #
-    # signUpStadField = Label(rootSignUp, text='Stad naam: ', background="#c6def1")
-    # signUpStadField.grid(row=2, column=0, sticky=W)
-    #
-    # signUpStadEntry = Entry(rootSignUp)
-    # signUpStadEntry.grid(row=2, column=1)
-    #
-    # signUpLandField = Label(rootSignUp, text='De afkorting van je land: ', background="#c6def1")
-    # signUpLandField.grid(row=3, column=0, sticky=W)
-    #
-    # signUpLandEntry = Entry(rootSignUp)
-    # signUpLandEntry.grid(row=3, column=1)
-    #
-    # signupButton = Button(rootSignUp, text='Signup',
-    #                       command=lambda:toLogin(signUpNameEntry.get(), signUpStadEntry.get(), signUpLandEntry.get()))
-    # signupButton.grid(columnspan=2, sticky=W)
-    #
-    # backLogin = Button(rootSignUp, text='Login', fg='Blue',
-    #                    command=toLogIn)
-    # backLogin.grid(columnspan=2, sticky=W)
 
     intruction = Label(rootSignUp, text='Sign aub\n', background="#c6def1", font=("Helvetica", 15))
     intruction.place(x=100, y=0)
@@ -85,7 +55,6 @@ def toLogIn():
 
 def showMenuLoginSignup(root):
     """Dit is een aparte functie om het dropdown menu voor de signup en de login te maken"""
-    # root.geometry('1920x1080')
     root.configure(background="#c6def1")
     root.iconbitmap('../overige_bestanden/kledingkastIco.ico')
 
@@ -363,8 +332,6 @@ def UitkiezenScreen():
         rootHm.destroy()
         global Globroot
         global rootChoose
-
-        # global chooseFilterCombobox
 
         rootChoose = Tk()
         rootChoose.title('Choose')
