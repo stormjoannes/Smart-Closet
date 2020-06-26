@@ -7,6 +7,7 @@ def addClothes(personName, nameAdd, longShortAdd, opportunityAdd, colorAdd, bran
         data = json.load(allKleding)
 
     with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
+        #format van de data om het in het json bestand te zetten.
         nieuweData = {"naam": nameAdd,
                       "langKort": longShortAdd,
                       "gelegenheid": opportunityAdd,
@@ -26,6 +27,7 @@ def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, co
     with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
         checkIfDone = False
         for i in range(2, len(dataDelete[personName])):
+            #check of het ingevoerde kledingstk wel bestaat.
             if dataDelete[personName][i]['naam'] == nameDelete and dataDelete[personName][i]['langKort'] == longShortDelete and dataDelete[personName][i]['gelegenheid'] == opportunityDelete and dataDelete[personName][i]['kleur'] == colorDelete and dataDelete[personName][i]['merk'] == brandDelete and dataDelete[personName][i]['categorie'] == categoryDelete:
                 dataDelete[personName].remove(dataDelete[personName][i])
                 checkIfDone = True
