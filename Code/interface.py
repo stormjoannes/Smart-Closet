@@ -142,6 +142,7 @@ try:
 
         backupDump()
         showMenu(rootHm)
+        testDatabase()
         refreshGedragen(userName)
 
         homescreenLabelTitle = Label(rootHm, text='Wat wil je doen: ', background="#c6def1", font=("Helvetica", 12))
@@ -521,8 +522,23 @@ def toLogin(signUpName, signUpStad, signUpLand):
             bericht = f'De ingevulde stad of het ingevulde land is niet herkenbaar!'
             showinfo(title='Field error', message=bericht)
 
+def testDatabase():
+    """Deze functie is zeer belangrijk. Mocht een window niet correct gesloten worden op het verkeerde moment kan het voorkomen dat de database leeg raakt.
+    Dit vermijd ik door hem dan opnieuw te schrijven vanuit de backupDatabase"""
+    try:
+        with open('../jsonFiles/Kledingkast.json', 'r') as doc:
+            json.load(doc)
+    except:
+        with open("../jsonFiles/Kledingkast.json", 'w') as f:
+
+            with open("../jsonFiles/BackupKledingkast.json", 'r') as backUpInfSetback:
+                Information = json.load(backUpInfSetback)
+            json.dump(Information, f)
+
+
 file = pathlib.Path("../jsonFiles/Kledingkast.json")
 if file.exists():
+    testDatabase()
     Login()
 else:
     with open("../jsonFiles/Kledingkast.json", 'w+') as f:
