@@ -1,6 +1,5 @@
-import json
-from sys import exit
 from Code.Functions import *
+from Code.KledingkastBekijken import *
 from tkinter import ttk
 import pathlib
 
@@ -421,7 +420,6 @@ def showMenu(root):
     subMenu.add_command(label='Personal data', command=changePersonalData)
     subMenu.add_command(label='Delete account', command=deleteAccountCheck)
     subMenu.add_separator()
-    subMenu.add_command(label='Homescreen', command=toHub)
     subMenu.add_command(label='Log out', command=toLogIn)
     subMenu.add_command(label='Exit', command=exitProg)
 

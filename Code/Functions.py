@@ -1,5 +1,4 @@
 from Code.Bayesian import *
-from Code.KledingkastBekijken import *
 from Code.AddOrDelete import *
 
 def configSignUp(naamUser, stad, land):
