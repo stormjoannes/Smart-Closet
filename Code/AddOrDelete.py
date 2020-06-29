@@ -29,23 +29,24 @@ def deleteClothes(personName, nameDelete, longShortDelete, opportunityDelete, co
     with open('../jsonFiles/Kledingkast.json', 'r') as allKleding:
         dataDelete = json.load(allKleding)
 
-    with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
-        checkIfDone = False
-        for i in range(2, len(dataDelete[personName])):
-            # Check of het ingevoerde kledingstk wel bestaat.
-            if dataDelete[personName][i]['naam'] == nameDelete and dataDelete[personName][i]['langKort'] == longShortDelete \
-                    and dataDelete[personName][i]['gelegenheid'] == opportunityDelete \
-                    and dataDelete[personName][i]['kleur'] == colorDelete \
-                    and dataDelete[personName][i]['merk'] == brandDelete \
-                    and dataDelete[personName][i]['categorie'] == categoryDelete:
 
-                dataDelete[personName].remove(dataDelete[personName][i])
-                checkIfDone = True
-                break
+    checkIfDone = False
+    for i in range(2, len(dataDelete[personName])):
+        # Check of het ingevoerde kledingstk wel bestaat.
+        if dataDelete[personName][i]['naam'] == nameDelete and dataDelete[personName][i]['langKort'] == longShortDelete \
+                and dataDelete[personName][i]['gelegenheid'] == opportunityDelete \
+                and dataDelete[personName][i]['kleur'] == colorDelete \
+                and dataDelete[personName][i]['merk'] == brandDelete \
+                and dataDelete[personName][i]['categorie'] == categoryDelete:
 
-        if checkIfDone == False:
-            bericht = f'kledingstuk {str(personName)} bestaat niet en kan dus ook niet verwijderd worden!'
-            showinfo(title='Delete Error', message=bericht)
-        else:
+            dataDelete[personName].remove(dataDelete[personName][i])
+            checkIfDone = True
+            break
+
+    if checkIfDone == False:
+        bericht = f'Het kledingstuk {str(nameDelete)} bestaat niet en kan dus ook niet verwijderd worden!'
+        showinfo(title='Delete Error', message=bericht)
+    else:
+        with open('../jsonFiles/Kledingkast.json', 'w') as ALL:
             json.dump(dataDelete, ALL)
             ALL.close()
